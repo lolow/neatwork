@@ -1,0 +1,14 @@
+package neatwork.core.defs;
+
+import java.util.*;
+
+
+/** definition of a path*/
+public class Path extends Vector {
+    public Path(String n) {
+    }
+
+    public void addNodes(String n) {
+        addElement(n);
+    }
+}
