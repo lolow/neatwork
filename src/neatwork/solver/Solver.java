@@ -2,7 +2,6 @@ package neatwork.solver;
 
 import org.gnu.glpk.*;
 
-
 public class Solver {
 
 	//MAKE DESIGN
