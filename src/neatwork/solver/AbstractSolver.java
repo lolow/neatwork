@@ -8,7 +8,7 @@ import java.util.*;
 
 
 /**
- * classe abstraite d�finissant un solver
+ * Solver abstract class
  * @author L. DROUET
  * @version 1.0
  */
@@ -17,7 +17,7 @@ public abstract class AbstractSolver extends Observable {
     public static final int MODIF_STATUS = 1;
 
     //STATUS
-    private String status = ""; //$NON-NLS-1$
+    private String status = "";
 
     //PROGRESS
     private int progress = 0;
@@ -49,14 +49,14 @@ public abstract class AbstractSolver extends Observable {
 
     //TIME
 
-    /** renvoie le nombre de secondes depuis 1970*/
+    /** Returns the number of seconds since 1970 */
     protected long getTick() {
         Date date = new Date();
 
         return date.getTime() / 1000;
     }
 
-    /** renvoie un string format� correspondant au temps pass� nombre de secondes depuis 1970*/
+    /** returns a formatted string for time */
     protected String getElapsedTime(long tick) {
         Date date = new Date();
         long diff = (date.getTime() / 1000) - tick;
@@ -71,34 +71,34 @@ public abstract class AbstractSolver extends Observable {
             secs = diff - (minutes * 60);
 
             return ((hours > 0)
-            ? (hours + Messages.getString("AbstractSolver._h")) : "") + //$NON-NLS-1$ //$NON-NLS-2$
+            ? (hours + Messages.getString("AbstractSolver._h")) : "") +
             ((minutes > 0)
             ? (minutes + Messages.getString("AbstractSolver._min")) : "") +
-            secs + Messages.getString("AbstractSolver._sec"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            secs + Messages.getString("AbstractSolver._sec");
         }
 
-        return Messages.getString("AbstractSolver.0_sec"); //$NON-NLS-1$
+        return Messages.getString("AbstractSolver.0_sec");
     }
 
     //MAKE DESIGN
 
-    /** execute un make design*/
+    /** Does a Make Design */
     public abstract void makeDesign(Topographie topographie,
         String orificesSet, String diametersSet, Hashtable loadFactor,
         Vector constraints,double hsource);
 
-    /** renvoie le r�sultat de design*/
+    /** Returns the result of a Make Design */
     public abstract String getDesignContentMakeDesign();
 
-    /** renvoie les pressions des noeuds estim�s d'un design */
+    /** Returns the estimates of the node pressures in a design */
     public abstract Vector getNodePressureMakeDesign();
 
     //SIMULATION
 
-    /** execute une simulation*/
+    /** Does a simulation */
     public abstract void simulation(Design design, Properties parameters,
         Hashtable faucetRef);
 
-    /** renvoie le contenu de la simulation */
+    /** Returns the content of a simulation */
     public abstract String getSimulationContent();
 }

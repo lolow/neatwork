@@ -6,3 +6,4 @@ manifest.mf
 */*.log
 *.log
 build/*
+/bin/
