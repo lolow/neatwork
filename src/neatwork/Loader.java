@@ -108,8 +108,8 @@ public class Loader extends JApplet {
     po.setProperty("appli.locale", l.getLanguage());
     loader.properties.putAll(po);
 
-    //definition de la frame
-    FrameNeatwork frame = new FrameNeatwork(loader.properties);
+    // frame definition
+    new FrameNeatwork(loader.properties);
   }
 
   private void readDefaultProperties() {

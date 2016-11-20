@@ -12,9 +12,12 @@ public class Solver {
         int ret;
 
         try {
+        	
             // Create problem
             lp = GLPK.glp_create_prob();
-            //GLPK.glp_term_out(GLPKConstants.GLP_OFF); //disable terminal output
+            
+            //GLPK.glp_term_out(GLPKConstants.GLP_OFF); 
+            //disable terminal output
             GLPK.glp_set_prob_name(lp, "myProblem");
 
             // Define columns
@@ -44,6 +47,7 @@ public class Solver {
             SWIGTYPE_p_int ia = GLPK.new_intArray(numanz);
             SWIGTYPE_p_int ja = GLPK.new_intArray(numanz);
             SWIGTYPE_p_double ar = GLPK.new_doubleArray(numanz);
+            
             int k = 1;
             for(int col = 0; col < numvar; col++){
             	for(int ptr = ptrb[col]; ptr < ptre[col]; ptr++){
@@ -53,8 +57,13 @@ public class Solver {
             		k++;
                 }
             }
+            
             GLPK.glp_load_matrix(lp, numanz, ia, ja, ar);
-
+            
+            GLPK.delete_intArray(ia);
+            GLPK.delete_intArray(ja);
+            GLPK.delete_doubleArray(ar);
+            
             // Define objective
             GLPK.glp_set_obj_dir(lp, GLPKConstants.GLP_MIN);
             for(int i = 1; i <= numvar; i++){
@@ -71,10 +80,13 @@ public class Solver {
             	for (int i = 1; i <= numvar; i++) {
                     xx[i-1]= GLPK.glp_get_col_prim(lp, i);
                 }
+            } else {
+            	System.out.println("The problem could not be solved");
             }
 
             // Free memory
             GLPK.glp_delete_prob(lp);
+            
         } catch (GlpkException ex) {
             ex.printStackTrace();
         }

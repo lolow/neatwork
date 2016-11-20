@@ -16,12 +16,12 @@ B,P2,80.0
 C,P3,9.0
 C,P4,110.0
 !Default properties
-orifcoef,0.59
-pipelength,6.0
-limitbudget,1.0E9
-watertemp,20.0
-opentaps,0.4
 servicequal,0.6
+limitbudget,1.0E9
+pipelength,6.0
 faucetcoef,2.0E-8
-seuil,0.1
+watertemp,20.0
 targetflow,0.2
+seuil,0.1
+opentaps,0.4
+orifcoef,0.59
