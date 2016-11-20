@@ -103,13 +103,16 @@ public class Solver {
 				 bkc, blc, buc, bkx, ptrb, ptre, blx, bux, x, y, c, sub, val, PipesConst,
 				 TapsConst1, TapsConst2, oprfo, oprgo, oprho, opro, oprjo);
 		double x0[] = pb.getInitialGuess();
-		pb.solve(x0);
+		//pb.solve(x0);
+		pb.OptimizeNLP();
+		
 		//get x
 		for(int i = 0; i < x0.length; i++){
 			x[i] = x0[i];
 		}
 		//get y
-		double y0[] = pb.getMultConstraints();
+		//double y0[] = pb.getMultConstraints();
+		double y0[] = pb.getConstraintMultipliers();
 		for(int i = 0; i < y.length; i++){
 			if(y0[i]>0){
 				y[i] = 0;

@@ -24,10 +24,10 @@ public class SimulationProblem extends Ipopt {
 			double[] TapsConst1, double[] TapsConst2, double[] oprfo,
 			double[] oprgo, double[] oprho, int[] opro, int[] oprjo) {
 
-            /* Number of nonzeros in the Jacobian of the constraints */
+            /* Number of non-zeros in the Jacobian of the constraints */
             nele_jac = numanz;
-            /* Number of nonzeros in the Hessian of the Lagrangian (lower or
-             * upper triangual part only) */
+            /* Number of non-zeros in the Hessian of the Lagrangian (lower or
+             * upper triangular part only) */
             nele_hess = numvar;
             
             for(int j=NbPipes;j<numvar-1;j++){
@@ -73,11 +73,16 @@ public class SimulationProblem extends Ipopt {
             this.val = val;
 
             /* create the IpoptProblem */
-            create(n, x_L, x_U, m, g_L, g_U, nele_jac, nele_hess, index_style);
-            addStrOption("jac_c_constant","yes"); //because of the linear constraints
-            addStrOption("mehrotra_algorithm","yes");
-            addStrOption("linear_solver","mumps");
-            addNumOption("mumps_pivtol",1);
+            //create(n, x_L, x_U, m, g_L, g_U, nele_jac, nele_hess, index_style);
+            create(n, m, nele_jac, nele_hess, index_style);
+            //addStrOption("jac_c_constant","yes"); //because of the linear constraints
+            //addStrOption("mehrotra_algorithm","yes");
+            //addStrOption("linear_solver","mumps");
+            //addNumOption("mumps_pivtol",1);
+            setStringOption("mehrotra_algorithm","yes");
+            setStringOption("linear_solver","mumps");
+            setNumericOption("mumps_pivtol",1);
+            
             //addIntOption("print_level",0);
     }
     
@@ -207,5 +212,26 @@ public class SimulationProblem extends Ipopt {
         //return Double.longBitsToDouble(tmp << 32);
     	return Math.pow(a,b);
     }
+
+	@Override
+	protected boolean get_bounds_info(int n, double[] x_l, double[] x_u, int m, double[] g_l, double[] g_u) {
+		// TODO Auto-generated method stub
+        /* set the number of variables and allocate space for the bounds */
+        //n = numvar;
+        //double x_L[] = new double[n];
+        //double x_U[] = new double[n];
+        //for(int i=0; i < n; i++){
+        //        x_L[i] = blx[i];
+        //        x_U[i] = bux[i];
+        //}
+		return false;
+	}
+
+	@Override
+	protected boolean get_starting_point(int n, boolean init_x, double[] x, boolean init_z, double[] z_L, double[] z_U,
+			int m, boolean init_lambda, double[] lambda) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
