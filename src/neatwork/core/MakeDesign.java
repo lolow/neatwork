@@ -44,7 +44,7 @@ public class MakeDesign {
         double coeffOrifice = Double.parseDouble(prop.getProperty(
                     "topo.orifcoef.value", "0.59")); //$NON-NLS-1$ //$NON-NLS-2$
 
-        //Calcul des probabilit\u00E9s des taps
+        // Compute out-flow distributions
         double[] proba = calculProba(outflow, topo.tvector.size(), rated,
                 qualite);
 

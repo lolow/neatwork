@@ -1,15 +1,17 @@
 package neatwork.solver;
 
-
 public class SolverMosek {
 
   //MAKE DESIGN
   public void lp(int cont, int numvar, int numanz, int[] bkc, double[] blc, double[] buc, int[] bkx, double[] blx,
 			double[] bux, int[] ptrb, int[] ptre, int[] sub, double[] val, double[] xx, double[] c) {
-
+	   	  
+	  mosek.Env  env  = null; 
+	  mosek.Task task = null; 
+	  
 	  try
 	  {
-		  // Make mosek environment. 
+		  // Create Mosek environment. 
 		  env  = new mosek.Env ();
 		      
 		  // Create a task object. 

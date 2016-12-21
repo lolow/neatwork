@@ -70,8 +70,8 @@ public class Loader extends JApplet {
   @Override
   public String[][] getParameterInfo() {
     String[][] pinfo = {
-      {"param0", "String", ""}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      {"param1", "String", ""}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      {"param0", "String", ""},
+      {"param1", "String", ""},
     };
 
     return pinfo;
@@ -80,11 +80,11 @@ public class Loader extends JApplet {
   public static void main(String[] args) {
     Loader loader = new Loader();
     loader.readDefaultProperties();
-    loader.properties.setProperty("appli.standalone", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-    loader.properties.setProperty("solver.distant", "false"); //$NON-NLS-1$ //$NON-NLS-2$
-    loader.properties.setProperty("file.distant", "false"); //$NON-NLS-1$ //$NON-NLS-2$
-    loader.properties.setProperty("file.path", //$NON-NLS-1$
-            System.getProperty("user.dir")); //$NON-NLS-1$
+    loader.properties.setProperty("appli.standalone", "true");
+    loader.properties.setProperty("solver.distant", "false");
+    loader.properties.setProperty("file.distant", "false");
+    loader.properties.setProperty("file.path",
+            System.getProperty("user.dir"));
 
     Properties po = new Properties();
     File f = new File("neatwork.locale");
