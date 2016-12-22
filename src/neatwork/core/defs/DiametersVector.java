@@ -10,12 +10,12 @@ import java.util.*;
  *
  */
 public class DiametersVector extends Vector {
-    private final String taFile = "t-a.properties"; //$NON-NLS-1$
-    private final String dbaFile = "d-b-a.properties"; //$NON-NLS-1$
+    private final String taFile = "t-a.properties"; 
+    private final String dbaFile = "d-b-a.properties"; 
 
     public DiametersVector(Vector data, Properties prop) {
         double temperature = Double.parseDouble(prop.getProperty(
-                    "topo.watertemp.value", "70")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.watertemp.value", "70"));  
 
         //transforme les celsius en fahrenheit
         temperature = ((9 * (temperature)) / 5) + 32;
@@ -116,9 +116,9 @@ public class DiametersVector extends Vector {
             BufferedReader lecture = new BufferedReader(new InputStreamReader(
                         getClass().getResourceAsStream(taFile)));
 
-            while (((line = lecture.readLine()) != null) && (line != "") && //$NON-NLS-1$
+            while (((line = lecture.readLine()) != null) && (line != "") && 
                     (t2 < temperature)) {
-                indice = line.indexOf(","); //$NON-NLS-1$
+                indice = line.indexOf(","); 
                 ts = line.substring(0, indice);
                 as = line.substring(indice + 1, line.length());
 
@@ -164,10 +164,10 @@ public class DiametersVector extends Vector {
                     getClass().getResourceAsStream(dbaFile)));
 
         try {
-            while (((line = lecture.readLine()) != null) && (line != "") && //$NON-NLS-1$
+            while (((line = lecture.readLine()) != null) && (line != "") && 
                     (frac2 < frac)) {
-                indice = line.indexOf(","); //$NON-NLS-1$
-                indice2 = line.lastIndexOf(","); //$NON-NLS-1$
+                indice = line.indexOf(","); 
+                indice2 = line.lastIndexOf(","); 
                 fracs = line.substring(0, indice);
                 Bs = line.substring(indice + 1, indice2);
                 As = line.substring(indice2 + 1, line.length());

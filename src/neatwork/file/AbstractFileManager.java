@@ -6,7 +6,7 @@ import java.util.*;
 
 
 /**
- * Classe qui définit les classes abstraites du FileManager
+ * Classe qui dï¿½finit les classes abstraites du FileManager
  * @author L. DROUET
  * @version 1.0
  */
@@ -59,7 +59,7 @@ public abstract class AbstractFileManager extends Observable {
         int cpt = 2;
 
         while (isInList(f, name))
-            name = oldName + " (" + String.valueOf(cpt++) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            name = oldName + " (" + String.valueOf(cpt++) + ")";  
 
         return name;
     }

@@ -6,7 +6,7 @@ import javax.swing.*;
 
 
 /**
- * Panel qui contient un table et des boutons associés
+ * Panel qui contient un table et des boutons associï¿½s
  * @author L. DROUET
  * @version 1.0
  */
@@ -21,8 +21,8 @@ public class FancyTablePanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         //label
-        if (!title.equals("")) { //$NON-NLS-1$
-            add(new JLabel("<html>" + title), BorderLayout.NORTH); //$NON-NLS-1$
+        if (!title.equals("")) { 
+            add(new JLabel("<html>" + title), BorderLayout.NORTH); 
         }
 
         //button
@@ -31,13 +31,13 @@ public class FancyTablePanel extends JPanel {
 
         for (int i = 0; i < nbActions; i++) {
             if (actions[i] == null) {
-                jPanelTop.add(new JLabel(" ")); //$NON-NLS-1$
+                jPanelTop.add(new JLabel(" ")); 
             } else {
                 JButton jbutton = new JButton(actions[i]);
                 jPanelTop.add(jbutton);
 
                 if (jbutton.getIcon() != null) {
-                    jbutton.setText(""); //$NON-NLS-1$
+                    jbutton.setText(""); 
                 }
 
                 jbutton.setBorder(BorderFactory.createEtchedBorder());

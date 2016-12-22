@@ -36,10 +36,10 @@ public class LoadFactorPane extends JPanel implements Observer {
         Action[] actions = new Action[1];
 
         //check
-        Icon icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Undo.png")); //$NON-NLS-1$
+        Icon icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Undo.png")); 
         actions[0] = new NeatworkAction(Messages.getString(
                     "LoadFactorPane.Apply"), icon,
-                Messages.getString("LoadFactorPane.Reset"), 'R') { //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("LoadFactorPane.Reset"), 'R') {  
                     public void actionPerformed(ActionEvent e) {
                         tableModel.reset();
                         updateTable();
@@ -47,7 +47,7 @@ public class LoadFactorPane extends JPanel implements Observer {
                 };
         setLayout(new BorderLayout());
         add(new FancyTablePanel(Messages.getString(
-                    "LoadFactorPane.Load_factors"), actions, table, true), //$NON-NLS-1$
+                    "LoadFactorPane.Load_factors"), actions, table, true), 
             BorderLayout.CENTER);
         updateTable();
     }

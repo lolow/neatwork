@@ -19,7 +19,7 @@ public class FancyTableCellRenderer extends DefaultTableCellRenderer {
 
         if (value instanceof Double) {
             double z = Double.parseDouble(value.toString());
-            ((JLabel) cell).setText("" + z); //$NON-NLS-1$
+            ((JLabel) cell).setText("" + z); 
             ((JLabel) cell).setHorizontalAlignment(JLabel.RIGHT);
             ((JLabel) cell).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
             cell.setFont(table.getFont());

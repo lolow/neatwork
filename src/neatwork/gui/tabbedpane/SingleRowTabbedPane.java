@@ -9,26 +9,26 @@ import javax.swing.plaf.basic.*;
 
 
 /**
- * Classe qui définit un tabbedPane sur une ligne
+ * Classe qui dï¿½finit un tabbedPane sur une ligne
  * ATTENTION LE RAMO
  * @author L. DROUET
  * @version 1.0
  */
 public class SingleRowTabbedPane extends JTabbedPane {
     public static final String ROTATE = Messages.getString(
-            "SingleRowTabbedPane.Rotate"); //$NON-NLS-1$
+            "SingleRowTabbedPane.Rotate"); 
     public static final String PREVIOUS = Messages.getString(
-            "SingleRowTabbedPane.Previous"); //$NON-NLS-1$
+            "SingleRowTabbedPane.Previous"); 
     public static final String NEXT = Messages.getString(
-            "SingleRowTabbedPane.Next"); //$NON-NLS-1$
+            "SingleRowTabbedPane.Next"); 
     public static final String FIRST = Messages.getString(
-            "SingleRowTabbedPane.First"); //$NON-NLS-1$
+            "SingleRowTabbedPane.First"); 
     public static final String LEFT_SHIFT = Messages.getString(
-            "SingleRowTabbedPane.Left"); //$NON-NLS-1$
+            "SingleRowTabbedPane.Left"); 
     public static final String RIGHT_SHIFT = Messages.getString(
-            "SingleRowTabbedPane.Right"); //$NON-NLS-1$
+            "SingleRowTabbedPane.Right"); 
     public static final String LAST = Messages.getString(
-            "SingleRowTabbedPane.Last"); //$NON-NLS-1$
+            "SingleRowTabbedPane.Last"); 
     public static final int ONE_BUTTON = 1; //                  ROTATE                 ;
     public static final int TWO_BUTTONS = 2; //          PREVIOUS  |     NEXT           ;
     public static final int FOUR_BUTTONS = 4; // FIRST | LEFT_SHIFT | RIGHT_SHIFT | LAST ;
@@ -56,7 +56,7 @@ public class SingleRowTabbedPane extends JTabbedPane {
 
     public void setTabPlacement(int tabPlacement) {
         if ((tabPlacement == LEFT) || (tabPlacement == RIGHT)) {
-            throw new IllegalArgumentException("not suported: LEFT and RIGHT"); //$NON-NLS-1$
+            throw new IllegalArgumentException("not suported: LEFT and RIGHT"); 
         }
 
         super.setTabPlacement(tabPlacement);

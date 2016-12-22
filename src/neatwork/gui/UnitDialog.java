@@ -28,19 +28,19 @@ public class UnitDialog extends JDialog implements ActionListener {
     private JLabel jLabelImage;
     private JTable jTable;
     private JLabel jLabel = new JLabel();
-    private JButton jButton = new JButton(Messages.getString("AboutDialog.Ok")); //$NON-NLS-1$
+    private JButton jButton = new JButton(Messages.getString("AboutDialog.Ok")); 
 
     public UnitDialog(JFrame frame, Properties properties) {
         super(frame, true);
-        setTitle(Messages.getString("FrameNeatwork.Units"));  //$NON-NLS-1$
+        setTitle(Messages.getString("FrameNeatwork.Units"));  
         this.properties = properties;
         setModal(true);
         setSize(400, 200);
 
         //construction de la JTable
         Vector header = new Vector();
-        header.add(Messages.getString("UnitDialog.Measure")); //$NON-NLS-1$
-        header.add(Messages.getString("FrameNeatwork.Units"));  //$NON-NLS-1$
+        header.add(Messages.getString("UnitDialog.Measure")); 
+        header.add(Messages.getString("FrameNeatwork.Units"));  
 
         Vector data = new Vector();
         Enumeration e = properties.keys();
@@ -48,11 +48,11 @@ public class UnitDialog extends JDialog implements ActionListener {
         while (e.hasMoreElements()) {
             String name = e.nextElement().toString();
 
-            if (name.startsWith("units.")) {  //$NON-NLS-1$
+            if (name.startsWith("units.")) {  
          	
                 Vector line = new Vector();
                 line.add(Messages.getString(name+".name"));
-                line.add(Messages.getString(name+".value")); //$NON-NLS-1$
+                line.add(Messages.getString(name+".value")); 
                 data.insertElementAt(line, 0);
             }
         }

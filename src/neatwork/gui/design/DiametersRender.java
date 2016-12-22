@@ -24,7 +24,7 @@ public class DiametersRender extends JLabel implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
         boolean isSelected, boolean hasFocus, int row, int column) {
         Diameter diam = (Diameter) design.getDiamTable().get(value);
-        setText(((diam != null) ? ("" + diam.getDiameter()) : "-")); //$NON-NLS-1$ //$NON-NLS-2$
+        setText(((diam != null) ? ("" + diam.getDiameter()) : "-"));  
 
         return this;
     }

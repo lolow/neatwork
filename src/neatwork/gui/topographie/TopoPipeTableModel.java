@@ -19,7 +19,7 @@ public class TopoPipeTableModel extends FancyTableModel {
         Messages.getString("TopoPipeTableModel._Begin"),
         Messages.getString("TopoPipeTableModel._End"),
         Messages.getString("TopoPipeTableModel._Length")
-    }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    };   //$NON-NLS-3$
     private int[] myWhidthHeader = { 100, 100, 100 };
     private Topographie topo;
 

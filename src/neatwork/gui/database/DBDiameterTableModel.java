@@ -21,8 +21,8 @@ public class DBDiameterTableModel extends FancyTableModel {
         Messages.getString("DBDiameterTableModel.Diameter"),
         Messages.getString("DBDiameterTableModel.Cost/m"),
         Messages.getString("DBDiameterTableModel.Max_Pressure"),
-        Messages.getString("DBDiameterTableModel.Type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-        Messages.getString("DBDiameterTableModel.Roughness") //$NON-NLS-1$
+        Messages.getString("DBDiameterTableModel.Type"),   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+        Messages.getString("DBDiameterTableModel.Roughness") 
     };
     private int[] myWhidthHeader = { 75, 75, 75, 75, 75, 80, 75 };
     protected Database database;
@@ -85,7 +85,7 @@ public class DBDiameterTableModel extends FancyTableModel {
 
     protected Vector getNewVector() {
         Vector line = new Vector();
-        line.add(""); //$NON-NLS-1$
+        line.add(""); 
         line.add(new Double(0));
         line.add(new Double(0));
         line.add(new Double(0));

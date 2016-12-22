@@ -46,8 +46,8 @@ public class Topographie extends Network {
 
             //properties
             if ((t.size() == 2)) {
-                properties.setProperty("topo." + t.get(0).toString() + //$NON-NLS-1$
-                    ".value", t.get(1).toString()); //$NON-NLS-1$
+                properties.setProperty("topo." + t.get(0).toString() + 
+                    ".value", t.get(1).toString()); 
             }
         }
 
@@ -77,7 +77,7 @@ public class Topographie extends Network {
 
     /** renvoie le string qui contient la topographie*/
     public String getContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les noeuds (6 champs)
         content += getNodesContent();
@@ -92,40 +92,40 @@ public class Topographie extends Network {
     }
 
     public String getNodesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les noeuds (6 champs)
-        content += "!Nodes\n"; //$NON-NLS-1$
+        content += "!Nodes\n"; 
 
         //content += "!Name-Heigth-X-Y-NbTaps-Type\n";
         Iterator iter = getNodeIterator();
 
         while (iter.hasNext())
-            content += (getNodeCSV((Node) iter.next()) + "\n"); //$NON-NLS-1$
+            content += (getNodeCSV((Node) iter.next()) + "\n"); 
 
         return content;
     }
 
     public String getPipesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les pipes ( 3 champs)
-        content += "!Pipes\n"; //$NON-NLS-1$
+        content += "!Pipes\n"; 
 
         //content += "!Beg-End-Length\n";
         Iterator iter = getPipeIterator();
 
         while (iter.hasNext())
-            content += (getPipeCSV((Pipe) iter.next()) + "\n"); //$NON-NLS-1$
+            content += (getPipeCSV((Pipe) iter.next()) + "\n"); 
 
         return content;
     }
 
     public String getPropertiesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les properties ( 2 champs)
-        content += "!Default properties\n"; //$NON-NLS-1$
+        content += "!Default properties\n"; 
 
         //content += "!Name-Value\n";
         Enumeration iter = getProperties().propertyNames();
@@ -133,9 +133,9 @@ public class Topographie extends Network {
         while (iter.hasMoreElements()) {
             String name = iter.nextElement().toString();
 
-            if (name.startsWith("topo.") && name.endsWith(".value")) { //$NON-NLS-1$ //$NON-NLS-2$
-                content += (name.substring(5, name.length() - 6) + "," + //$NON-NLS-1$
-                getProperties().getProperty(name) + "\n"); //$NON-NLS-1$
+            if (name.startsWith("topo.") && name.endsWith(".value")) {  
+                content += (name.substring(5, name.length() - 6) + "," + 
+                getProperties().getProperty(name) + "\n"); 
             }
         }
 
@@ -144,14 +144,14 @@ public class Topographie extends Network {
 
     /** renvoie le csv d'un node pour un topo*/
     public static String getNodeCSV(Node node) {
-        return node.getName() + "," + node.getHeight() + "," + //$NON-NLS-1$ //$NON-NLS-2$
-        node.getCoordX() + "," + node.getCoordY() + "," + node.getNbTaps() + //$NON-NLS-1$ //$NON-NLS-2$
-        "," + node.getType(); //$NON-NLS-1$
+        return node.getName() + "," + node.getHeight() + "," +  
+        node.getCoordX() + "," + node.getCoordY() + "," + node.getNbTaps() +  
+        "," + node.getType(); 
     }
 
     /** renvoie le csv d'un pipe pour un topo*/
     public static String getPipeCSV(Pipe pipe) {
-        return pipe.getBegin() + "," + pipe.getEnd() + "," + pipe.getLength(); //$NON-NLS-1$ //$NON-NLS-2$
+        return pipe.getBegin() + "," + pipe.getEnd() + "," + pipe.getLength();  
     }
 
     /** ajoute le noeud*/
@@ -244,7 +244,7 @@ public class Topographie extends Network {
 
         while (iter.hasNext()) {
             Node node = (Node) iter.next();
-            table.put(node.getName(), "0"); //$NON-NLS-1$
+            table.put(node.getName(), "0"); 
         }
 
         //pour chaque faucet on, remonte a la source en incrementant
@@ -259,11 +259,11 @@ public class Topographie extends Network {
                 while (pion.getType() != Node.TYPE_RESERVOIR) {
                     String pred = getPredPipe(pion, pipeList2).getBegin();
                     int passage = Integer.parseInt(table.get(pred).toString());
-                    table.put(pred, "" + ++passage); //$NON-NLS-1$
+                    table.put(pred, "" + ++passage); 
                     pion = getNode(pred, nodeList2);
                 }
 
-                table.put(node.getName(), "1"); //$NON-NLS-1$
+                table.put(node.getName(), "1"); 
             }
         }
 
@@ -275,9 +275,9 @@ public class Topographie extends Network {
     * Attention, ne fonctionne qu'avec un topo deja d�ployer
     */
     public Hashtable getLoadFactor(Hashtable loadTaps) {
-        double targetflow = Double.parseDouble(getProperties().getProperty("topo.targetflow.value")); //$NON-NLS-1$
-        double opentaps = Double.parseDouble(getProperties().getProperty("topo.opentaps.value")); //$NON-NLS-1$
-        double qualite = Double.parseDouble(getProperties().getProperty("topo.servicequal.value")); //$NON-NLS-1$
+        double targetflow = Double.parseDouble(getProperties().getProperty("topo.targetflow.value")); 
+        double opentaps = Double.parseDouble(getProperties().getProperty("topo.opentaps.value")); 
+        double qualite = Double.parseDouble(getProperties().getProperty("topo.servicequal.value")); 
 
         //Calcul des probabilites
         double[] proba = calculProba(targetflow,
@@ -291,7 +291,7 @@ public class Topographie extends Network {
             String item = e.nextElement().toString();
             int nbTaps = Integer.parseInt(loadTaps.get(item).toString());
             table.put(item,
-                new Double(Tools.doubleFormat("0.##", proba[nbTaps] / targetflow))); //$NON-NLS-1$
+                new Double(Tools.doubleFormat("0.##", proba[nbTaps] / targetflow))); 
         }
 
         return table;
@@ -392,7 +392,7 @@ public class Topographie extends Network {
                 for (int i = 0; i < item.getNbTaps(); i++) {
                     //ajout d'un noeud
                     Node n = new Node(item);
-                    n.setName(item.getName() + "_" + a++); //$NON-NLS-1$
+                    n.setName(item.getName() + "_" + a++); 
                     n.setNbTaps(1);
                     nodeList2.add(n);
 
@@ -470,9 +470,9 @@ public class Topographie extends Network {
         Vector pipe = new Vector();
         pipe.add(source);
         pipe.add(source);
-        pipe.add(""+getSource().getHeight()); //$NON-NLS-1$
-        pipe.add("0"); //$NON-NLS-1$
-        pipe.add("0"); //$NON-NLS-1$
+        pipe.add(""+getSource().getHeight()); 
+        pipe.add("0"); 
+        pipe.add("0"); 
         data.add(pipe);
 
         //autre
@@ -484,9 +484,9 @@ public class Topographie extends Network {
                 Vector line = new Vector();
                 line.add(node.getName()); //node ID
                 line.add(pred.getBegin()); //pred ID
-                line.add("" + node.getHeight()); //height //$NON-NLS-1$
-                line.add("" + pred.getLength()); //length //$NON-NLS-1$
-                line.add("" + node.getNbTaps()); //#taps //$NON-NLS-1$
+                line.add("" + node.getHeight()); //height 
+                line.add("" + pred.getLength()); //length 
+                line.add("" + node.getNbTaps()); //#taps 
                 data.add(line);
             }
         }

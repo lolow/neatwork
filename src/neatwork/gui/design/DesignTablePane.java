@@ -18,7 +18,7 @@ import javax.swing.event.*;
 
 
 /**
- * Panel d'édition d'un design
+ * Panel d'ï¿½dition d'un design
  * @author L. DROUET
  * @version 1.0
  */
@@ -82,12 +82,12 @@ public class DesignTablePane extends JPanel implements Observer {
         //AddNode
         actions[0] = jTableNode.insertRowAction;
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DesignTablePane.Insert_a_new_node")); //$NON-NLS-1$
+            Messages.getString("DesignTablePane.Insert_a_new_node")); 
 
         //DeleteNode
         actions[1] = jTableNode.deleteRowAction;
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DesignTablePane.Delete_selected_node(s)")); //$NON-NLS-1$
+            Messages.getString("DesignTablePane.Delete_selected_node(s)")); 
 
         //espace
         actions[2] = null;
@@ -104,20 +104,20 @@ public class DesignTablePane extends JPanel implements Observer {
         //undo
         actions[6] = jTableNode.updateAction;
         actions[6].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DesignTablePane.Undo_modifications")); //$NON-NLS-1$
+            Messages.getString("DesignTablePane.Undo_modifications")); 
 
         //check
-        Icon icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Check.gif")); //$NON-NLS-1$
+        Icon icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Check.gif")); 
         actions[7] = new NeatworkAction(Messages.getString(
                     "DesignTablePane.Apply"), icon,
-                Messages.getString("DesignTablePane.Apply_modifications"), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DesignTablePane.Apply_modifications"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         apply();
                     }
                 };
         jSplitPane.setTopComponent(new FancyTablePanel(Messages.getString(
-                    "DesignTablePane.Node_list"), actions, //$NON-NLS-1$
+                    "DesignTablePane.Node_list"), actions, 
                 jTableNode));
 
         //BOTTOM
@@ -126,12 +126,12 @@ public class DesignTablePane extends JPanel implements Observer {
         //AddPipe
         actions[0] = jTablePipe.insertRowAction;
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DesignTablePane.Insert_a_new_pipe")); //$NON-NLS-1$
+            Messages.getString("DesignTablePane.Insert_a_new_pipe")); 
 
         //DeletePipe
         actions[1] = jTablePipe.deleteRowAction;
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DesignTablePane.Delete_selected_pipe(s)")); //$NON-NLS-1$
+            Messages.getString("DesignTablePane.Delete_selected_pipe(s)")); 
 
         //espace
         actions[2] = null;
@@ -148,20 +148,20 @@ public class DesignTablePane extends JPanel implements Observer {
         //undo
         actions[6] = jTablePipe.updateAction;
         actions[6].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DesignTablePane.Undo_modifications")); //$NON-NLS-1$
+            Messages.getString("DesignTablePane.Undo_modifications")); 
 
         //check
-        icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Check.gif")); //$NON-NLS-1$
+        icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Check.gif")); 
         actions[7] = new NeatworkAction(Messages.getString(
                     "DesignTablePane.Apply"), icon,
-                Messages.getString("DesignTablePane.Apply_modifications"), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DesignTablePane.Apply_modifications"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         apply();
                     }
                 };
         jSplitPane.setBottomComponent(new FancyTablePanel(Messages.getString(
-                    "DesignTablePane.Arc_list"), //$NON-NLS-1$
+                    "DesignTablePane.Arc_list"), 
                 actions, jTablePipe));
 
         //TOTAL
@@ -192,8 +192,8 @@ public class DesignTablePane extends JPanel implements Observer {
 
     private void updateCostLabel() {
         costLabel.setText(Messages.getString(
-                "DesignTablePane.Design_total_cost") + //$NON-NLS-1$
-            Tools.doubleFormat("#,##0", design.getCost())); //$NON-NLS-1$
+                "DesignTablePane.Design_total_cost") + 
+            Tools.doubleFormat("#,##0", design.getCost())); 
     }
 
     private void apply() {
@@ -203,9 +203,9 @@ public class DesignTablePane extends JPanel implements Observer {
             nodesTableModel.getContent() + pipesTableModel.getContent();
         design.setContent(content);
 
-        if (!design.getInfoModif().equals("")) { //$NON-NLS-1$
+        if (!design.getInfoModif().equals("")) { 
             JOptionPane.showMessageDialog(null,
-                Messages.getString("DesignTablePane.error_in_your_project")); //$NON-NLS-1$
+                Messages.getString("DesignTablePane.error_in_your_project")); 
         }
     }
 
@@ -229,11 +229,11 @@ public class DesignTablePane extends JPanel implements Observer {
         public Component getTableCellRendererComponent(JTable table,
             Object value, boolean isSelected, boolean hasFocus, int row,
             int column) {
-            String t = Tools.doubleFormat("0.##########", //$NON-NLS-1$
+            String t = Tools.doubleFormat("0.##########", 
                     Double.parseDouble(value.toString()));
 
-            if (t.equals("10000")) { //$NON-NLS-1$
-                t = "-"; //$NON-NLS-1$
+            if (t.equals("10000")) { 
+                t = "-"; 
             }
 
             return super.getTableCellRendererComponent(table, t, isSelected,

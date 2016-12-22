@@ -17,7 +17,7 @@ public class NodeTapPressureModel extends FancyTableModel {
         Messages.getString("NodeTapPressureModel.Node_ID"),
         Messages.getString("NodeTapPressureModel.Height"),
         Messages.getString("NodeTapPressureModel.Forecast_Pressure_Loss"),
-        Messages.getString("NodeTapPressureModel.Potential_Problem") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        Messages.getString("NodeTapPressureModel.Potential_Problem")   //$NON-NLS-3$ //$NON-NLS-4$
     };
     private int[] myWhidthHeader = { 100, 50, 150, 150 };
     private Vector pressure;

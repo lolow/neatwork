@@ -22,11 +22,11 @@ public class AboutDialog extends JDialog implements ActionListener {
     private JLabel jLabelImage;
     private JTable jTable;
     private JLabel jLabel = new JLabel();
-    private JButton jButton = new JButton(Messages.getString("AboutDialog.Ok")); //$NON-NLS-1$
+    private JButton jButton = new JButton(Messages.getString("AboutDialog.Ok")); 
 
     public AboutDialog(JFrame frame, Properties properties) {
         super(frame, true);
-        setTitle(Messages.getString("AboutDialog.About...")); //$NON-NLS-1$
+        setTitle(Messages.getString("AboutDialog.About...")); 
         this.properties = properties;
         setModal(true);
         setSize(800, 450);
@@ -39,7 +39,7 @@ public class AboutDialog extends JDialog implements ActionListener {
             width, height);
 
         //Mise en place des composants
-        Icon image = new ImageIcon(getClass().getResource("/neatwork/gui/images/logo.jpg")); //$NON-NLS-1$
+        Icon image = new ImageIcon(getClass().getResource("/neatwork/gui/images/logo.jpg")); 
         jLabelImage = new JLabel(image);
 
         Container content = getContentPane();
@@ -50,17 +50,17 @@ public class AboutDialog extends JDialog implements ActionListener {
         //Panel avec le texte d'explication
         JLabel jLabelText = new JLabel();
         jLabelText.setText(
-            "<HTML> <center><h2>"+ //$NON-NLS-1$
-           Messages.getString("AboutDialog.APLV")+ //$NON-NLS-1$
-            "</h2></center>" +       //$NON-NLS-1$
-            Messages.getString("PresentationPanel.text1") + //$NON-NLS-1$
-            Messages.getString("PresentationPanel.text2") + //$NON-NLS-1$
-            Messages.getString("PresentationPanel.text3") + //$NON-NLS-1$
-            Messages.getString("PresentationPanel.text4") + //$NON-NLS-1$
-            Messages.getString("PresentationPanel.text5") + //$NON-NLS-1$
-            "<br><br><br>"+Messages.getString("AboutDialog.version")+properties.getProperty("appli.version") + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            " (" + properties.getProperty("appli.releasedate") + ")" + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            "</HTML>"); //$NON-NLS-1$
+            "<HTML> <center><h2>"+ 
+           Messages.getString("AboutDialog.APLV")+ 
+            "</h2></center>" +       
+            Messages.getString("PresentationPanel.text1") + 
+            Messages.getString("PresentationPanel.text2") + 
+            Messages.getString("PresentationPanel.text3") + 
+            Messages.getString("PresentationPanel.text4") + 
+            Messages.getString("PresentationPanel.text5") + 
+            "<br><br><br>"+Messages.getString("AboutDialog.version")+properties.getProperty("appli.version") +   //$NON-NLS-3$
+            " (" + properties.getProperty("appli.releasedate") + ")" +   //$NON-NLS-3$
+            "</HTML>"); 
         jLabelText.setAutoscrolls(true);
         jPanel4.add(jLabelText);
         content.add(new JScrollPane(jPanel4), BorderLayout.CENTER);

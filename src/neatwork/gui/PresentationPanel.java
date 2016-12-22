@@ -11,7 +11,7 @@ import javax.swing.border.*;
 
 
 /**
- * Page de présentation
+ * Page de prï¿½sentation
  * @author L. DROUET
  * @version 1.0
  */
@@ -35,22 +35,22 @@ public class PresentationPanel extends JPanel {
 
     void jbInit() throws Exception {
         titledBorder1 = new TitledBorder(BorderFactory.createEmptyBorder(50,
-                    50, 50, 50), ""); //$NON-NLS-1$
+                    50, 50, 50), ""); 
         border1 = BorderFactory.createEmptyBorder(20, 50, 50, 50);
         jLabel1.setHorizontalTextPosition(JLabel.RIGHT);
         jLabel1.setVerticalTextPosition(JLabel.BOTTOM);
-        jLabel1.setFont(new java.awt.Font("Dialog", Font.ITALIC, 40)); //$NON-NLS-1$
+        jLabel1.setFont(new java.awt.Font("Dialog", Font.ITALIC, 40)); 
         jLabel1.setForeground(Color.black);
         jLabel1.setBorder(titledBorder1);
-        jLabel1.setToolTipText(""); //$NON-NLS-1$
+        jLabel1.setToolTipText(""); 
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel1.setText(prop.getProperty("appli.name", "Neatwork")); //$NON-NLS-1$ //$NON-NLS-2$
+        jLabel1.setText(prop.getProperty("appli.name", "Neatwork"));  
         this.setLayout(borderLayout1);
         jLabel2.setBorder(border1);
         jLabel2.setBackground(jLabel1.getBackground());
         jLabel2.setForeground(jLabel1.getForeground());
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 12));  //$NON-NLS-1$
-        jLabel2.setText(Messages.getString("PresentationPanel.text"));  //$NON-NLS-1$
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 12));  
+        jLabel2.setText(Messages.getString("PresentationPanel.text"));  
         this.add(jLabel1, BorderLayout.CENTER);
         this.add(jLabel2, BorderLayout.SOUTH);
     }

@@ -58,13 +58,13 @@ public class ConstraintsPane extends JPanel implements ActionListener {
 
         Vector typeConstraint = new Vector();
         typeConstraint.add(Messages.getString(
-                "ConstraintsPane.pipe(s)_must_be_greater_than")); //0 //$NON-NLS-1$
+                "ConstraintsPane.pipe(s)_must_be_greater_than")); //0 
         typeConstraint.add(Messages.getString(
-                "ConstraintsPane.pipe(s)_must_be_lower_than")); //1 //$NON-NLS-1$
+                "ConstraintsPane.pipe(s)_must_be_lower_than")); //1 
         typeConstraint.add(Messages.getString(
-                "ConstraintsPane.pipe(s)_must_be_equal_to")); //2 //$NON-NLS-1$
+                "ConstraintsPane.pipe(s)_must_be_equal_to")); //2 
         typeConstraint.add(Messages.getString(
-                "ConstraintsPane.the_two_pipes_must_be")); //3 //$NON-NLS-1$
+                "ConstraintsPane.the_two_pipes_must_be")); //3 
         comboConstraint = new JComboBox(typeConstraint);
 
         comboDiameter0 = new ComboDatabase(database);
@@ -76,9 +76,9 @@ public class ConstraintsPane extends JPanel implements ActionListener {
 
         JPanel zpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         zpanel.add(new JLabel(Messages.getString(
-                    "ConstraintsPane.Constraint_on"))); //$NON-NLS-1$
+                    "ConstraintsPane.Constraint_on"))); 
         zpanel.add(comboPipe);
-        zpanel.add(new JLabel(",")); //$NON-NLS-1$
+        zpanel.add(new JLabel(",")); 
         zpanel.add(comboConstraint);
         paneltop.add(zpanel, BorderLayout.NORTH);
 
@@ -86,43 +86,43 @@ public class ConstraintsPane extends JPanel implements ActionListener {
         ypanel = new JPanel(cardLayout);
 
         JPanel p0 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p0.add(new JLabel(Messages.getString("ConstraintsPane.diameter"))); //$NON-NLS-1$
+        p0.add(new JLabel(Messages.getString("ConstraintsPane.diameter"))); 
         p0.add(textFieldGreaterThan);
-        ypanel.add(p0, "0"); //$NON-NLS-1$
+        ypanel.add(p0, "0"); 
 
         JPanel p1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p1.add(new JLabel(Messages.getString("ConstraintsPane.diameter"))); //$NON-NLS-1$
+        p1.add(new JLabel(Messages.getString("ConstraintsPane.diameter"))); 
         p1.add(textFieldLowerThan);
-        ypanel.add(p1, "1"); //$NON-NLS-1$
+        ypanel.add(p1, "1"); 
 
         JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p2.add(new JLabel(Messages.getString("ConstraintsPane.diameter"))); //$NON-NLS-1$
+        p2.add(new JLabel(Messages.getString("ConstraintsPane.diameter"))); 
         p2.add(comboDiameter0);
-        ypanel.add(p2, "2"); //$NON-NLS-1$
+        ypanel.add(p2, "2"); 
 
         JPanel p3 = new JPanel(new GridLayout(2, 1));
         JPanel p31 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p31.add(new JLabel(Messages.getString("ConstraintsPane.diameter_1"))); //$NON-NLS-1$
+        p31.add(new JLabel(Messages.getString("ConstraintsPane.diameter_1"))); 
         p31.add(comboDiameter1);
-        p31.add(new JLabel(Messages.getString("ConstraintsPane.length_1"))); //$NON-NLS-1$
+        p31.add(new JLabel(Messages.getString("ConstraintsPane.length_1"))); 
         p31.add(textFieldLength1);
         p3.add(p31);
 
         JPanel p32 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p32.add(new JLabel(Messages.getString("ConstraintsPane.diameter_2"))); //$NON-NLS-1$
+        p32.add(new JLabel(Messages.getString("ConstraintsPane.diameter_2"))); 
         p32.add(comboDiameter2);
-        p32.add(new JLabel(Messages.getString("ConstraintsPane.length_2"))); //$NON-NLS-1$
+        p32.add(new JLabel(Messages.getString("ConstraintsPane.length_2"))); 
         p32.add(new JLabel());
         p3.add(p32);
-        ypanel.add(p3, "3"); //$NON-NLS-1$
+        ypanel.add(p3, "3"); 
         paneltop.add(ypanel, BorderLayout.CENTER);
 
         JPanel wpanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonAddConstraint = new JButton(Messages.getString(
-                    "ConstraintsPane.Add_new_constraint")); //$NON-NLS-1$
+                    "ConstraintsPane.Add_new_constraint")); 
         buttonAddConstraint.addActionListener(this);
         buttonDeleteConstraint = new JButton(Messages.getString(
-                    "ConstraintsPane.Delete")); //$NON-NLS-1$
+                    "ConstraintsPane.Delete")); 
         buttonDeleteConstraint.addActionListener(this);
         wpanel.add(buttonAddConstraint);
         wpanel.add(buttonDeleteConstraint);
@@ -136,14 +136,14 @@ public class ConstraintsPane extends JPanel implements ActionListener {
         setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         add(paneltop, BorderLayout.NORTH);
         add(xpanel, BorderLayout.CENTER);
-        cardLayout.show(ypanel, "" + comboConstraint.getSelectedIndex()); //$NON-NLS-1$
+        cardLayout.show(ypanel, "" + comboConstraint.getSelectedIndex()); 
         comboConstraint.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
         //combo constraint
         if (e.getSource().equals(comboConstraint)) {
-            cardLayout.show(ypanel, "" + comboConstraint.getSelectedIndex()); //$NON-NLS-1$
+            cardLayout.show(ypanel, "" + comboConstraint.getSelectedIndex()); 
         }
 
         if (e.getSource().equals(buttonDeleteConstraint)) {

@@ -44,33 +44,33 @@ public class MakeSimulation {
         this.properties = prop;
 
         //extraction des properties
-        String typeOrifice = prop.getProperty("simu.typeorifice.value", "ideal"); //$NON-NLS-1$ //$NON-NLS-2$
-        String typeSimulation = prop.getProperty("simu.typesimu.value", "random"); //$NON-NLS-1$ //$NON-NLS-2$
+        String typeOrifice = prop.getProperty("simu.typeorifice.value", "ideal");  
+        String typeSimulation = prop.getProperty("simu.typesimu.value", "random");  
         this.typeSimu = typeSimulation;
 
-        int nbSim = Integer.parseInt(prop.getProperty("simu.nbsim.value", "10")); //$NON-NLS-1$ //$NON-NLS-2$
+        int nbSim = Integer.parseInt(prop.getProperty("simu.nbsim.value", "10"));  
         this.nbsim = nbSim;
 
         double outflow = Double.parseDouble(prop.getProperty(
-                    "topo.targetflow.value", "0.2")) / 1000; //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.targetflow.value", "0.2")) / 1000;  
         double alpha = Double.parseDouble(prop.getProperty(
-                    "topo.faucetcoef.value", "0.00000002")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.faucetcoef.value", "0.00000002"));  
         double rate1 = 1;
 
         try {
             rate1 = Double.parseDouble(prop.getProperty(
-                        "simu.simopentaps.value", "0.4")); //$NON-NLS-1$ //$NON-NLS-2$
+                        "simu.simopentaps.value", "0.4"));  
         } catch (NumberFormatException ex) {
         }
 
         this.rate = rate1;
 
         double seuil = Double.parseDouble(prop.getProperty(
-                    "simu.mincriticalflow.value", "0.1")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "simu.mincriticalflow.value", "0.1"));  
         double seuil2 = Double.parseDouble(prop.getProperty(
-                    "simu.maxcriticalflow.value", "0.3")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "simu.maxcriticalflow.value", "0.3"));  
         double coeffOrifice = Double.parseDouble(prop.getProperty(
-                    "topo.orifcoef.value", "0.59")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.orifcoef.value", "0.59"));  
 
         // ajout de de noeuds intermediaires pour chaque branche possedant deux tuyaux differents
         ajoutNodes();
@@ -81,7 +81,7 @@ public class MakeSimulation {
         }
 
         //type d'orifice
-        if (typeOrifice.equals("ideal")) { //$NON-NLS-1$
+        if (typeOrifice.equals("ideal")) { 
 
             for (int i = 0; i < dsg.tvector.size(); i++) {
                 Taps taps = (Taps) dsg.tvector.get(i);
@@ -109,7 +109,7 @@ public class MakeSimulation {
         }
 
         //simulation au hasard
-        if (typeSimulation.equals("random")) { //$NON-NLS-1$
+        if (typeSimulation.equals("random")) { 
 
             // stat \u00E0 zero
             dsg.pvector.initializeSimulation(nbSim);
@@ -128,7 +128,7 @@ public class MakeSimulation {
         }
 
         // simulation robinet par robinet
-        if (typeSimulation.equals("tapbytap")) { //$NON-NLS-1$
+        if (typeSimulation.equals("tapbytap")) { 
 
             //Remet les stats des precedentes simulation \uFFFD 0
             dsg.pvector.initializeSimulation(dsg.tvector.size());
@@ -141,17 +141,17 @@ public class MakeSimulation {
         }
 
         // simulation handmade
-        if (typeSimulation.equals("handmade")) { //$NON-NLS-1$
+        if (typeSimulation.equals("handmade")) { 
 
             Enumeration enun = dsg.tvector.elements();
 
             while (enun.hasMoreElements()) {
                 Taps tap = (Taps) enun.nextElement();
-                tap.select = "close"; //$NON-NLS-1$
+                tap.select = "close"; 
 
                 if (faucetRef.get(tap.taps) != null) {
                     if (faucetRef.get(tap.taps).equals(new Boolean(true))) {
-                        tap.select = "open"; //$NON-NLS-1$
+                        tap.select = "open"; 
                     }
                 }
             }
@@ -193,10 +193,10 @@ public class MakeSimulation {
                             pipes.nodes_beg));
                 n2 = (Nodes) dsg.nvector.elementAt(dsg.nvector.getPosition(
                             pipes.nodes_end));
-                pip = new Pipes(pipes.nodes_beg + "*" + pipes.nodes_end, //$NON-NLS-1$
+                pip = new Pipes(pipes.nodes_beg + "*" + pipes.nodes_end, 
                         pipes.nodes_end,
-                        pipes.nodes_beg + "*" + pipes.nodes_end, 0); //$NON-NLS-1$
-                pipes.nodes_end = pipes.nodes_beg + "*" + pipes.nodes_end; //$NON-NLS-1$
+                        pipes.nodes_beg + "*" + pipes.nodes_end, 0); 
+                pipes.nodes_end = pipes.nodes_beg + "*" + pipes.nodes_end; 
                 pip.l1 = pipes.l2;
                 pip.d1 = pipes.d2;
                 pip.p1 = pipes.p2;
@@ -224,10 +224,10 @@ public class MakeSimulation {
     }
 
     public String getPropertiesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les properties ( 3 champs)
-        content += Messages.getString("MakeSimulation.Default_properties"); //$NON-NLS-1$
+        content += Messages.getString("MakeSimulation.Default_properties"); 
 
         //content += "!Name-Value\n";
         Enumeration iter = properties.propertyNames();
@@ -235,9 +235,9 @@ public class MakeSimulation {
         while (iter.hasMoreElements()) {
             String name = iter.nextElement().toString();
 
-            if (name.startsWith("simu.") && name.endsWith(".value")) { //$NON-NLS-1$ //$NON-NLS-2$
-                content += (name.substring(5, name.length() - 6) + "," + //$NON-NLS-1$
-                properties.getProperty(name) + ",N\n"); //$NON-NLS-1$
+            if (name.startsWith("simu.") && name.endsWith(".value")) {  
+                content += (name.substring(5, name.length() - 6) + "," + 
+                properties.getProperty(name) + ",N\n"); 
             }
         }
 
@@ -259,26 +259,26 @@ public class MakeSimulation {
             if (dsg.nvector.getNbTaps(pipes.nodes_end) == 0) {
                 String name = pipes.nodes_end;
 
-                if (name.lastIndexOf("*") > 0) { //$NON-NLS-1$
-                    name = name.substring(name.lastIndexOf("*") + 1, //$NON-NLS-1$
+                if (name.lastIndexOf("*") > 0) { 
+                    name = name.substring(name.lastIndexOf("*") + 1, 
                             name.length());
                 }
 
-                if (name.lastIndexOf("_") > 0) { //$NON-NLS-1$
+                if (name.lastIndexOf("_") > 0) { 
 
-                    int n = name.substring(name.lastIndexOf("_") + 1, //$NON-NLS-1$
+                    int n = name.substring(name.lastIndexOf("_") + 1, 
                             name.length()).charAt(0) - 'a' + 1;
-                    name = name.substring(0, name.lastIndexOf("_") + 1) + n; //$NON-NLS-1$
+                    name = name.substring(0, name.lastIndexOf("_") + 1) + n; 
                 }
 
                 Vector line = new Vector();
                 line.add(name);
-                line.add(Tools.doubleFormat("0.####", pipes.min)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.####", pipes.moyenne)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.####", pipes.max)); //$NON-NLS-1$
+                line.add(Tools.doubleFormat("0.####", pipes.min)); 
+                line.add(Tools.doubleFormat("0.####", pipes.moyenne)); 
+                line.add(Tools.doubleFormat("0.####", pipes.max)); 
 
                 for (int j = 0; j < pipes.simulation.length; j++) {
-                    line.add(Tools.doubleFormat("0.####", pipes.simulation[j])); //$NON-NLS-1$
+                    line.add(Tools.doubleFormat("0.####", pipes.simulation[j])); 
                 }
 
                 v.add(line);
@@ -311,25 +311,25 @@ public class MakeSimulation {
 
             String name = pipes.nodes_end;
 
-            if (name.lastIndexOf("*") > 0) { //$NON-NLS-1$
-                name = name.substring(name.lastIndexOf("*") + 1, name.length()); //$NON-NLS-1$
+            if (name.lastIndexOf("*") > 0) { 
+                name = name.substring(name.lastIndexOf("*") + 1, name.length()); 
             }
 
-            if (name.lastIndexOf("_") > 0) { //$NON-NLS-1$
+            if (name.lastIndexOf("_") > 0) { 
 
-                int n = name.substring(name.lastIndexOf("_") + 1, name.length()) //$NON-NLS-1$
+                int n = name.substring(name.lastIndexOf("_") + 1, name.length()) 
                     .charAt(0) - 'a' + 1;
-                name = name.substring(0, name.lastIndexOf("_") + 1) + n; //$NON-NLS-1$
+                name = name.substring(0, name.lastIndexOf("_") + 1) + n; 
             }
 
             line.add(name);
-            line.add("" + pipes.nbsim); //$NON-NLS-1$
+            line.add("" + pipes.nbsim); 
             totsim += pipes.nbsim;
-            line.add(Tools.doubleFormat("0.####", pipes.min)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.####", pipes.min)); 
 
-            line.add(Tools.doubleFormat("0.####", pipes.moyenne)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.####", pipes.moyenne)); 
             totmoy += (pipes.moyenne * pipes.nbsim);
-            line.add(Tools.doubleFormat("0.####", pipes.max)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.####", pipes.max)); 
 
             double variability = 0;
 
@@ -339,34 +339,34 @@ public class MakeSimulation {
             } catch (Exception ex) {
             }
 
-            line.add(Tools.doubleFormat("0.##", variability)); //$NON-NLS-1$
-            line.add("" + //$NON-NLS-1$
-                Tools.doubleFormat("0.##", //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.##", variability)); 
+            line.add("" + 
+                Tools.doubleFormat("0.##", 
                     ((double) pipes.seuil) / pipes.nbsim * 100));
             tots1 += pipes.seuil;
-            line.add("" + //$NON-NLS-1$
-                Tools.doubleFormat("0.##", //$NON-NLS-1$
+            line.add("" + 
+                Tools.doubleFormat("0.##", 
                     ((double) pipes.seuil2) / pipes.nbsim * 100));
             tots2 += pipes.seuil2;
-            line.add("" + pipes.failure); //$NON-NLS-1$
+            line.add("" + pipes.failure); 
             totfail += pipes.failure;
-            line.add("-1"); //$NON-NLS-1$
+            line.add("-1"); 
             v.add(line);
         }
 
         Vector line = new Vector();
-        line.add(Messages.getString("MakeSimulation.Global_average")); //$NON-NLS-1$
-        line.add("-"); //$NON-NLS-1$
-        line.add("-"); //$NON-NLS-1$
-        line.add(Tools.doubleFormat("0.####", totmoy / totsim)); //$NON-NLS-1$
-        line.add("-"); //$NON-NLS-1$
-        line.add("?"); //$NON-NLS-1$
-        line.add("" + //$NON-NLS-1$
-            Tools.doubleFormat("0.##", ((double) tots1) / totsim * 100)); //$NON-NLS-1$
-        line.add("" + //$NON-NLS-1$
-            Tools.doubleFormat("0.##", ((double) tots2) / totsim * 100)); //$NON-NLS-1$
-        line.add("" + totfail); //$NON-NLS-1$
-        line.add("-1"); //$NON-NLS-1$
+        line.add(Messages.getString("MakeSimulation.Global_average")); 
+        line.add("-"); 
+        line.add("-"); 
+        line.add(Tools.doubleFormat("0.####", totmoy / totsim)); 
+        line.add("-"); 
+        line.add("?"); 
+        line.add("" + 
+            Tools.doubleFormat("0.##", ((double) tots1) / totsim * 100)); 
+        line.add("" + 
+            Tools.doubleFormat("0.##", ((double) tots2) / totsim * 100)); 
+        line.add("" + totfail); 
+        line.add("-1"); 
         v.insertElementAt(line, 0);
 
         return v;
@@ -384,9 +384,9 @@ public class MakeSimulation {
             Nodes nodes = (Nodes) dsg.nvector.get(i);
             Vector line = new Vector();
             line.add(nodes.nodes);
-            line.add(Tools.doubleFormat("0.##", nodes.minpress)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.##", nodes.averpress)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.##", nodes.maxpress)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.##", nodes.minpress)); 
+            line.add(Tools.doubleFormat("0.##", nodes.averpress)); 
+            line.add(Tools.doubleFormat("0.##", nodes.maxpress)); 
             v.add(line);
         }
 
@@ -405,18 +405,18 @@ public class MakeSimulation {
             Vector line = new Vector();
             String name = pipes.nodes_end;
 
-            if (name.lastIndexOf("_") > 0) { //$NON-NLS-1$
+            if (name.lastIndexOf("_") > 0) { 
 
-                int n = name.substring(name.lastIndexOf("_") + 1, name.length()) //$NON-NLS-1$
+                int n = name.substring(name.lastIndexOf("_") + 1, name.length()) 
                     .charAt(0) - 'a' + 1;
-                name = name.substring(0, name.lastIndexOf("_") + 1) + n; //$NON-NLS-1$
+                name = name.substring(0, name.lastIndexOf("_") + 1) + n; 
             }
 
-            line.add(pipes.nodes_beg + " -> " + name); //$NON-NLS-1$
-            line.add("" + pipes.nbsim); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.##", pipes.speed)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.##", pipes.speedmax)); //$NON-NLS-1$
-            line.add("-1"); //$NON-NLS-1$
+            line.add(pipes.nodes_beg + " -> " + name); 
+            line.add("" + pipes.nbsim); 
+            line.add(Tools.doubleFormat("0.##", pipes.speed)); 
+            line.add(Tools.doubleFormat("0.##", pipes.speedmax)); 
+            line.add("-1"); 
             v.add(line);
         }
 
@@ -436,28 +436,28 @@ public class MakeSimulation {
             Vector line = new Vector();
             String name = pipes.nodes_end;
 
-            if (name.lastIndexOf("*") > 0) { //$NON-NLS-1$
-                name = name.substring(name.lastIndexOf("*") + 1, name.length()); //$NON-NLS-1$
+            if (name.lastIndexOf("*") > 0) { 
+                name = name.substring(name.lastIndexOf("*") + 1, name.length()); 
             }
 
-            if (name.lastIndexOf("_") > 0) { //$NON-NLS-1$
+            if (name.lastIndexOf("_") > 0) { 
 
-                int n = name.substring(name.lastIndexOf("_") + 1, name.length()) //$NON-NLS-1$
+                int n = name.substring(name.lastIndexOf("_") + 1, name.length()) 
                     .charAt(0) - 'a' + 1;
-                name = name.substring(0, name.lastIndexOf("_") + 1) + n; //$NON-NLS-1$
+                name = name.substring(0, name.lastIndexOf("_") + 1) + n; 
             }
 
             line.add(name);
-            line.add("" + pipes.nbsim); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.min)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.quart10)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.quart25)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.quart50)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.quart75)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.quart90)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.max)); //$NON-NLS-1$
-            line.add("N"); //$NON-NLS-1$
-            line.add("N"); //$NON-NLS-1$
+            line.add("" + pipes.nbsim); 
+            line.add(Tools.doubleFormat("0.####", pipes.min)); 
+            line.add(Tools.doubleFormat("0.####", pipes.quart10)); 
+            line.add(Tools.doubleFormat("0.####", pipes.quart25)); 
+            line.add(Tools.doubleFormat("0.####", pipes.quart50)); 
+            line.add(Tools.doubleFormat("0.####", pipes.quart75)); 
+            line.add(Tools.doubleFormat("0.####", pipes.quart90)); 
+            line.add(Tools.doubleFormat("0.####", pipes.max)); 
+            line.add("N"); 
+            line.add("N"); 
             v.add(line);
         }
 

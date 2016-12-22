@@ -31,7 +31,7 @@ public class TreeNetworkModel extends DefaultTableModel {
     }
 
     public String getColumnName(int i) {
-        return "" + i; //$NON-NLS-1$
+        return "" + i; 
     }
 
     public boolean isCellEditable(int row, int col) {
@@ -49,7 +49,7 @@ public class TreeNetworkModel extends DefaultTableModel {
         if (o != null) {
             return o.toString();
         } else {
-            return ""; //$NON-NLS-1$
+            return ""; 
         }
     }
 

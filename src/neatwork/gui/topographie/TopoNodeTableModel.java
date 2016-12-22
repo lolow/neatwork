@@ -21,7 +21,7 @@ public class TopoNodeTableModel extends FancyTableModel {
         Messages.getString("TopoNodeTableModel._X"),
         Messages.getString("TopoNodeTableModel._Y"),
         Messages.getString("TopoNodeTableModel.__#_of_faucets"),
-        Messages.getString("TopoNodeTableModel._Nature") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+        Messages.getString("TopoNodeTableModel._Nature")   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
     };
     private int[] myWhidthHeader = { 100, 100, 50, 50, 75, 150 };
     private Topographie topo;
@@ -81,7 +81,7 @@ public class TopoNodeTableModel extends FancyTableModel {
 
     protected Vector getNewVector() {
         Vector line = new Vector();
-        line.add(getFirstPossibleName("N")); //$NON-NLS-1$
+        line.add(getFirstPossibleName("N")); 
         line.add(new Double(0));
         line.add(new Double(0));
         line.add(new Double(0));
@@ -97,9 +97,9 @@ public class TopoNodeTableModel extends FancyTableModel {
 
     public void setValueAt(Object value, int row, int col) {
         if (col == 0) {
-            if (value.toString().indexOf("_") > 0) { //$NON-NLS-1$
+            if (value.toString().indexOf("_") > 0) { 
                 value = value.toString().substring(0,
-                        value.toString().indexOf("_")); //$NON-NLS-1$
+                        value.toString().indexOf("_")); 
             }
         }
 

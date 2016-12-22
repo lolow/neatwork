@@ -16,8 +16,8 @@ public class Project extends Observable {
     public final static int TYPE_SIMU = 2;
     public final static int MODIF_CONTENT = 0;
     public final static int MODIF_PROPERTIES = 1;
-    public final static String ERROR = Messages.getString("Project.error"); //$NON-NLS-1$
-    public final static String WARNING = Messages.getString("Project.warning"); //$NON-NLS-1$
+    public final static String ERROR = Messages.getString("Project.error"); 
+    public final static String WARNING = Messages.getString("Project.warning"); 
     private int type;
     private String name;
     private String description;
@@ -29,8 +29,8 @@ public class Project extends Observable {
     public Project(int type, String name) {
         this.type = type;
         this.name = name;
-        description = ""; //$NON-NLS-1$
-        content = ""; //$NON-NLS-1$
+        description = ""; 
+        content = ""; 
     }
 
     //getter
@@ -101,7 +101,7 @@ public class Project extends Observable {
     /** renvoie un nom court*/
     public String getShortName() {
         if (name.length() > 15) {
-            return name.substring(0, 13) + "..."; //$NON-NLS-1$
+            return name.substring(0, 13) + "..."; 
         }
 
         return name;
@@ -109,11 +109,11 @@ public class Project extends Observable {
 
     //erreur modif
     public void freeInfoModif() {
-        infoModif = ""; //$NON-NLS-1$
+        infoModif = ""; 
     }
 
     public void addInfoModif(String newInfoModif) {
-        infoModif += (newInfoModif + "\n"); //$NON-NLS-1$
+        infoModif += (newInfoModif + "\n"); 
     }
 
     public String getInfoModif() {

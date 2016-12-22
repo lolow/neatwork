@@ -81,11 +81,11 @@ public class TreeNetwork extends JTable implements Observer, MouseListener {
 
             Vector line = new Vector();
             line.add("_" + network.getName() +
-                Messages.getString("TreeNetwork._is_not_a_tree")); //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("TreeNetwork._is_not_a_tree"));  
             data.add(line);
 
             Vector header = new Vector();
-            header.add(""); //$NON-NLS-1$
+            header.add(""); 
             setModel(new DefaultTableModel(data, header));
         }
     }
@@ -259,25 +259,25 @@ public class TreeNetwork extends JTable implements Observer, MouseListener {
                 int x = ((Integer) mapX.get(item.getName())).intValue();
 
                 if ((y > 0) && (coord.get(new Point(x - 1, y)) == null)) {
-                    coord.put(new Point(x - 1, y), "_*L"); //$NON-NLS-1$
+                    coord.put(new Point(x - 1, y), "_*L"); 
                     x--;
                     y--;
 
                     Object z = coord.get(new Point(x, y));
 
                     while ((y > 0) && (z == null)) {
-                        coord.put(new Point(x, y), "_*I"); //$NON-NLS-1$
+                        coord.put(new Point(x, y), "_*I"); 
                         y--;
                         z = coord.get(new Point(x, y));
                     }
 
-                    if ((z.toString().equals("_*I")) || //$NON-NLS-1$
-                            (z.toString().equals("_*L"))) { //$NON-NLS-1$
-                        coord.put(new Point(x, y), "_*T"); //$NON-NLS-1$
+                    if ((z.toString().equals("_*I")) || 
+                            (z.toString().equals("_*L"))) { 
+                        coord.put(new Point(x, y), "_*T"); 
                     }
                 } else if ((y > 0) &&
-                        (coord.get(new Point(x - 1, y)).toString().equals("_*I"))) { //$NON-NLS-1$
-                    coord.put(new Point(x - 1, y), "_*T"); //$NON-NLS-1$
+                        (coord.get(new Point(x - 1, y)).toString().equals("_*I"))) { 
+                    coord.put(new Point(x - 1, y), "_*T"); 
                 }
             }
         }
@@ -315,7 +315,7 @@ public class TreeNetwork extends JTable implements Observer, MouseListener {
         int col = columnAtPoint(e.getPoint());
         String node = getModel().getValueAt(row, col).toString();
 
-        if ((node.length() > 0) && (!node.substring(0, 1).equals("_"))) { //$NON-NLS-1$
+        if ((node.length() > 0) && (!node.substring(0, 1).equals("_"))) { 
 
             //remonte � la source
             nodePath.clear();

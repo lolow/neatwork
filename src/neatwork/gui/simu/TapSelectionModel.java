@@ -17,7 +17,7 @@ import java.util.*;
 public class TapSelectionModel extends FancyTableModel {
     private String[] myHeader = {
         " ", Messages.getString("TapSelectionModel.Faucet")
-    }; //$NON-NLS-1$ //$NON-NLS-2$
+    };  
     private int[] myWhidthHeader = { 15, 55 };
     private Design design;
 

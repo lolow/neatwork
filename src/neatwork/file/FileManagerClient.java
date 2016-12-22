@@ -21,11 +21,11 @@ public class FileManagerClient extends AbstractFileManager {
     private URL url;
 
     public FileManagerClient(Properties prop) {
-        this.user = prop.getProperty("appli.user", "guest"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.uri = prop.getProperty("appli.urifile"); //$NON-NLS-1$
+        this.user = prop.getProperty("appli.user", "guest");  
+        this.uri = prop.getProperty("appli.urifile"); 
 
         try {
-            this.url = new URL(prop.getProperty("appli.server")); //$NON-NLS-1$
+            this.url = new URL(prop.getProperty("appli.server")); 
         } catch (MalformedURLException e) {
         }
     }
@@ -36,7 +36,7 @@ public class FileManagerClient extends AbstractFileManager {
 
         //    param.addElement(new Parameter("user", String.class, user, null));
         //    param.addElement(new Parameter("type", String.class, "" + type, null));
-        Vector listFile = (Vector) sendMsg("getListFile", param); //$NON-NLS-1$
+        Vector listFile = (Vector) sendMsg("getListFile", param); 
         String[] s = new String[listFile.size()];
 
         for (int i = 0; i < s.length; i++) {
@@ -53,7 +53,7 @@ public class FileManagerClient extends AbstractFileManager {
         //    param.addElement(new Parameter("user", String.class, user, null));
         //    param.addElement(new Parameter("filename", String.class, fileName, null));
         //    param.addElement(new Parameter("type", Integer.class, new Integer(type), null));
-        return sendMsg("readFile", param).toString(); //$NON-NLS-1$
+        return sendMsg("readFile", param).toString(); 
     }
 
     //write file
@@ -64,7 +64,7 @@ public class FileManagerClient extends AbstractFileManager {
         //    param.addElement(new Parameter("filename", String.class, fileName, null));
         //    param.addElement(new Parameter("content", String.class, content, null));
         //    param.addElement(new Parameter("type", Integer.class, new Integer(type), null));
-        Boolean b = (Boolean) sendMsg("writeFile", param); //$NON-NLS-1$
+        Boolean b = (Boolean) sendMsg("writeFile", param); 
 
         return b.booleanValue();
     }
@@ -76,7 +76,7 @@ public class FileManagerClient extends AbstractFileManager {
         //    param.addElement(new Parameter("user", String.class, user, null));
         //    param.addElement(new Parameter("filename", String.class, fileName, null));
         //    param.addElement(new Parameter("type", Integer.class, new Integer(type), null));
-        Boolean b = (Boolean) sendMsg("deleteFile", param); //$NON-NLS-1$
+        Boolean b = (Boolean) sendMsg("deleteFile", param); 
 
         return b.booleanValue();
     }
@@ -87,7 +87,7 @@ public class FileManagerClient extends AbstractFileManager {
 
         //    param.addElement(new Parameter("user", String.class, user, null));
         //    param.addElement(new Parameter("filename", String.class, fileName, null));
-        return sendMsg("readDbFile", param).toString(); //$NON-NLS-1$
+        return sendMsg("readDbFile", param).toString(); 
     }
 
     //write file
@@ -97,7 +97,7 @@ public class FileManagerClient extends AbstractFileManager {
         //    param.addElement(new Parameter("user", String.class, user, null));
         //    param.addElement(new Parameter("filename", String.class, fileName, null));
         //    param.addElement(new Parameter("content", String.class, content, null));
-        return ((Boolean) sendMsg("writeDbFile", param)).booleanValue(); //$NON-NLS-1$
+        return ((Boolean) sendMsg("writeDbFile", param)).booleanValue(); 
     }
 
     private Object sendMsg(String methode, Vector param) {
@@ -110,11 +110,11 @@ public class FileManagerClient extends AbstractFileManager {
         //    remoteMethod.setParams(param);
         //    try {
         setFileManagerStatus(Messages.getString(
-                "FileManagerClient.Invoking_server")); //$NON-NLS-1$
+                "FileManagerClient.Invoking_server")); 
 
         //      Response reponse = remoteMethod.invoke(url, "");
         setFileManagerStatus(Messages.getString(
-                "FileManagerClient.Analyzing_response")); //$NON-NLS-1$
+                "FileManagerClient.Analyzing_response")); 
 
         return null;
     }

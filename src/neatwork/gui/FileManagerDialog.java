@@ -52,14 +52,14 @@ public class FileManagerDialog extends JDialog implements Observer,
     private JButton jButton1 = new JButton();
     private JButton jButton2 = new JButton();
     private JButton jButtonPath = new JButton(Messages.getString(
-                "FileManagerDialog.Select")); //$NON-NLS-1$
+                "FileManagerDialog.Select")); 
     private JButton jButtonUser = new JButton(Messages.getString(
-                "FileManagerDialog.User0")); //$NON-NLS-1$
+                "FileManagerDialog.User0")); 
     private JLabel jLabel1 = new JLabel(Messages.getString(
-                "FileManagerDialog.Filename")); //$NON-NLS-1$
+                "FileManagerDialog.Filename")); 
     private JLabel jLabel = new JLabel();
     private JLabel jLabelPath = new JLabel();
-    private JLabel jLabelStatus = new JLabel(" "); //$NON-NLS-1$
+    private JLabel jLabelStatus = new JLabel(" "); 
     private JList jList = new JList();
     private JTextField jTextField = new JTextField();
 
@@ -79,9 +79,9 @@ public class FileManagerDialog extends JDialog implements Observer,
         JPanel paneltop = new JPanel(new BorderLayout());
         paneltop.add(jLabel, BorderLayout.SOUTH);
 
-        if (properties.getProperty("file.distant").equals("false")) { //$NON-NLS-1$ //$NON-NLS-2$
+        if (properties.getProperty("file.distant").equals("false")) {  
             paneltop.add(new JLabel(Messages.getString(
-                        "FileManagerDialog.Project_Path")), BorderLayout.WEST); //$NON-NLS-1$
+                        "FileManagerDialog.Project_Path")), BorderLayout.WEST); 
             jLabelPath.setText(((FileManagerDisk) fileManager).getProjectPath());
             jLabelPath.setAutoscrolls(true);
             jLabelPath.setForeground(Color.black);
@@ -90,9 +90,9 @@ public class FileManagerDialog extends JDialog implements Observer,
             jButtonPath.addActionListener(this);
         } else {
             paneltop.add(new JLabel(Messages.getString("FileManagerDialog.User")),
-                BorderLayout.WEST); //$NON-NLS-1$
+                BorderLayout.WEST); 
 
-            JLabel lbl = new JLabel(properties.getProperty("appli.user")); //$NON-NLS-1$
+            JLabel lbl = new JLabel(properties.getProperty("appli.user")); 
             lbl.setForeground(Color.black);
             paneltop.add(lbl, BorderLayout.CENTER);
             paneltop.add(jButtonUser, BorderLayout.EAST);
@@ -138,16 +138,16 @@ public class FileManagerDialog extends JDialog implements Observer,
         listSelectionModel.addListSelectionListener(this);
         jList.setSelectionModel(listSelectionModel);
         jTextField.getDocument().addDocumentListener(this);
-        jTextField.setActionCommand("ENTER"); //$NON-NLS-1$
+        jTextField.setActionCommand("ENTER"); 
         jTextField.addActionListener(this);
 
         //definition des actions
         openFile = new NeatworkAction(Messages.getString(
                     "FileManagerDialog.Open"), null,
-                Messages.getString("FileManagerDialog.Open_the_selected_file"), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("FileManagerDialog.Open_the_selected_file"),  
                 'O') {
                     public void actionPerformed(ActionEvent e) {
-                        if (!jTextField.getText().equals("")) { //$NON-NLS-1$
+                        if (!jTextField.getText().equals("")) { 
                             setContent(getFileManager().readFile(getFileName(),
                                     typeFile));
                             setCancelled(false);
@@ -159,9 +159,9 @@ public class FileManagerDialog extends JDialog implements Observer,
         newFile = new NeatworkAction(Messages.getString("FileManagerDialog.New"),
                 null,
                 Messages.getString("FileManagerDialog.Create_a_new_topography"),
-                'N') { //$NON-NLS-1$ //$NON-NLS-2$
+                'N') {  
                     public void actionPerformed(ActionEvent e) {
-                        if (!jTextField.getText().equals("")) { //$NON-NLS-1$
+                        if (!jTextField.getText().equals("")) { 
 
                             boolean ok = true;
 
@@ -169,15 +169,15 @@ public class FileManagerDialog extends JDialog implements Observer,
                                 Object[] options = {
                                     Messages.getString("FileManagerDialog.Yes"),
                                     Messages.getString("FileManagerDialog.No")
-                                }; //$NON-NLS-1$ //$NON-NLS-2$
+                                };  
 
                                 if (JOptionPane.showOptionDialog(null,
                                             Messages.getString(
-                                                "FileManagerDialog.This_file_already_exists._It_will_be_overwritten_if_you_click_on_Yes.") + //$NON-NLS-1$
+                                                "FileManagerDialog.This_file_already_exists._It_will_be_overwritten_if_you_click_on_Yes.") + 
                                             Messages.getString(
-                                                "FileManagerDialog.Click_no_to_abort."), //$NON-NLS-1$
+                                                "FileManagerDialog.Click_no_to_abort."), 
                                             Messages.getString(
-                                                "FileManagerDialog.Existing_File..."), //$NON-NLS-1$
+                                                "FileManagerDialog.Existing_File..."), 
                                             JOptionPane.YES_NO_OPTION,
                                             JOptionPane.WARNING_MESSAGE, null,
                                             options, options[0]) == JOptionPane.NO_OPTION) {
@@ -186,7 +186,7 @@ public class FileManagerDialog extends JDialog implements Observer,
                             }
 
                             if (ok) {
-                                setContent(""); //$NON-NLS-1$
+                                setContent(""); 
                                 setCancelled(false);
                                 setVisible(false);
                             }
@@ -196,24 +196,24 @@ public class FileManagerDialog extends JDialog implements Observer,
 
         saveFile = new NeatworkAction(Messages.getString(
                     "FileManagerDialog.Save"), null,
-                Messages.getString("FileManagerDialog.Save_your_file"), 'O') { //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("FileManagerDialog.Save_your_file"), 'O') {  
                     public void actionPerformed(ActionEvent e) {
-                        if (!jTextField.getText().equals("")) { //$NON-NLS-1$
+                        if (!jTextField.getText().equals("")) { 
 
                             Object[] options = {
                                 Messages.getString("FileManagerDialog.Yes"),
                                 Messages.getString("FileManagerDialog.No")
-                            }; //$NON-NLS-1$ //$NON-NLS-2$
+                            };  
 
                             if ((!isInList(jTextField.getText())) ||
                                     (JOptionPane.showOptionDialog(null,
                                         Messages.getString(
                                             "FileManagerDialog.The_file") +
-                                        jTextField.getText() + //$NON-NLS-1$
+                                        jTextField.getText() + 
                                         Messages.getString(
-                                            "FileManagerDialog._exists._Do_you_wish_to_overwrite_it"), //$NON-NLS-1$
+                                            "FileManagerDialog._exists._Do_you_wish_to_overwrite_it"), 
                                         Messages.getString(
-                                            "FileManagerDialog.Overwrite_File"), //$NON-NLS-1$
+                                            "FileManagerDialog.Overwrite_File"), 
                                         JOptionPane.YES_NO_OPTION,
                                         JOptionPane.WARNING_MESSAGE, null,
                                         options, options[1]) == JOptionPane.YES_OPTION)) {
@@ -231,11 +231,11 @@ public class FileManagerDialog extends JDialog implements Observer,
                 };
 
         deleteFile = new NeatworkAction(Messages.getString(
-                    "FileManagerDialog.Delete"), null, //$NON-NLS-1$
+                    "FileManagerDialog.Delete"), null, 
                 Messages.getString("FileManagerDialog.Delete_the_selected_file"),
-                'O') { //$NON-NLS-1$
+                'O') { 
                     public void actionPerformed(ActionEvent e) {
-                        if (!jTextField.getText().equals("")) { //$NON-NLS-1$
+                        if (!jTextField.getText().equals("")) { 
                             getFileManager().deleteFile(jList.getSelectedValue()
                                                              .toString(),
                                 typeFile);
@@ -245,7 +245,7 @@ public class FileManagerDialog extends JDialog implements Observer,
                 };
 
         cancel = new NeatworkAction(Messages.getString(
-                    "FileManagerDialog.Cancel"), null, null, 'C') { //$NON-NLS-1$
+                    "FileManagerDialog.Cancel"), null, null, 'C') { 
                     public void actionPerformed(ActionEvent e) {
                         setCancelled(true);
                         setVisible(false);
@@ -265,7 +265,7 @@ public class FileManagerDialog extends JDialog implements Observer,
     public void show(int typeDialog, int typeFile) {
         this.typeDialog = typeDialog;
         this.typeFile = typeFile;
-        jLabelStatus.setText(" "); //$NON-NLS-1$
+        jLabelStatus.setText(" "); 
         setCancelled(true);
         setTitle();
         setComponents();
@@ -279,22 +279,22 @@ public class FileManagerDialog extends JDialog implements Observer,
     private void setTitle() {
         switch (typeDialog) {
         case TYPEDIALOG_OPEN:
-            setTitle(Messages.getString("FileManagerDialog.Open_a")); //$NON-NLS-1$
+            setTitle(Messages.getString("FileManagerDialog.Open_a")); 
 
             break;
 
         case TYPEDIALOG_NEW:
-            setTitle(Messages.getString("FileManagerDialog.New0")); //$NON-NLS-1$
+            setTitle(Messages.getString("FileManagerDialog.New0")); 
 
             break;
 
         case TYPEDIALOG_SAVE:
-            setTitle(Messages.getString("FileManagerDialog.Save_a")); //$NON-NLS-1$
+            setTitle(Messages.getString("FileManagerDialog.Save_a")); 
 
             break;
 
         case TYPEDIALOG_DELETE:
-            setTitle(Messages.getString("FileManagerDialog.Delete_a")); //$NON-NLS-1$
+            setTitle(Messages.getString("FileManagerDialog.Delete_a")); 
 
             break;
         }
@@ -302,13 +302,13 @@ public class FileManagerDialog extends JDialog implements Observer,
         switch (typeFile) {
         case Project.TYPE_DESIGN:
             setTitle(getTitle() +
-                Messages.getString("FileManagerDialog._design")); //$NON-NLS-1$
+                Messages.getString("FileManagerDialog._design")); 
 
             break;
 
         case Project.TYPE_TOPO:
             setTitle(getTitle() +
-                Messages.getString("FileManagerDialog._topography")); //$NON-NLS-1$
+                Messages.getString("FileManagerDialog._topography")); 
 
             break;
         }
@@ -338,7 +338,7 @@ public class FileManagerDialog extends JDialog implements Observer,
             jButton1.setAction(deleteFile);
             jButton2.setAction(cancel);
             cancel.putValue(Action.NAME,
-                Messages.getString("FileManagerDialog.Close")); //$NON-NLS-1$
+                Messages.getString("FileManagerDialog.Close")); 
 
             break;
         }
@@ -346,13 +346,13 @@ public class FileManagerDialog extends JDialog implements Observer,
         switch (typeFile) {
         case Project.TYPE_DESIGN:
             jLabel.setText(Messages.getString(
-                    "FileManagerDialog.List_of_your_designs")); //$NON-NLS-1$
+                    "FileManagerDialog.List_of_your_designs")); 
 
             break;
 
         case Project.TYPE_TOPO:
             jLabel.setText(Messages.getString(
-                    "FileManagerDialog.List_of_your_topographies")); //$NON-NLS-1$
+                    "FileManagerDialog.List_of_your_topographies")); 
 
             break;
         }
@@ -394,8 +394,8 @@ public class FileManagerDialog extends JDialog implements Observer,
     }
 
     public void update(Observable observable, Object object) {
-        if (fileManager.getFileManagerStatus().equals("")) { //$NON-NLS-1$
-            jLabelStatus.setText(" "); //$NON-NLS-1$
+        if (fileManager.getFileManagerStatus().equals("")) { 
+            jLabelStatus.setText(" "); 
         } else {
             jLabelStatus.setText(fileManager.getFileManagerStatus());
         }
@@ -439,7 +439,7 @@ public class FileManagerDialog extends JDialog implements Observer,
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("ENTER")) { //$NON-NLS-1$
+        if (e.getActionCommand().equals("ENTER")) { 
             jButton1.doClick();
         }
 
@@ -447,13 +447,13 @@ public class FileManagerDialog extends JDialog implements Observer,
             //browse
             JFileChooser fc = new JFileChooser(jLabelPath.getText());
             fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            fc.showDialog(this, Messages.getString("FileManagerDialog.Select")); //$NON-NLS-1$
+            fc.showDialog(this, Messages.getString("FileManagerDialog.Select")); 
 
             File fich = fc.getSelectedFile();
 
             if ((fich != null) && (fich.exists())) {
                 ((FileManagerDisk) fileManager).setProjectPath(fich.getAbsolutePath());
-                jLabelStatus.setText(""); //$NON-NLS-1$
+                jLabelStatus.setText(""); 
                 setList();
                 setComponents();
             }

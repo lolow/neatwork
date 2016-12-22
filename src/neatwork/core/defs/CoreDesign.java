@@ -28,7 +28,7 @@ public class CoreDesign {
      */
     public CoreDesign(Vector data, DiametersVector dvector,
         OrificesVector ovector) {
-        String prefixgrouptaps = " "; //$NON-NLS-1$
+        String prefixgrouptaps = " "; 
         int indexgrouptaps = 1;
 
         this.dvector = dvector;
@@ -141,7 +141,7 @@ public class CoreDesign {
                 Nodes nodes;
 
                 // On introduit un index de groupe de robinet si necessaire */
-                StringTokenizer T = new StringTokenizer(pipes.nodes_end, "_"); //$NON-NLS-1$
+                StringTokenizer T = new StringTokenizer(pipes.nodes_end, "_"); 
                 String prefix;
 
                 if (T.countTokens() > 1) {
@@ -207,11 +207,11 @@ public class CoreDesign {
             if (diam.summary > 0.1) {
                 Vector line = new Vector();
                 line.add(diam.nominal);
-                line.add(Tools.doubleFormat("0.##", diam.SDR)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.####", diam.diam)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.#", diam.summary)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.#", diam.cost)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.#", diam.cost * diam.summary)); //$NON-NLS-1$
+                line.add(Tools.doubleFormat("0.##", diam.SDR)); 
+                line.add(Tools.doubleFormat("0.####", diam.diam)); 
+                line.add(Tools.doubleFormat("0.#", diam.summary)); 
+                line.add(Tools.doubleFormat("0.#", diam.cost)); 
+                line.add(Tools.doubleFormat("0.#", diam.cost * diam.summary)); 
                 v.add(line);
             }
         }
@@ -222,12 +222,12 @@ public class CoreDesign {
     /** renvoie les enonces du resume des besoins en tuyaux */
     public static Vector getSummaryHeader() {
         Vector v = new Vector();
-        v.add(Messages.getString("CoreDesign.Nominal")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.SDR")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Diameter")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Total_length")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Unit_Cost")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Total_cost")); //$NON-NLS-1$
+        v.add(Messages.getString("CoreDesign.Nominal")); 
+        v.add(Messages.getString("CoreDesign.SDR")); 
+        v.add(Messages.getString("CoreDesign.Diameter")); 
+        v.add(Messages.getString("CoreDesign.Total_length")); 
+        v.add(Messages.getString("CoreDesign.Unit_Cost")); 
+        v.add(Messages.getString("CoreDesign.Total_cost")); 
 
         return v;
     }
@@ -259,7 +259,7 @@ public class CoreDesign {
         source.add(((Nodes) nvector.get(0)).nodes);
 
         for (int i = 0; i < 9; i++)
-            source.add("0"); //$NON-NLS-1$
+            source.add("0"); 
 
         v.add(source);
 
@@ -275,17 +275,17 @@ public class CoreDesign {
             line.add(String.valueOf(nodes.taps));
             line.add(String.valueOf(Math.round(pipes.l1)));
             line.add(String.valueOf(Math.round(pipes.l2)));
-            line.add(Tools.doubleFormat("0.####", pipes.d1)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.####", pipes.d2)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.####", pipes.d1)); 
+            line.add(Tools.doubleFormat("0.####", pipes.d2)); 
 
             if (tvector.isTaps(nodes.nodes)) {
                 Taps taps = (Taps) tvector.get(i - pvector.size() +
                         tvector.size());
-                line.add(Tools.doubleFormat("0.####", taps.orif_ideal)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.####", taps.orif_com)); //$NON-NLS-1$
+                line.add(Tools.doubleFormat("0.####", taps.orif_ideal)); 
+                line.add(Tools.doubleFormat("0.####", taps.orif_com)); 
             } else {
-                line.add("0"); //$NON-NLS-1$
-                line.add("0"); //$NON-NLS-1$
+                line.add("0"); 
+                line.add("0"); 
             }
 
             v.add(line);
@@ -297,17 +297,17 @@ public class CoreDesign {
     /** renvoie le titre des colonnes*/
     public static Vector getHeader() {
         Vector v = new Vector();
-        v.add(Messages.getString("CoreDesign.Node_ID")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Pred._node")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Height")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.Length")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign._#_of_taps")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.length_pipe1")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.length_pipe2")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.diam_pipe1")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.diam_pipe2")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.ideal_orifice")); //$NON-NLS-1$
-        v.add(Messages.getString("CoreDesign.comercial_orifice")); //$NON-NLS-1$
+        v.add(Messages.getString("CoreDesign.Node_ID")); 
+        v.add(Messages.getString("CoreDesign.Pred._node")); 
+        v.add(Messages.getString("CoreDesign.Height")); 
+        v.add(Messages.getString("CoreDesign.Length")); 
+        v.add(Messages.getString("CoreDesign._#_of_taps")); 
+        v.add(Messages.getString("CoreDesign.length_pipe1")); 
+        v.add(Messages.getString("CoreDesign.length_pipe2")); 
+        v.add(Messages.getString("CoreDesign.diam_pipe1")); 
+        v.add(Messages.getString("CoreDesign.diam_pipe2")); 
+        v.add(Messages.getString("CoreDesign.ideal_orifice")); 
+        v.add(Messages.getString("CoreDesign.comercial_orifice")); 
 
         return v;
     }

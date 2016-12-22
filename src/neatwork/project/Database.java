@@ -23,10 +23,10 @@ public class Database extends Observable {
     public Database(AbstractFileManager fileManager, Properties properties) {
         this.fileManager = fileManager;
         this.properties = properties;
-        setOrificesContent(readData(properties.getProperty("file.orifices", //$NON-NLS-1$
-                    "orifices.db"), "/neatwork/orifices.db")); //$NON-NLS-1$ //$NON-NLS-2$
-        setDiametersContent(readData(properties.getProperty("file.diameters", //$NON-NLS-1$
-                    "diameters.db"), "/neatwork/diameters.db")); //$NON-NLS-1$ //$NON-NLS-2$
+        setOrificesContent(readData(properties.getProperty("file.orifices", 
+                    "orifices.db"), "/neatwork/orifices.db"));  
+        setDiametersContent(readData(properties.getProperty("file.diameters", 
+                    "diameters.db"), "/neatwork/diameters.db"));  
     }
 
     public void setOrificesContent(String content) {
@@ -69,7 +69,7 @@ public class Database extends Observable {
     private String readData(String firstfile, String defaultfile) {
         String content = fileManager.readDbFile(firstfile);
 
-        if (content.equals("")) { //$NON-NLS-1$
+        if (content.equals("")) { 
             content = Tools.readStream(getClass().getResourceAsStream(defaultfile));
         }
 
@@ -77,13 +77,13 @@ public class Database extends Observable {
     }
 
     public void saveOrifices(String content) {
-        fileManager.writeDbFile(properties.getProperty("file.orifices", //$NON-NLS-1$
-                "orifices.db"), content); //$NON-NLS-1$
+        fileManager.writeDbFile(properties.getProperty("file.orifices", 
+                "orifices.db"), content); 
     }
 
     public void saveDiameters(String content) {
-        fileManager.writeDbFile(properties.getProperty("file.diameters", //$NON-NLS-1$
-                "diameters.db"), content); //$NON-NLS-1$
+        fileManager.writeDbFile(properties.getProperty("file.diameters", 
+                "diameters.db"), content); 
     }
 
     public Enumeration getDiameters() {
@@ -182,10 +182,10 @@ public class Database extends Observable {
 
         while (find) {
             cpt++;
-            find = diamList.keySet().contains("D" + cpt); //$NON-NLS-1$
+            find = diamList.keySet().contains("D" + cpt); 
         }
 
-        return "D" + cpt; //$NON-NLS-1$
+        return "D" + cpt; 
     }
 
     /** ajoute l'orifice*/

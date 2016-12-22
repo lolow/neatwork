@@ -34,7 +34,7 @@ public class TreeCellRenderer extends JLabel implements TableCellRenderer {
     private boolean isPath;
 
     public TreeCellRenderer(Network network, Map nodePath) {
-        super(""); //$NON-NLS-1$
+        super(""); 
         this.network = network;
         setBackground(Color.white);
         setForeground(Color.black);
@@ -47,7 +47,7 @@ public class TreeCellRenderer extends JLabel implements TableCellRenderer {
         setText(value.toString());
         type = -1;
 
-        if ((!getText().equals("")) && (!getText().startsWith("_"))) { //$NON-NLS-1$ //$NON-NLS-2$
+        if ((!getText().equals("")) && (!getText().startsWith("_"))) {  
             type = network.getNode(getText()).getType();
         }
 
@@ -69,14 +69,14 @@ public class TreeCellRenderer extends JLabel implements TableCellRenderer {
         g2.setStroke(new BasicStroke(2));
         g2.setColor(Color.black);
 
-        if ((getText().equals("_*I")) || (getText().equals("_*T"))) { //$NON-NLS-1$ //$NON-NLS-2$
+        if ((getText().equals("_*I")) || (getText().equals("_*T"))) {  
 
             Line2D l = new Line2D.Double(getWidth() / 2, 0, getWidth() / 2,
                     getHeight());
             g2.draw(l);
         }
 
-        if ((getText().equals("_*L")) || (getText().equals("_*T"))) { //$NON-NLS-1$ //$NON-NLS-2$
+        if ((getText().equals("_*L")) || (getText().equals("_*T"))) {  
 
             RoundRectangle2D l = new RoundRectangle2D.Double(getWidth() / 2.0,
                     -getHeight() / 2.0, getWidth() * 1.0, getHeight() * 1.0,

@@ -37,6 +37,6 @@ public class Nodes {
     }
 
     public String toString() {
-        return "[" + nodes + ",h=" + height + ",#t=" + pseudoTaps + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        return "[" + nodes + ",h=" + height + ",#t=" + pseudoTaps + "]";   //$NON-NLS-3$ //$NON-NLS-4$
     }
 }

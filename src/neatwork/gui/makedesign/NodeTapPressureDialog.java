@@ -22,7 +22,7 @@ public class NodeTapPressureDialog extends JDialog {
     public NodeTapPressureDialog(Vector data, JFrame frame) {
         super(frame,
             Messages.getString("NodeTapPressureDialog.Nodes_&_Faucets_Pressure"),
-            true); //$NON-NLS-1$
+            true); 
         setSize(500, 300);
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,7 +41,7 @@ public class NodeTapPressureDialog extends JDialog {
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JButton button = new JButton(Messages.getString(
-                    "NodeTapPressureDialog.Close")); //$NON-NLS-1$
+                    "NodeTapPressureDialog.Close")); 
         panel.add(button);
 
         button.addActionListener(new ActionListener() {

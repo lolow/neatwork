@@ -11,7 +11,7 @@ public class Taps {
     public double faucetCoef;
 
     //SIMULATION
-    public String select = "close"; //$NON-NLS-1$
+    public String select = "close"; 
     public double orifice = Orifices.MAXDIAM;
     public double orif_com = Orifices.MAXDIAM;
     public double orif_ideal = Orifices.MAXDIAM;
@@ -24,6 +24,6 @@ public class Taps {
         return Messages.getString("Taps.[_2") + taps +
         Messages.getString("Taps.,oi__3") + orif_ideal +
         Messages.getString("Taps.,oc__4") + orif_com +
-        Messages.getString("Taps.]_5"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        Messages.getString("Taps.]_5");   //$NON-NLS-3$ //$NON-NLS-4$
     }
 }

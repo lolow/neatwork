@@ -30,7 +30,7 @@ public class Simulation extends Project {
 
             //properties
             if ((t.size() == 3)) {
-                prop.setProperty("simu." + t.get(0).toString() + ".value", //$NON-NLS-1$ //$NON-NLS-2$
+                prop.setProperty("simu." + t.get(0).toString() + ".value",  
                     t.get(1).toString());
             }
         }
@@ -39,25 +39,25 @@ public class Simulation extends Project {
     }
 
     public Vector getFlowTaps() {
-        String[] type = { "S", "I", "D", "D", "D", "D", "D", "D", "I" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+        String[] type = { "S", "I", "D", "D", "D", "D", "D", "D", "I" };   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 
         return getLine(10, type);
     }
 
     public Vector getQuartileTaps() {
-        String[] type = { "S", "I", "D", "D", "D", "D", "D", "D", "D" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+        String[] type = { "S", "I", "D", "D", "D", "D", "D", "D", "D" };   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 
         return getLine(11, type);
     }
 
     public Vector getSpeedPipe() {
-        String[] type = { "S", "I", "D", "D" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        String[] type = { "S", "I", "D", "D" };   //$NON-NLS-3$ //$NON-NLS-4$
 
         return getLine(5, type);
     }
 
     public Vector getNodesPressure() {
-        String[] type = { "S", "D", "D", "D" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        String[] type = { "S", "D", "D", "D" };   //$NON-NLS-3$ //$NON-NLS-4$
 
         return getLine(4, type);
     }
@@ -73,15 +73,15 @@ public class Simulation extends Project {
 
                 for (int i = 0; i < type.length; i++) {
                     try {
-                        if (type[i].equals("I")) { //$NON-NLS-1$
+                        if (type[i].equals("I")) { 
                             temp.add(new Integer(t.get(i).toString()));
-                        } else if (type[i].equals("D")) { //$NON-NLS-1$
+                        } else if (type[i].equals("D")) { 
                             temp.add(new Double(t.get(i).toString()));
                         } else {
                             temp.add(t.get(i).toString());
                         }
                     } catch (Exception ex) {
-                        temp.add(""); //$NON-NLS-1$
+                        temp.add(""); 
                     }
                 }
 

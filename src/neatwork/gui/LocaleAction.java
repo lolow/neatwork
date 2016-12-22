@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * @author lolow
  *
- * Cette classe définit une action pour changer la locale de l'application
+ * Cette classe dï¿½finit une action pour changer la locale de l'application
  */
 public class LocaleAction extends AbstractAction {
 
@@ -46,7 +46,7 @@ public class LocaleAction extends AbstractAction {
 		//Messages.setLocale(new Locale(locale));
 		Properties p = new Properties();
 		
-		File f = new File("neatwork.locale"); //$NON-NLS-1$
+		File f = new File("neatwork.locale"); 
 		//load
 		try {
 			InputStream is = new FileInputStream(f);
@@ -54,15 +54,15 @@ public class LocaleAction extends AbstractAction {
 			is.close();
 		} catch (IOException e) {
 		}
-		p.setProperty("appli.locale",locale); //$NON-NLS-1$
+		p.setProperty("appli.locale",locale); 
 		//save
 		try {
 			OutputStream os = new FileOutputStream(f);
-			p.store(os,"#Do not touch this file"); //$NON-NLS-1$
+			p.store(os,"#Do not touch this file"); 
 		} catch (IOException e) {
 		}		
 		//Message
-		JOptionPane.showMessageDialog(frame,Messages.getString("LocaleAction.MessageRestart"));		 //$NON-NLS-1$
+		JOptionPane.showMessageDialog(frame,Messages.getString("LocaleAction.MessageRestart"));		 
 	}
 
 }

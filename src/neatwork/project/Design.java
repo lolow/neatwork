@@ -54,8 +54,8 @@ public class Design extends Network {
 
             //properties
             if ((t.size() == 2)) {
-                properties.setProperty("topo." + t.get(0).toString() + //$NON-NLS-1$
-                    ".value", t.get(1).toString()); //$NON-NLS-1$
+                properties.setProperty("topo." + t.get(0).toString() + 
+                    ".value", t.get(1).toString()); 
             }
 
             //loadfactor
@@ -100,7 +100,7 @@ public class Design extends Network {
 
     /** renvoie le string qui contient la topographie*/
     public String getContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les noeuds (7 champs)
         content += getNodesContent();
@@ -121,73 +121,73 @@ public class Design extends Network {
     }
 
     public String getNodesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les noeuds (7 champs)
-        content += "!Nodes\n"; //$NON-NLS-1$
+        content += "!Nodes\n"; 
 
         //content += "!Name-Heigth-X-Y-orifideal-orifcomercial-Type\n";
         Iterator iter = getNodeIterator();
 
         while (iter.hasNext())
-            content += (getNodeCSV((Node) iter.next()) + "\n"); //$NON-NLS-1$
+            content += (getNodeCSV((Node) iter.next()) + "\n"); 
 
         return content;
     }
 
     /** renvoie le csv d'un node pour un design*/
     private String getNodeCSV(Node node) {
-        return node.getName() + "," + node.getHeight() + "," + //$NON-NLS-1$ //$NON-NLS-2$
-        node.getCoordX() + "," + node.getCoordY() + "," + node.getOrifice() + //$NON-NLS-1$ //$NON-NLS-2$
-        "," + node.getComercialOrifice() + "," + node.getType(); //$NON-NLS-1$ //$NON-NLS-2$
+        return node.getName() + "," + node.getHeight() + "," +  
+        node.getCoordX() + "," + node.getCoordY() + "," + node.getOrifice() +  
+        "," + node.getComercialOrifice() + "," + node.getType();  
     }
 
     public String getPipesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les pipes ( 8 champs)
-        content += "!Pipes\n"; //$NON-NLS-1$
+        content += "!Pipes\n"; 
 
         //content += "!Beg-End-Length\n";
         Iterator iter = getPipeIterator();
 
         while (iter.hasNext())
-            content += (getPipeCSV((Pipe) iter.next()) + "\n"); //$NON-NLS-1$
+            content += (getPipeCSV((Pipe) iter.next()) + "\n"); 
 
         return content;
     }
 
     /** renvoie le csv d'un pipe pour un topo*/
     private String getPipeCSV(Pipe pipe) {
-        return pipe.getBegin() + "," + pipe.getEnd() + "," + pipe.getLength() + //$NON-NLS-1$ //$NON-NLS-2$
-        "," + pipe.getLength1() + "," + pipe.getRefDiam1() + "," + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        pipe.getLength2() + "," + pipe.getRefDiam2() + "," + "N"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return pipe.getBegin() + "," + pipe.getEnd() + "," + pipe.getLength() +  
+        "," + pipe.getLength1() + "," + pipe.getRefDiam1() + "," +   //$NON-NLS-3$
+        pipe.getLength2() + "," + pipe.getRefDiam2() + "," + "N";   //$NON-NLS-3$
     }
 
     public String getDiametersContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les diametres ( 9 champs)
-        content += "!Diameters\n"; //$NON-NLS-1$
+        content += "!Diameters\n"; 
 
         Iterator iter = diamTable.keySet().iterator();
 
         while (iter.hasNext())
-            content += (getDiameterCSV(iter.next().toString()) + "\n"); //$NON-NLS-1$
+            content += (getDiameterCSV(iter.next().toString()) + "\n"); 
 
         return content;
     }
 
     public String getOrificesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les orifices ( 6 champs)
-        content += "!Orifices\n"; //$NON-NLS-1$
+        content += "!Orifices\n"; 
 
         Iterator iter = orifice.iterator();
 
         while (iter.hasNext())
-            content += (iter.next().toString() + ",N,N,N,N,N\n"); //$NON-NLS-1$
+            content += (iter.next().toString() + ",N,N,N,N,N\n"); 
 
         return content;
     }
@@ -209,16 +209,16 @@ public class Design extends Network {
     private String getDiameterCSV(String ref) {
         Diameter diam = (Diameter) diamTable.get(ref);
 
-        return ref + "," + diam.getNominal() + "," + diam.getSdr() + "," + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        diam.getDiameter() + "," + diam.getCost() + "," + diam.getMaxLength() + //$NON-NLS-1$ //$NON-NLS-2$
-        "," + diam.getType() + "," + diam.getRoughness() + "," + "N"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        return ref + "," + diam.getNominal() + "," + diam.getSdr() + "," +   //$NON-NLS-3$
+        diam.getDiameter() + "," + diam.getCost() + "," + diam.getMaxLength() +  
+        "," + diam.getType() + "," + diam.getRoughness() + "," + "N";   //$NON-NLS-3$ //$NON-NLS-4$
     }
 
     public String getPropertiesContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajoute les properties ( 2 champs)
-        content += "!Default properties\n"; //$NON-NLS-1$
+        content += "!Default properties\n"; 
 
         //content += "!Name-Value\n";
         Enumeration iter = getProperties().propertyNames();
@@ -226,19 +226,19 @@ public class Design extends Network {
         while (iter.hasMoreElements()) {
             String name = iter.nextElement().toString();
 
-            if (name.startsWith("topo.") && name.endsWith(".value")) { //$NON-NLS-1$ //$NON-NLS-2$
-                content += (name.substring(5, name.length() - 6) + "," + //$NON-NLS-1$
-                getProperties().getProperty(name) + "\n"); //$NON-NLS-1$
+            if (name.startsWith("topo.") && name.endsWith(".value")) {  
+                content += (name.substring(5, name.length() - 6) + "," + 
+                getProperties().getProperty(name) + "\n"); 
             }
         }
 
         //ajoute les loadfactors ( 3 champs )
-        content += "!loadfactor\n"; //$NON-NLS-1$
+        content += "!loadfactor\n"; 
         iter = loadFactor.keys();
 
         while (iter.hasMoreElements()) {
             String name = iter.nextElement().toString();
-            content += (name + "," + loadFactor.get(name).toString() + ",0\n"); //$NON-NLS-1$ //$NON-NLS-2$
+            content += (name + "," + loadFactor.get(name).toString() + ",0\n");  
         }
 
         return content;
@@ -459,20 +459,20 @@ public class Design extends Network {
                 h.put(p.getRefDiam2(), new Double(0));
             }
 
-            if (!p.getRefDiam1().equals("0")) { //$NON-NLS-1$
+            if (!p.getRefDiam1().equals("0")) { 
                 h.put(p.getRefDiam1(),
                     new Double(((Double) h.get(p.getRefDiam1())).doubleValue() +
                         p.getLength1()));
             }
 
-            if (!p.getRefDiam2().equals("0")) { //$NON-NLS-1$
+            if (!p.getRefDiam2().equals("0")) { 
                 h.put(p.getRefDiam2(),
                     new Double(((Double) h.get(p.getRefDiam2())).doubleValue() +
                         p.getLength2()));
             }
         }
 
-        h.remove("0"); //$NON-NLS-1$
+        h.remove("0"); 
 
         return h;
     }
@@ -494,7 +494,7 @@ public class Design extends Network {
         pipe0.add(source);
 
         for (int i = 0; i < 9; i++)
-            pipe0.add("0"); //$NON-NLS-1$
+            pipe0.add("0"); 
 
         data.add(pipe0);
 
@@ -505,24 +505,24 @@ public class Design extends Network {
             Vector line = new Vector();
             line.add(pipe.getEnd()); //end ID
             line.add(pipe.getBegin()); //pred ID
-            line.add("" + (node.getHeight() - hsource)); //height //$NON-NLS-1$
-            line.add("" + pipe.getLength()); //length //$NON-NLS-1$
-            line.add((node.getType() == Node.TYPE_FAUCET) ? "1" : "0"); //#taps //$NON-NLS-1$ //$NON-NLS-2$
-            line.add("" + pipe.getLength1()); //$NON-NLS-1$
-            line.add("" + pipe.getLength2()); //$NON-NLS-1$
+            line.add("" + (node.getHeight() - hsource)); //height 
+            line.add("" + pipe.getLength()); //length 
+            line.add((node.getType() == Node.TYPE_FAUCET) ? "1" : "0"); //#taps  
+            line.add("" + pipe.getLength1()); 
+            line.add("" + pipe.getLength2()); 
 
             Diameter diam = (Diameter) diamTable.get(pipe.getRefDiam1());
-            line.add("" + diam.getDiameter()); //$NON-NLS-1$
+            line.add("" + diam.getDiameter()); 
 
             if (pipe.getLength2() > 0) {
                 diam = (Diameter) diamTable.get(pipe.getRefDiam2());
-                line.add("" + diam.getDiameter()); //$NON-NLS-1$
+                line.add("" + diam.getDiameter()); 
             } else {
-                line.add("0"); //$NON-NLS-1$
+                line.add("0"); 
             }
 
-            line.add("" + node.getOrifice()); //$NON-NLS-1$
-            line.add("" + node.getComercialOrifice()); //$NON-NLS-1$
+            line.add("" + node.getOrifice()); 
+            line.add("" + node.getComercialOrifice()); 
             data.add(line);
         }
 
@@ -540,7 +540,7 @@ public class Design extends Network {
         TreeSet data = new TreeSet();
 
         for (Iterator i = nodeList.iterator(); i.hasNext();) {
-            data.add("" + ((Node) i.next()).getComercialOrifice()); //$NON-NLS-1$
+            data.add("" + ((Node) i.next()).getComercialOrifice()); 
         }
 
         Vector data0 = new Vector();
@@ -564,12 +564,12 @@ public class Design extends Network {
             Diameter diam = (Diameter) e.nextElement();
             Vector line = new Vector();
             line.add(diam.getNominal());
-            line.add("" + diam.getSdr()); //$NON-NLS-1$
-            line.add("" + diam.getDiameter()); //$NON-NLS-1$
-            line.add("" + diam.getCost()); //$NON-NLS-1$
-            line.add("" + diam.getMaxLength()); //$NON-NLS-1$
-            line.add("" + diam.getType()); //$NON-NLS-1$
-            line.add("" + diam.getRoughness()); //$NON-NLS-1$
+            line.add("" + diam.getSdr()); 
+            line.add("" + diam.getDiameter()); 
+            line.add("" + diam.getCost()); 
+            line.add("" + diam.getMaxLength()); 
+            line.add("" + diam.getType()); 
+            line.add("" + diam.getRoughness()); 
             data.add(line);
         }
 
@@ -582,7 +582,7 @@ public class Design extends Network {
      * extrait le content de la topography correspondant au design
      */
     public String extractTopoContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
         Hashtable nbfaucet = new Hashtable();
 
         //nodes
@@ -599,8 +599,8 @@ public class Design extends Network {
 
             String name = item.getName();
 
-            if (name.indexOf("_") > 0) { //$NON-NLS-1$
-                name = name.substring(0, name.indexOf("_")); //$NON-NLS-1$
+            if (name.indexOf("_") > 0) { 
+                name = name.substring(0, name.indexOf("_")); 
 
                 int nb = 1;
 
@@ -618,13 +618,13 @@ public class Design extends Network {
         while (iter.hasNext()) {
             Node item = (Node) iter.next();
 
-            if (item.getName().indexOf("_") < 0) { //$NON-NLS-1$
+            if (item.getName().indexOf("_") < 0) { 
 
                 if (nbfaucet.get(item.getName()) != null) {
                     item.setNbTaps(((Integer) nbfaucet.get(item.getName())).intValue());
                 }
 
-                content += (Topographie.getNodeCSV(item) + "\n"); //$NON-NLS-1$
+                content += (Topographie.getNodeCSV(item) + "\n"); 
             }
         }
 
@@ -634,23 +634,23 @@ public class Design extends Network {
         while (iter.hasNext()) {
             Pipe item = (Pipe) iter.next();
 
-            if ((item.getBegin().indexOf("_") < 0) && //$NON-NLS-1$
-                    (item.getEnd().indexOf("_") < 0)) { //$NON-NLS-1$
-                content += (Topographie.getPipeCSV(item) + "\n"); //$NON-NLS-1$
+            if ((item.getBegin().indexOf("_") < 0) && 
+                    (item.getEnd().indexOf("_") < 0)) { 
+                content += (Topographie.getPipeCSV(item) + "\n"); 
             }
         }
 
         //properties
-        content += "!Default properties\n"; //$NON-NLS-1$
+        content += "!Default properties\n"; 
 
         Enumeration e = getProperties().propertyNames();
 
         while (e.hasMoreElements()) {
             String name = e.nextElement().toString();
 
-            if (name.startsWith("topo.") && name.endsWith(".value")) { //$NON-NLS-1$ //$NON-NLS-2$
-                content += (name.substring(5, name.length() - 6) + "," + //$NON-NLS-1$
-                getProperties().getProperty(name) + "\n"); //$NON-NLS-1$
+            if (name.startsWith("topo.") && name.endsWith(".value")) {  
+                content += (name.substring(5, name.length() - 6) + "," + 
+                getProperties().getProperty(name) + "\n"); 
             }
         }
 

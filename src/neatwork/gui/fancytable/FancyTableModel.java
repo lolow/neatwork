@@ -21,7 +21,7 @@ public abstract class FancyTableModel extends AbstractTableModel {
     public FancyTableModel() {
     }
 
-    /** mets a jour les données*/
+    /** mets a jour les donnï¿½es*/
     public abstract void updateData();
 
     public String getColumnName(int i) {
@@ -93,19 +93,19 @@ public abstract class FancyTableModel extends AbstractTableModel {
      * copy le contenu de la table dans un string
      */
     public String getCopy() {
-        String copy = ""; //$NON-NLS-1$
+        String copy = ""; 
 
         for (int i = 0; i < getRowCount(); i++) {
             for (int j = 0; j < getColumnCount(); j++) {
                 copy += ((Vector) data.get(i)).get(j).toString();
 
                 if (j < (getColumnCount() - 1)) {
-                    copy += "\t"; //$NON-NLS-1$
+                    copy += "\t"; 
                 }
             }
 
             if (i < getRowCount()) {
-                copy += "\n"; //$NON-NLS-1$
+                copy += "\n"; 
             }
         }
 
@@ -114,15 +114,15 @@ public abstract class FancyTableModel extends AbstractTableModel {
 
     /**
      * paste le contenu
-     * renvoie true si ca c'est bien passé
+     * renvoie true si ca c'est bien passï¿½
      */
     public boolean setPaste(String clip) {
-        //vérifie le format
-        StringTokenizer st1 = new StringTokenizer(clip, "\n"); //$NON-NLS-1$
+        //vï¿½rifie le format
+        StringTokenizer st1 = new StringTokenizer(clip, "\n"); 
         boolean isOk = true;
 
         while ((st1.hasMoreTokens()) && (isOk)) {
-            StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); //$NON-NLS-1$
+            StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); 
             isOk = st2.countTokens() == getColumnCount();
         }
 
@@ -131,10 +131,10 @@ public abstract class FancyTableModel extends AbstractTableModel {
             data.clear();
 
             Vector nline = getNewVector();
-            st1 = new StringTokenizer(clip, "\n"); //$NON-NLS-1$
+            st1 = new StringTokenizer(clip, "\n"); 
 
             for (int i = 0; st1.hasMoreTokens(); i++) {
-                StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); //$NON-NLS-1$
+                StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); 
                 Vector line = new Vector();
 
                 for (int j = 0; st2.hasMoreTokens(); j++) {

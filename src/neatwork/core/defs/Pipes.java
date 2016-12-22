@@ -52,8 +52,8 @@ public class Pipes {
     public int quarteff100 = 0;
 
     /////LOLOW ADDITION
-    public String refDiam1 = "0"; //$NON-NLS-1$
-    public String refDiam2 = "0"; //$NON-NLS-1$
+    public String refDiam1 = "0"; 
+    public String refDiam2 = "0"; 
 
     ///////////////////
     public Pipes(String n_beg, String n_end, String n_des, double l) {
@@ -65,9 +65,9 @@ public class Pipes {
 
     public String toString() {
         String dir = (nodes_beg.equalsIgnoreCase(nodes_des))
-            ? (nodes_beg + "->" + nodes_end) : (nodes_end + "->" + nodes_beg); //$NON-NLS-1$ //$NON-NLS-2$
+            ? (nodes_beg + "->" + nodes_end) : (nodes_end + "->" + nodes_beg);  
 
-        return "[" + dir + ",l=" + length + ", l1=" + l1 + ", l2=" + l2 + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        ", d1=" + d1 + ", p1=" + p1 + ", beta1=" + beta1 + ", q1=" + q1 + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        return "[" + dir + ",l=" + length + ", l1=" + l1 + ", l2=" + l2 +   //$NON-NLS-3$ //$NON-NLS-4$
+        ", d1=" + d1 + ", p1=" + p1 + ", beta1=" + beta1 + ", q1=" + q1 + "]";   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
     }
 }

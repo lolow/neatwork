@@ -21,8 +21,8 @@ public class DesignNodeModel extends FancyTableModel {
         Messages.getString("DesignNodeModel.X"),
         Messages.getString("DesignNodeModel.Y"),
         Messages.getString("DesignNodeModel.Ideal_Orifice"),
-        Messages.getString("DesignNodeModel.Commercial_Orifice"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-        Messages.getString("DesignNodeModel.Nature") //$NON-NLS-1$
+        Messages.getString("DesignNodeModel.Commercial_Orifice"),   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+        Messages.getString("DesignNodeModel.Nature") 
     };
     private int[] myWhidthHeader = { 100, 100, 50, 50, 120, 120, 100 };
     private Design design;
@@ -86,7 +86,7 @@ public class DesignNodeModel extends FancyTableModel {
 
     protected Vector getNewVector() {
         Vector line = new Vector();
-        line.add(getFirstPossibleName("N")); //$NON-NLS-1$
+        line.add(getFirstPossibleName("N")); 
         line.add(new Double(0));
         line.add(new Double(0));
         line.add(new Double(0));
@@ -117,7 +117,7 @@ public class DesignNodeModel extends FancyTableModel {
 
     public void setValueAt(Object o, int row, int col) {
         if ((col == 4) || (col == 5)) {
-            if (o.toString().indexOf("-") > -1) { //$NON-NLS-1$
+            if (o.toString().indexOf("-") > -1) { 
                 o = new Double(10000);
             }
         }

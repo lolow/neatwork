@@ -26,9 +26,9 @@ public class StopArrowButton extends BasicArrowButton {
         Color c = g.getColor();
 
         if (isEnabled) {
-            g.setColor(UIManager.getColor("controlDkShadow")); //$NON-NLS-1$
+            g.setColor(UIManager.getColor("controlDkShadow")); 
         } else {
-            g.setColor(UIManager.getColor("controlShadow")); //$NON-NLS-1$
+            g.setColor(UIManager.getColor("controlShadow")); 
         }
 
         g.translate(x, y);
@@ -41,7 +41,7 @@ public class StopArrowButton extends BasicArrowButton {
             g.drawLine(-1, mid - h, -1, mid + h);
 
             if (!isEnabled) {
-                g.setColor(UIManager.getColor("controlLtHighlight")); //$NON-NLS-1$
+                g.setColor(UIManager.getColor("controlLtHighlight")); 
                 g.drawLine(0, mid - h + 1, 0, mid - 1);
                 g.drawLine(0, mid + 2, 0, mid + h + 1);
             }
@@ -49,7 +49,7 @@ public class StopArrowButton extends BasicArrowButton {
             g.drawLine(size, mid - h, size, mid + h);
 
             if (!isEnabled) {
-                g.setColor(UIManager.getColor("controlLtHighlight")); //$NON-NLS-1$
+                g.setColor(UIManager.getColor("controlLtHighlight")); 
                 g.drawLine(size + 1, mid - h + 1, size + 1, mid + h + 1);
             }
         }

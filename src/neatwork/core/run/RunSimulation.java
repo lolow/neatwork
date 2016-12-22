@@ -81,7 +81,7 @@ public class RunSimulation {
         NbTaps = tvector.size();
 
         /* selection aleatoire des robinets ouverts */
-        if (operation.equals("random")) { //$NON-NLS-1$
+        if (operation.equals("random")) { 
 
             /* On selection un ensemble de robinets ouverts et on initialise
               le sous vecteur de taps*/
@@ -102,7 +102,7 @@ public class RunSimulation {
         }
 
         /* simulations des robinets un par un */
-        if (operation.equals("tapbytap")) { //$NON-NLS-1$
+        if (operation.equals("tapbytap")) { 
 
             for (int i = 0; i < tvector.size(); i++) {
                 //ligne de progression
@@ -113,7 +113,7 @@ public class RunSimulation {
                 tsubvector = new TapsVector();
 
                 Taps taps = (Taps) tvector.elementAt(i);
-                taps.select = "open"; //$NON-NLS-1$
+                taps.select = "open"; 
                 tsubvector.addTaps(taps);
 
                 DoSubReseau();
@@ -127,14 +127,14 @@ public class RunSimulation {
         }
 
         /* Simulation avec seulement les robinets selectionn�s */
-        if (operation.equals("handmade")) { //$NON-NLS-1$
+        if (operation.equals("handmade")) { 
 
             Taps taps;
 
             for (int i = 0; i < tvector.size(); i++) {
                 taps = (Taps) tvector.elementAt(i);
 
-                if (taps.select.equals("open")) { //$NON-NLS-1$
+                if (taps.select.equals("open")) { 
                     tsubvector.addTaps(taps);
                 }
             }
@@ -160,7 +160,7 @@ public class RunSimulation {
         /* on ferme tous les robinets */
         /* tous les taps sont a close */
         for (i = 0; i < tvector.size(); i++) {
-            ((Taps) tvector.elementAt(i)).select = "close"; //$NON-NLS-1$
+            ((Taps) tvector.elementAt(i)).select = "close"; 
         }
 
         /* On calcule le nombre de robinets a ouvrir */
@@ -181,19 +181,19 @@ public class RunSimulation {
                 taps = (Taps) tvector.elementAt(k);
                 k++;
 
-                if (taps.select.equals("close")) { //$NON-NLS-1$
+                if (taps.select.equals("close")) { 
                     j++;
                 }
             }
 
-            taps.select = "open"; //$NON-NLS-1$
+            taps.select = "open"; 
         }
 
         /* On initialise le sous vecteur de Taps */
         for (i = 0; i < tvector.size(); i++) {
             taps = (Taps) tvector.elementAt(i);
 
-            if (taps.select.equals("open")) { //$NON-NLS-1$
+            if (taps.select.equals("open")) { 
                 tsubvector.addTaps(taps);
             }
         }

@@ -24,11 +24,11 @@ public class SolverClient extends AbstractSolver {
     private URL url;
 
     public SolverClient(Properties prop) {
-        this.user = prop.getProperty("appli.user", "guest"); //$NON-NLS-1$ //$NON-NLS-2$
-        this.uri = prop.getProperty("appli.urisolver"); //$NON-NLS-1$
+        this.user = prop.getProperty("appli.user", "guest");  
+        this.uri = prop.getProperty("appli.urisolver"); 
 
         try {
-            this.url = new URL(prop.getProperty("appli.server")); //$NON-NLS-1$
+            this.url = new URL(prop.getProperty("appli.server")); 
         } catch (MalformedURLException e) {
         }
     }
@@ -42,7 +42,7 @@ public class SolverClient extends AbstractSolver {
 
     public String getDesignContentMakeDesign() {
         String s = new String(designContentMakeDesign);
-        designContentMakeDesign = ""; //$NON-NLS-1$
+        designContentMakeDesign = ""; 
 
         return s;
     }
@@ -57,14 +57,14 @@ public class SolverClient extends AbstractSolver {
         //    param.addElement(new Parameter("diametersSet", String.class, diametersSet, null));
         //    param.addElement(new Parameter("loadFactor", Hashtable.class, loadFactor, null));
         //    param.addElement(new Parameter("constraints", Vector.class, constraints, null));
-        Vector v = (Vector) sendMsg("makeDesign", param); //$NON-NLS-1$
+        Vector v = (Vector) sendMsg("makeDesign", param); 
         nodePressureMakeDesign = (Vector) v.get(0);
         designContentMakeDesign = v.get(1).toString();
     }
 
     public String getSimulationContent() {
         String s = new String(simulationContent);
-        simulationContent = ""; //$NON-NLS-1$
+        simulationContent = ""; 
 
         return s;
     }
@@ -77,7 +77,7 @@ public class SolverClient extends AbstractSolver {
         //    param.addElement(new Parameter("design", String.class, design.getContent(), null));
         //    param.addElement(new Parameter("parameters", Hashtable.class, new Hashtable(parameters), null));
         //    param.addElement(new Parameter("faucetRef", Hashtable.class, faucetRef, null));
-        simulationContent = sendMsg("simulation", param).toString(); //$NON-NLS-1$
+        simulationContent = sendMsg("simulation", param).toString(); 
     }
 
     private Object sendMsg(String methode, Vector param) {

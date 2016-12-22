@@ -29,15 +29,15 @@ public class TopographiePane extends JPanel {
 
         //topotable pane
         jTabbedPane.addTab(Messages.getString("TopographiePane.Tables"),
-            new TopoTablePane(topo)); //$NON-NLS-1$
+            new TopoTablePane(topo)); 
 
         //tree pane
         jTabbedPane.addTab(Messages.getString("TopographiePane.Tree_View"),
-            new TreePane(topo)); //$NON-NLS-1$
+            new TreePane(topo)); 
 
         //text pane
         jTabbedPane.addTab(Messages.getString("TopographiePane.Text"),
-            new TextPane(topo)); //$NON-NLS-1$
+            new TextPane(topo)); 
 
         add(jTabbedPane, BorderLayout.CENTER);
     }

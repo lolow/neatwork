@@ -29,14 +29,14 @@ public class TreePane extends JPanel implements ActionListener {
         //composant de recherche
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.add(new JLabel(Messages.getString("TreePane.Node_Search")),
-            BorderLayout.WEST); //$NON-NLS-1$
+            BorderLayout.WEST); 
         textField = new JTextField();
-        textField.setActionCommand("go"); //$NON-NLS-1$
+        textField.setActionCommand("go"); 
         textField.addActionListener(this);
         panel.add(textField, BorderLayout.CENTER);
 
-        JButton button = new JButton(Messages.getString("TreePane.Go")); //$NON-NLS-1$
-        button.setActionCommand("go"); //$NON-NLS-1$
+        JButton button = new JButton(Messages.getString("TreePane.Go")); 
+        button.setActionCommand("go"); 
         button.addActionListener(this);
         panel.add(button, BorderLayout.EAST);
 
@@ -47,7 +47,7 @@ public class TreePane extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("go")) { //$NON-NLS-1$
+        if (e.getActionCommand().equals("go")) { 
 
             if (textField.getText().length() > 0) {
                 treeNetwork.search(textField.getText());

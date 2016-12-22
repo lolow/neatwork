@@ -23,16 +23,16 @@ public class QuickCheckTableModel extends FancyTableModel {
 
     public QuickCheckTableModel(Topographie topo) {
         this.topo = topo;
-        targetflow = Double.parseDouble(topo.getProperties().getProperty("topo.targetflow.value")); //$NON-NLS-1$
-        alpha = Double.parseDouble(topo.getProperties().getProperty("topo.faucetcoef.value")); //$NON-NLS-1$
+        targetflow = Double.parseDouble(topo.getProperties().getProperty("topo.targetflow.value")); 
+        alpha = Double.parseDouble(topo.getProperties().getProperty("topo.faucetcoef.value")); 
 
         String[] myHeader = {
             Messages.getString("QuickCheckTableModel.Faucet_ID"),
             Messages.getString("QuickCheckTableModel.flow_min_(") + seuil +
-            Messages.getString("QuickCheckTableModel._l/s)"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Messages.getString("QuickCheckTableModel._l/s)"),   //$NON-NLS-3$
             Messages.getString("QuickCheckTableModel.target_flow_(") +
             targetflow +
-            Messages.getString("QuickCheckTableModel._l/s)") //$NON-NLS-1$ //$NON-NLS-2$
+            Messages.getString("QuickCheckTableModel._l/s)")  
         };
         header = myHeader;
         widthHeader = myWhidthHeader;
@@ -40,17 +40,17 @@ public class QuickCheckTableModel extends FancyTableModel {
     }
 
     public void updateData() {
-        seuil = Double.parseDouble(topo.getProperties().getProperty("topo.seuil.value", //$NON-NLS-1$
-                    "0.1")); //$NON-NLS-1$
-        alpha = Double.parseDouble(topo.getProperties().getProperty("topo.faucetcoef.value")); //$NON-NLS-1$
+        seuil = Double.parseDouble(topo.getProperties().getProperty("topo.seuil.value", 
+                    "0.1")); 
+        alpha = Double.parseDouble(topo.getProperties().getProperty("topo.faucetcoef.value")); 
 
         String[] myHeader = {
             Messages.getString("QuickCheckTableModel.Faucet_ID"),
             Messages.getString("QuickCheckTableModel.flow_min_(") + seuil +
-            Messages.getString("QuickCheckTableModel._l/s)"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            Messages.getString("QuickCheckTableModel._l/s)"),   //$NON-NLS-3$
             Messages.getString("QuickCheckTableModel.target_flow_(") +
             targetflow +
-            Messages.getString("QuickCheckTableModel._l/s)") //$NON-NLS-1$ //$NON-NLS-2$
+            Messages.getString("QuickCheckTableModel._l/s)")  
         };
         header = myHeader;
         data = new Vector();
@@ -65,10 +65,10 @@ public class QuickCheckTableModel extends FancyTableModel {
                 line.add(node.getName());
                 line.add((-node.getHeight() > (Math.pow(seuil / 1000, 2) / alpha))
                     ? Messages.getString("QuickCheckTableModel.Ok")
-                    : Messages.getString("QuickCheckTableModel.No")); //$NON-NLS-1$ //$NON-NLS-2$
+                    : Messages.getString("QuickCheckTableModel.No"));  
                 line.add((-node.getHeight() > (Math.pow(targetflow / 1000, 2) / alpha))
                     ? Messages.getString("QuickCheckTableModel.Ok")
-                    : Messages.getString("QuickCheckTableModel.No")); //$NON-NLS-1$ //$NON-NLS-2$
+                    : Messages.getString("QuickCheckTableModel.No"));  
                 data.add(line);
             }
         }

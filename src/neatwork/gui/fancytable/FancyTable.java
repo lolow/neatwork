@@ -13,7 +13,7 @@ import javax.swing.event.*;
 
 
 /**
- * JTable amélioré :
+ * JTable amï¿½liorï¿½ :
  * @author L. DROUET
  * @version 1.0
  */
@@ -27,7 +27,7 @@ public class FancyTable extends JTable {
     private Color colorChanged;
     private Color colorUndo;
     private boolean updateColor;
-    String pathImage = "/neatwork/gui/images/"; //$NON-NLS-1$
+    String pathImage = "/neatwork/gui/images/"; 
 
     public FancyTable(FancyTableModel fancyTableModel) {
         this(fancyTableModel, false);
@@ -50,27 +50,27 @@ public class FancyTable extends JTable {
 
         //define standard actions
         Icon icon = new ImageIcon(getClass().getResource(pathImage +
-                    "NewRow.png")); //$NON-NLS-1$
-        insertRowAction = new AbstractAction("+", icon) { //$NON-NLS-1$
+                    "NewRow.png")); 
+        insertRowAction = new AbstractAction("+", icon) { 
                     public void actionPerformed(ActionEvent e) {
                         addNewRow();
                     }
                 };
         icon = new ImageIcon(getClass().getResource(pathImage +
-                    "DeleteRow.png")); //$NON-NLS-1$
-        deleteRowAction = new AbstractAction("-", icon) { //$NON-NLS-1$
+                    "DeleteRow.png")); 
+        deleteRowAction = new AbstractAction("-", icon) { 
                     public void actionPerformed(ActionEvent e) {
                         deleteRows();
                     }
                 };
-        icon = new ImageIcon(getClass().getResource(pathImage + "Undo.png")); //$NON-NLS-1$
-        updateAction = new AbstractAction("u", icon) { //$NON-NLS-1$
+        icon = new ImageIcon(getClass().getResource(pathImage + "Undo.png")); 
+        updateAction = new AbstractAction("u", icon) { 
                     public void actionPerformed(ActionEvent e) {
                         updateData();
                     }
                 };
-        icon = new ImageIcon(getClass().getResource(pathImage + "Copy.png")); //$NON-NLS-1$
-        copyAction = new AbstractAction("c", icon) { //$NON-NLS-1$
+        icon = new ImageIcon(getClass().getResource(pathImage + "Copy.png")); 
+        copyAction = new AbstractAction("c", icon) { 
                     public void actionPerformed(ActionEvent e) {
                         StringSelection stsel = new StringSelection(FancyTable.this.fancyTableModel.getCopy());
                         Clipboard system = Toolkit.getDefaultToolkit()
@@ -79,9 +79,9 @@ public class FancyTable extends JTable {
                     }
                 };
         copyAction.putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("FancyTable.Copy")); //$NON-NLS-1$
-        icon = new ImageIcon(getClass().getResource(pathImage + "Paste.png")); //$NON-NLS-1$
-        pasteAction = new AbstractAction("v", icon) { //$NON-NLS-1$
+            Messages.getString("FancyTable.Copy")); 
+        icon = new ImageIcon(getClass().getResource(pathImage + "Paste.png")); 
+        pasteAction = new AbstractAction("v", icon) { 
                     public void actionPerformed(ActionEvent e) {
                         Clipboard system = Toolkit.getDefaultToolkit()
                                                   .getSystemClipboard();
@@ -94,10 +94,10 @@ public class FancyTable extends JTable {
                             if (!FancyTable.this.fancyTableModel.setPaste(paste)) {
                                 JOptionPane.showMessageDialog(null,
                                     Messages.getString(
-                                        "FancyTable.Clipboard_is_not_well_formated"), //$NON-NLS-1$
+                                        "FancyTable.Clipboard_is_not_well_formated"), 
                                     Messages.getString(
                                         "FancyTable.Format_error"),
-                                    JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+                                    JOptionPane.ERROR_MESSAGE); 
                             } else {
                                 if (FancyTable.this.updateColor) {
                                     setBackground(colorChanged);
@@ -109,7 +109,7 @@ public class FancyTable extends JTable {
                     }
                 };
         pasteAction.putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("FancyTable.Paste")); //$NON-NLS-1$
+            Messages.getString("FancyTable.Paste")); 
         autoFit();
 
         //ExcelAdapter ea = new ExcelAdapter(this);

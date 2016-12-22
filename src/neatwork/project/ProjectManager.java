@@ -67,7 +67,7 @@ public class ProjectManager extends Observable {
         setIndex(projects.size() - 1);
     }
 
-    /** enlève le projet a la position index */
+    /** enlï¿½ve le projet a la position index */
     public Project removeProject(int index) {
         if ((index > -1) && (index < projects.size())) {
             Project project = (Project) projects.remove(index);
@@ -94,27 +94,27 @@ public class ProjectManager extends Observable {
         return projects.listIterator();
     }
 
-    /** projet deja chargé et renvoie un nouveau project utilisable*/
+    /** projet deja chargï¿½ et renvoie un nouveau project utilisable*/
     public String isAlreadyLoaded(Project project) {
         String oldname = project.getName();
         String name = oldname;
         int cpt = 2;
 
-        //regarde si le nom est indicé
-        int i = oldname.lastIndexOf("("); //$NON-NLS-1$
-        int j = oldname.lastIndexOf(")"); //$NON-NLS-1$
+        //regarde si le nom est indicï¿½
+        int i = oldname.lastIndexOf("("); 
+        int j = oldname.lastIndexOf(")"); 
 
         if (i < j) {
             try {
                 cpt = Integer.parseInt(oldname.substring(i + 1, j));
                 oldname = oldname.substring(0, i - 1);
-                name = oldname + " (" + String.valueOf(cpt++) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+                name = oldname + " (" + String.valueOf(cpt++) + ")";  
             } catch (NumberFormatException e) {
             }
         }
 
         while (isInList(new Project(project.getType(), name)))
-            name = oldname + " (" + String.valueOf(cpt++) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            name = oldname + " (" + String.valueOf(cpt++) + ")";  
 
         return name;
     }

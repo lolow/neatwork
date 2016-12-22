@@ -13,7 +13,7 @@ import javax.swing.*;
 
 
 /**
- * Panel de choix du matériel
+ * Panel de choix du matï¿½riel
  * @author L. DROUET
  * @version 1.0
  */
@@ -42,27 +42,27 @@ public class ChooseMaterialPane extends JPanel {
         //none
         Icon icon = null;
         actions[1] = new AbstractAction(Messages.getString(
-                    "ChooseMaterialPane.None"), icon) { //$NON-NLS-1$
+                    "ChooseMaterialPane.None"), icon) { 
                     public void actionPerformed(ActionEvent e) {
                         diamTableModel.setall(diamTable.getSelectedRows(), false);
                     }
                 };
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("ChooseMaterialPane.Select_none")); //$NON-NLS-1$
+            Messages.getString("ChooseMaterialPane.Select_none")); 
 
         //all
         icon = null;
         actions[0] = new AbstractAction(Messages.getString(
-                    "ChooseMaterialPane.All"), icon) { //$NON-NLS-1$
+                    "ChooseMaterialPane.All"), icon) { 
                     public void actionPerformed(ActionEvent e) {
                         diamTableModel.setall(diamTable.getSelectedRows(), true);
                     }
                 };
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("ChooseMaterialPane.Select_all")); //$NON-NLS-1$
+            Messages.getString("ChooseMaterialPane.Select_all")); 
 
         JPanel diamPanel = new FancyTablePanel(Messages.getString(
-                    "ChooseMaterialPane.Diameters"), actions, //$NON-NLS-1$
+                    "ChooseMaterialPane.Diameters"), actions, 
                 diamTable, false);
 
         splitPane.setTopComponent(diamPanel);
@@ -75,27 +75,27 @@ public class ChooseMaterialPane extends JPanel {
         //none
         icon = null;
         actions[1] = new AbstractAction(Messages.getString(
-                    "ChooseMaterialPane.None"), icon) { //$NON-NLS-1$
+                    "ChooseMaterialPane.None"), icon) { 
                     public void actionPerformed(ActionEvent e) {
                         orifTableModel.setall(orifTable.getSelectedRows(), false);
                     }
                 };
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("ChooseMaterialPane.Select_none")); //$NON-NLS-1$
+            Messages.getString("ChooseMaterialPane.Select_none")); 
 
         //all
         icon = null;
         actions[0] = new AbstractAction(Messages.getString(
-                    "ChooseMaterialPane.All"), icon) { //$NON-NLS-1$
+                    "ChooseMaterialPane.All"), icon) { 
                     public void actionPerformed(ActionEvent e) {
                         orifTableModel.setall(orifTable.getSelectedRows(), true);
                     }
                 };
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("ChooseMaterialPane.Select_all")); //$NON-NLS-1$
+            Messages.getString("ChooseMaterialPane.Select_all")); 
 
         JPanel orifPanel = new FancyTablePanel(Messages.getString(
-                    "ChooseMaterialPane.Orifices"), actions, //$NON-NLS-1$
+                    "ChooseMaterialPane.Orifices"), actions, 
                 orifTable, false);
 
         splitPane.setBottomComponent(orifPanel);

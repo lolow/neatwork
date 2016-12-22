@@ -43,7 +43,7 @@ public class Decoupe {
                 pipes.beta1 = diam.beta;
 
                 /////LOLOW ADDITION////////////////////////////////////////
-                pipes.refDiam1 = "" + j; //$NON-NLS-1$
+                pipes.refDiam1 = "" + j; 
 
                 ///////////////////////////////////////////////////////////
                 j++;
@@ -73,7 +73,7 @@ public class Decoupe {
                 pipes.beta1 = diam.beta;
 
                 /////LOLOW ADDITION////////////////////////////////////////
-                pipes.refDiam1 = "" + j; //$NON-NLS-1$
+                pipes.refDiam1 = "" + j; 
 
                 ///////////////////////////////////////////////////////////
             }

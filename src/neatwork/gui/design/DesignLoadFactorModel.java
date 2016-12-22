@@ -16,7 +16,7 @@ public class DesignLoadFactorModel extends ParametersTableModel {
     private String[] myHeader = {
         Messages.getString("DesignLoadFactorModel.Ending_Node"),
         Messages.getString("DesignLoadFactorModel.Load_Factor")
-    }; //$NON-NLS-1$ //$NON-NLS-2$
+    };  
 
     public DesignLoadFactorModel(Properties propLoadFactor) {
         super(propLoadFactor);

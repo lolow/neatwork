@@ -23,7 +23,7 @@ public class DesignLoadFactorDialog extends JDialog implements ActionListener {
     public DesignLoadFactorDialog(JFrame frame, Design design) {
         super(frame,
             Messages.getString("DesignLoadFactorDialog.Building_Load_Factors"),
-            true); //$NON-NLS-1$
+            true); 
         setSize(400, 400);
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,8 +41,8 @@ public class DesignLoadFactorDialog extends JDialog implements ActionListener {
             String item = e.nextElement().toString();
 
             if (!item.equals(source)) {
-                prop.setProperty("topo." + bip + ".name", item); //$NON-NLS-1$ //$NON-NLS-2$
-                prop.setProperty("topo." + bip + ".value", //$NON-NLS-1$ //$NON-NLS-2$
+                prop.setProperty("topo." + bip + ".name", item);  
+                prop.setProperty("topo." + bip + ".value",  
                     table0.get(item).toString());
                 bip++;
             }
@@ -57,14 +57,14 @@ public class DesignLoadFactorDialog extends JDialog implements ActionListener {
         pane.setLayout(new BorderLayout(5, 5));
 
         pane.add(new FancyTablePanel(Messages.getString(
-                    "DesignLoadFactorDialog.These_are_the_load_factors_used_by") + //$NON-NLS-1$
+                    "DesignLoadFactorDialog.These_are_the_load_factors_used_by") + 
                 Messages.getString(
                     "DesignLoadFactorDialog.the_MAKE_DESIGN_operation_for_building") +
-                Messages.getString("DesignLoadFactorDialog._this_design"), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DesignLoadFactorDialog._this_design"),  
                 null, table, true), BorderLayout.CENTER);
 
         JButton button = new JButton(Messages.getString(
-                    "DesignLoadFactorDialog.Close")); //$NON-NLS-1$
+                    "DesignLoadFactorDialog.Close")); 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel.add(button);
         button.addActionListener(this);

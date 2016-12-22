@@ -17,7 +17,7 @@ import java.util.*;
 public class DBOrificeTableModel extends FancyTableModel {
     private String[] myHeader = {
         Messages.getString("DBOrificeTableModel.Diameter")
-    }; //$NON-NLS-1$
+    }; 
     private int[] myWhidthHeader = { 100 };
     protected Database database;
 

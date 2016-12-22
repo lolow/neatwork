@@ -28,14 +28,14 @@ public class ComboDatabase extends JComboBox {
     }
 
     public String getEnonce(Diameter diam) {
-        return "diam " + diam.getDiameter() + ":sdr " + diam.getSdr() + ":(" + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        Diameter.typeName[diam.getType()] + ")"; //$NON-NLS-1$
+        return "diam " + diam.getDiameter() + ":sdr " + diam.getSdr() + ":(" +   //$NON-NLS-3$
+        Diameter.typeName[diam.getType()] + ")"; 
     }
 
     public Double getSelectedDiameter() {
         String s = getSelectedItem().toString();
 
-        return new Double(s.substring(5, s.indexOf(":"))); //$NON-NLS-1$
+        return new Double(s.substring(5, s.indexOf(":"))); 
     }
 
     private void updateList() {

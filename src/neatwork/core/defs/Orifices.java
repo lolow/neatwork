@@ -13,7 +13,7 @@ public class Orifices implements Comparator {
     }
 
     public String toString() {
-        return "[" + diam + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "[" + diam + "]";  
     }
 
     public int compare(Object o1, Object o2) {

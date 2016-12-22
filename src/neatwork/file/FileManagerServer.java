@@ -12,7 +12,7 @@ import java.util.*;
  * @version 1.0
  */
 public class FileManagerServer {
-    static String defaultUser = "guest"; //$NON-NLS-1$
+    static String defaultUser = "guest"; 
     AbstractFileManager fm;
 
     //liste de fichiers
@@ -25,7 +25,7 @@ public class FileManagerServer {
 
         if (fileList != null) {
             for (int i = 0; i < fileList.length; i++) {
-                if (fileList[i].startsWith(user + "_")) { //$NON-NLS-1$
+                if (fileList[i].startsWith(user + "_")) { 
                     v.add(fileList[i].substring(user.length() + 1));
                 }
             }
@@ -50,10 +50,10 @@ public class FileManagerServer {
     public String readFile(String user, String fileName, int type) {
         fm = getFileManager();
 
-        String data = fm.readFile(user + "_" + fileName, type); //$NON-NLS-1$
+        String data = fm.readFile(user + "_" + fileName, type); 
 
-        if (data.equals("")) { //$NON-NLS-1$
-            data = fm.readFile(defaultUser + "_" + fileName, type); //$NON-NLS-1$
+        if (data.equals("")) { 
+            data = fm.readFile(defaultUser + "_" + fileName, type); 
         }
 
         return data;
@@ -64,35 +64,35 @@ public class FileManagerServer {
         int type) {
         fm = getFileManager();
 
-        return fm.writeFile(user + "_" + fileName, content, type); //$NON-NLS-1$
+        return fm.writeFile(user + "_" + fileName, content, type); 
     }
 
     //delete file
     public boolean deleteFile(String user, String fileName, int type) {
         fm = getFileManager();
 
-        return fm.deleteFile(user + "_" + fileName, type); //$NON-NLS-1$
+        return fm.deleteFile(user + "_" + fileName, type); 
     }
 
     //read databaseFile
     public String readDbFile(String user, String fileName) {
         fm = getFileManager();
 
-        return fm.readDbFile(user + "_" + fileName); //$NON-NLS-1$
+        return fm.readDbFile(user + "_" + fileName); 
     }
 
     //write file
     public boolean writeDbFile(String user, String fileName, String content) {
         fm = getFileManager();
 
-        return fm.writeDbFile(user + "_" + fileName, content); //$NON-NLS-1$
+        return fm.writeDbFile(user + "_" + fileName, content); 
     }
 
     private AbstractFileManager getFileManager() {
         Properties p = new Properties();
 
         try {
-            p.load(getClass().getResourceAsStream("/neatwork/default.properties")); //$NON-NLS-1$
+            p.load(getClass().getResourceAsStream("/neatwork/default.properties")); 
         } catch (IOException e) {
             e.printStackTrace();
         }

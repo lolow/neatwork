@@ -19,18 +19,18 @@ import javax.swing.*;
  * @version 1.0
  */
 public class Tools {
-    static String repertoire = ""; //$NON-NLS-1$
+    static String repertoire = ""; 
 
     /**
     * lit un string csv et le met dans un Vector de Vector
     */
     public static Vector readCSV(String contenu) {
         Vector v = new Vector();
-        StringTokenizer stline = new StringTokenizer(contenu, "\n\r"); //$NON-NLS-1$
+        StringTokenizer stline = new StringTokenizer(contenu, "\n\r"); 
 
         while (stline.hasMoreTokens()) {
             String line = stline.nextToken();
-            StringTokenizer st = new StringTokenizer(line, ","); //$NON-NLS-1$
+            StringTokenizer st = new StringTokenizer(line, ","); 
             Vector data = new Vector();
 
             while (st.hasMoreTokens())
@@ -59,10 +59,10 @@ public class Tools {
 
     /** renvoie le txt d'un vector avec un delimiteur*/
     public static String getTxt(Vector data, String delimiter) {
-        String s = ""; //$NON-NLS-1$
+        String s = ""; 
 
         for (int i = 0; i < data.size(); i++) {
-            String line = ""; //$NON-NLS-1$
+            String line = ""; 
             Vector vline = (Vector) data.get(i);
 
             for (int j = 0; j < vline.size(); j++) {
@@ -70,7 +70,7 @@ public class Tools {
             }
 
             line = line.substring(0, line.length() - 1);
-            s += (line + "\n"); //$NON-NLS-1$
+            s += (line + "\n"); 
         }
 
         return s;
@@ -78,18 +78,18 @@ public class Tools {
 
     /** renvoie le txt d'un vector*/
     public static String getTxt(Vector data) {
-        return getTxt(data, ","); //$NON-NLS-1$
+        return getTxt(data, ","); 
     }
 
     /** renvoie le txt d'un vector*/
     public static String readStream(InputStream input) {
-        String data = ""; //$NON-NLS-1$
+        String data = ""; 
         BufferedReader in = new BufferedReader(new InputStreamReader(input));
-        String line = ""; //$NON-NLS-1$
+        String line = ""; 
 
         try {
             while ((line = in.readLine()) != null) {
-                data += (line + "\n"); //$NON-NLS-1$
+                data += (line + "\n"); 
             }
         } catch (IOException e) {
         }
@@ -112,7 +112,7 @@ public class Tools {
         return index;
     }
 
-    /** renvoie un panel avec un jtable orné de bouton et d'un libé*/
+    /** renvoie un panel avec un jtable ornï¿½ de bouton et d'un libï¿½*/
     public static JPanel getPanelTable(String title, Action[] actions,
         JTable jTable) {
         JPanel main = new JPanel(new BorderLayout(5, 5));
@@ -123,13 +123,13 @@ public class Tools {
 
         for (int i = 0; i < actions.length; i++) {
             if (actions[i] == null) {
-                jPanelTop.add(new JLabel(" ")); //$NON-NLS-1$
+                jPanelTop.add(new JLabel(" ")); 
             } else {
                 JButton jbutton = new JButton(actions[i]);
                 jPanelTop.add(jbutton);
 
                 if (jbutton.getIcon() != null) {
-                    jbutton.setText(""); //$NON-NLS-1$
+                    jbutton.setText(""); 
                 }
 
                 jbutton.setBorder(BorderFactory.createEtchedBorder());
@@ -154,7 +154,7 @@ public class Tools {
     public static void enregFich(String texte) {
         JFileChooser fc;
 
-        if (repertoire.equals("")) { //$NON-NLS-1$
+        if (repertoire.equals("")) { 
             fc = new JFileChooser();
         } else {
             fc = new JFileChooser(repertoire);
@@ -168,9 +168,9 @@ public class Tools {
 
                 if (JOptionPane.showConfirmDialog(null,
                             Messages.getString(
-                                "Tools.Do_you_really_want_to_overwrite_the_existing_file"), //$NON-NLS-1$
+                                "Tools.Do_you_really_want_to_overwrite_the_existing_file"), 
                             Messages.getString("Tools.Confirmation_Dialog"),
-                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { //$NON-NLS-1$
+                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
                     isok = true;
                 }
             }
@@ -178,9 +178,9 @@ public class Tools {
             if (isok) {
                 String f = fc.getSelectedFile().getAbsolutePath();
 
-                if (f.endsWith("html") || f.endsWith("htm")) { //$NON-NLS-1$ //$NON-NLS-2$
+                if (f.endsWith("html") || f.endsWith("htm")) {  
                 } else {
-                    f += ".html"; //$NON-NLS-1$
+                    f += ".html"; 
                 }
 
                 try {

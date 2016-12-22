@@ -25,7 +25,7 @@ public class SimuTableModel extends FancyTableModel {
     public final static int TYPE_QUARTILETAPS = 3;
     public final static int TYPE_SPEEDPIPE = 4;
     public final static int TYPE_NODEPRESSURE = 5;
-    private String[] myHeader1 = { Messages.getString("SimuTableModel.Comments") }; //$NON-NLS-1$
+    private String[] myHeader1 = { Messages.getString("SimuTableModel.Comments") }; 
     private int[] myWhidth1 = { 100 };
     private String[] myHeader2 = {
         Messages.getString("SimuTableModel.Faucet_ID"),
@@ -33,9 +33,9 @@ public class SimuTableModel extends FancyTableModel {
         Messages.getString("SimuTableModel.Min"),
         Messages.getString("SimuTableModel.Average"),
         Messages.getString("SimuTableModel.Max"),
-        Messages.getString("SimuTableModel.Variability"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+        Messages.getString("SimuTableModel.Variability"),   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
         "<", ">",
-        Messages.getString("SimuTableModel._#_of_failures") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        Messages.getString("SimuTableModel._#_of_failures")   //$NON-NLS-3$
     };
     private int[] myWhidth2 = { 50, 50, 50, 50, 50, 50, 50, 50, 50 };
     private String[] myHeader3 = {
@@ -45,16 +45,16 @@ public class SimuTableModel extends FancyTableModel {
         Messages.getString("SimuTableModel.<10%"),
         Messages.getString("SimuTableModel.<25%"),
         Messages.getString("SimuTableModel.<50%"),
-        Messages.getString("SimuTableModel.<75%"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        Messages.getString("SimuTableModel.<75%"),   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
         Messages.getString("SimuTableModel.<90%"),
-        Messages.getString("SimuTableModel.Max") //$NON-NLS-1$ //$NON-NLS-2$
+        Messages.getString("SimuTableModel.Max")  
     };
     private int[] myWhidth3 = { 50, 50, 50, 50, 50, 50, 50, 50, 50 };
     private String[] myHeader4 = {
         Messages.getString("SimuTableModel.Pipe_ID"),
         Messages.getString("SimuTableModel._#_of_simulation"),
         Messages.getString("SimuTableModel.Average"),
-        Messages.getString("SimuTableModel.Maximum") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        Messages.getString("SimuTableModel.Maximum")   //$NON-NLS-3$ //$NON-NLS-4$
     };
     private int[] myWhidth4 = { 50, 50, 50, 50 };
     private String[] myHeader5 = {
@@ -62,9 +62,9 @@ public class SimuTableModel extends FancyTableModel {
         Messages.getString("SimuTableModel.Minimum"),
         Messages.getString("SimuTableModel.Average"),
         Messages.getString("SimuTableModel.Maximum")
-    }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    };   //$NON-NLS-3$ //$NON-NLS-4$
     private int[] myWhidth5 = { 50, 50, 50, 50 };
-    private String[] myHeader = { "" }; //$NON-NLS-1$
+    private String[] myHeader = { "" }; 
     private int[] myWhidthHeader = { 100 };
     private int currentType = 0;
     private Simulation simu;
@@ -94,7 +94,7 @@ public class SimuTableModel extends FancyTableModel {
             widthHeader = myWhidth1;
 
             Vector v = new Vector();
-            v.add(Messages.getString("SimuTableModel.Not_yet_implemented__!")); //$NON-NLS-1$
+            v.add(Messages.getString("SimuTableModel.Not_yet_implemented__!")); 
             data.add(v);
 
             break;
@@ -102,12 +102,12 @@ public class SimuTableModel extends FancyTableModel {
         case TYPE_FLOWTAPS:
             header = myHeader2;
             widthHeader = myWhidth2;
-            header[6] = "< " + //$NON-NLS-1$
-                simu.getProperties().getProperty("simu.mincriticalflow.value", //$NON-NLS-1$
-                    ""); //$NON-NLS-1$
-            header[7] = "> " + //$NON-NLS-1$
-                simu.getProperties().getProperty("simu.maxcriticalflow.value", //$NON-NLS-1$
-                    ""); //$NON-NLS-1$
+            header[6] = "< " + 
+                simu.getProperties().getProperty("simu.mincriticalflow.value", 
+                    ""); 
+            header[7] = "> " + 
+                simu.getProperties().getProperty("simu.maxcriticalflow.value", 
+                    ""); 
             data = simu.getFlowTaps();
 
             break;

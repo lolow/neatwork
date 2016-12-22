@@ -33,9 +33,9 @@ public class Diameters {
     }
 
     public String toString() {
-        return "(nominal = " + nominal + ", diam = " + diam + ", length = " + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        pression + ", cost = " + cost + ", SDR = " + SDR + "type = " + type + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        ", rugosite =" + rugosite + ", p = " + p + ", q = " + q + ", beta = " + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        beta + ")"; //$NON-NLS-1$
+        return "(nominal = " + nominal + ", diam = " + diam + ", length = " +   //$NON-NLS-3$
+        pression + ", cost = " + cost + ", SDR = " + SDR + "type = " + type +   //$NON-NLS-3$
+        ", rugosite =" + rugosite + ", p = " + p + ", q = " + q + ", beta = " +   //$NON-NLS-3$ //$NON-NLS-4$
+        beta + ")"; 
     }
 }

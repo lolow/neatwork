@@ -18,7 +18,7 @@ public class ParametersTableModel extends FancyTableModel {
     private String[] myHeader = {
         Messages.getString("ParametersTableModel.Name"),
         Messages.getString("ParametersTableModel.Value")
-    }; //$NON-NLS-1$ //$NON-NLS-2$
+    };  
     private int[] myWhidthHeader = { 200, 100 };
     private Properties properties;
 
@@ -37,12 +37,12 @@ public class ParametersTableModel extends FancyTableModel {
         while (e.hasMoreElements()) {
             String p = e.nextElement().toString();
 
-            if (p.startsWith("topo.") && (p.endsWith(".value"))) { //$NON-NLS-1$ //$NON-NLS-2$
+            if (p.startsWith("topo.") && (p.endsWith(".value"))) {  
 
                 Vector line = new Vector();
                 line.add(Messages.getString(p.substring(0,p.length()-6)+".name"));
-                line.add(new Double(properties.getProperty(p, "0"))); //$NON-NLS-1$ //$NON-NLS-2$
-                line.add(p); //$NON-NLS-1$
+                line.add(new Double(properties.getProperty(p, "0")));  
+                line.add(p); 
                 data.add(line);
             }
         }
@@ -84,9 +84,9 @@ public class ParametersTableModel extends FancyTableModel {
 
     protected Vector getNewVector() {
         Vector line = new Vector();
-        line.add(""); //$NON-NLS-1$
+        line.add(""); 
         line.add(new Double(0));
-        line.add(""); //$NON-NLS-1$
+        line.add(""); 
 
         return line;
     }

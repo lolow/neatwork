@@ -7,3 +7,4 @@ manifest.mf
 *.log
 build/*
 /bin/
+.classpath

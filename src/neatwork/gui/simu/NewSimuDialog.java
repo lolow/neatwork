@@ -46,7 +46,7 @@ public class NewSimuDialog extends JDialog implements ActionListener {
 
     public NewSimuDialog(Design design, AbstractFileManager fileManager,
         Properties defProp) {
-        setTitle(Messages.getString("NewSimuDialog.Simulation_parameters")); //$NON-NLS-1$
+        setTitle(Messages.getString("NewSimuDialog.Simulation_parameters")); 
         setModal(true);
         setSize(400, 350);
 
@@ -63,37 +63,37 @@ public class NewSimuDialog extends JDialog implements ActionListener {
         //fields
         DoubleInputVerifier dblInput = new DoubleInputVerifier();
         IntegerInputVerifier intInput = new IntegerInputVerifier();
-        nbSimField = new JTextField(prop.getProperty("simu.nbsim.value"), 15); //$NON-NLS-1$
+        nbSimField = new JTextField(prop.getProperty("simu.nbsim.value"), 15); 
         nbSimField.setInputVerifier(intInput);
         openTapsField = new JTextField(prop.getProperty(
-                    "simu.simopentaps.value"), 15); //$NON-NLS-1$
+                    "simu.simopentaps.value"), 15); 
         openTapsField.setInputVerifier(dblInput);
-        outFlowField = new JTextField(prop.getProperty("simu.targetflow.value"), //$NON-NLS-1$
+        outFlowField = new JTextField(prop.getProperty("simu.targetflow.value"), 
                 15);
         outFlowField.setInputVerifier(dblInput);
         critFlowLowField = new JTextField(prop.getProperty(
-                    "simu.mincriticalflow.value"), 15); //$NON-NLS-1$
+                    "simu.mincriticalflow.value"), 15); 
         critFlowLowField.setInputVerifier(dblInput);
         critFlowHighField = new JTextField(prop.getProperty(
-                    "simu.maxcriticalflow.value"), 15); //$NON-NLS-1$
+                    "simu.maxcriticalflow.value"), 15); 
         critFlowHighField.setInputVerifier(dblInput);
 
-        String[] listTypeOrifice = { Messages.getString("NewSimuDialog.ideal"), Messages.getString("NewSimuDialog.commercial") };  //$NON-NLS-1$ //$NON-NLS-2$
+        String[] listTypeOrifice = { Messages.getString("NewSimuDialog.ideal"), Messages.getString("NewSimuDialog.commercial") };   
         typeOrificeCombo = new JComboBox(listTypeOrifice);
 
-        if (prop.getProperty("simu.typeorifice.value").equals("commercial")) { //$NON-NLS-1$ //$NON-NLS-2$
+        if (prop.getProperty("simu.typeorifice.value").equals("commercial")) {  
             typeOrificeCombo.setSelectedIndex(1);
         } else {
             typeOrificeCombo.setSelectedIndex(0);
         }
 
-        String[] listTypeSimu = { Messages.getString("NewSimuDialog.monte-carlo_sampling"), Messages.getString("NewSimuDialog.individual_faucets"), Messages.getString("NewSimuDialog.user-defined") };  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String[] listTypeSimu = { Messages.getString("NewSimuDialog.monte-carlo_sampling"), Messages.getString("NewSimuDialog.individual_faucets"), Messages.getString("NewSimuDialog.user-defined") };    //$NON-NLS-3$
 
         typeSimuCombo = new JComboBox(listTypeSimu);
 
-        if (prop.getProperty("simu.typesimu.value").equals("random")) { //$NON-NLS-1$ //$NON-NLS-2$
+        if (prop.getProperty("simu.typesimu.value").equals("random")) {  
             typeSimuCombo.setSelectedIndex(0);
-        } else if (prop.getProperty("simu.typesimu.value").equals("tapbytap")) { //$NON-NLS-1$ //$NON-NLS-2$
+        } else if (prop.getProperty("simu.typesimu.value").equals("tapbytap")) {  
             typeSimuCombo.setSelectedIndex(1);
         } else {
             typeSimuCombo.setSelectedIndex(2);
@@ -104,37 +104,37 @@ public class NewSimuDialog extends JDialog implements ActionListener {
         fieldPane.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEtchedBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        fieldPane.add(new JLabel(Messages.getString("simu.nbsim.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel(Messages.getString("simu.nbsim.name") + ":"));  
         fieldPane.add(nbSimField);
-        fieldPane.add(new JLabel(Messages.getString("simu.simopentaps.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("simu.simopentaps.name") + 
+                ":")); 
         fieldPane.add(openTapsField);
-        fieldPane.add(new JLabel(Messages.getString("NewSimuDialog.critical_flows"))); //$NON-NLS-1$
-        fieldPane.add(new JLabel("")); //$NON-NLS-1$
-        fieldPane.add(new JLabel("     " + //$NON-NLS-1$
-		Messages.getString("simu.mincriticalflow.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel(Messages.getString("NewSimuDialog.critical_flows"))); 
+        fieldPane.add(new JLabel("")); 
+        fieldPane.add(new JLabel("     " + 
+		Messages.getString("simu.mincriticalflow.name") + ":"));  
         fieldPane.add(critFlowLowField);
-        fieldPane.add(new JLabel("     " + //$NON-NLS-1$
-		Messages.getString("simu.maxcriticalflow.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel("     " + 
+		Messages.getString("simu.maxcriticalflow.name") + ":"));  
         fieldPane.add(critFlowHighField);
-        fieldPane.add(new JLabel(Messages.getString("simu.targetflow.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("simu.targetflow.name") + 
+                ":")); 
         fieldPane.add(outFlowField);
-        fieldPane.add(new JLabel(Messages.getString("simu.typeorifice.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("simu.typeorifice.name") + 
+                ":")); 
         fieldPane.add(typeOrificeCombo);
-        fieldPane.add(new JLabel(Messages.getString("simu.typesimu.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel(Messages.getString("simu.typesimu.name") + ":"));  
         fieldPane.add(typeSimuCombo);
 
         //panel sud
         JPanel bottomPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton runSimu = new JButton(Messages.getString(
-                    "NewSimuDialog.Run_Simulation...")); //$NON-NLS-1$
-        runSimu.setActionCommand("runSimu"); //$NON-NLS-1$
+                    "NewSimuDialog.Run_Simulation...")); 
+        runSimu.setActionCommand("runSimu"); 
         runSimu.addActionListener(this);
 
-        JButton close = new JButton(Messages.getString("NewSimuDialog.Close")); //$NON-NLS-1$
-        close.setActionCommand("close"); //$NON-NLS-1$
+        JButton close = new JButton(Messages.getString("NewSimuDialog.Close")); 
+        close.setActionCommand("close"); 
         close.addActionListener(this);
         bottomPane.add(close);
         bottomPane.add(runSimu);
@@ -148,11 +148,11 @@ public class NewSimuDialog extends JDialog implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("close")) { //$NON-NLS-1$
+        if (e.getActionCommand().equals("close")) { 
             dispose();
         }
 
-        if (e.getActionCommand().equals("runSimu")) { //$NON-NLS-1$
+        if (e.getActionCommand().equals("runSimu")) { 
 
             //tapbytap
             if (typeSimuCombo.getSelectedIndex() == 1) {
@@ -164,14 +164,14 @@ public class NewSimuDialog extends JDialog implements ActionListener {
                     cpt += ((item.getType() == Node.TYPE_FAUCET) ? 1 : 0);
                 }
 
-                nbSimField.setText("" + cpt); //$NON-NLS-1$
-                openTapsField.setText("-"); //$NON-NLS-1$
+                nbSimField.setText("" + cpt); 
+                openTapsField.setText("-"); 
             }
 
             //custom
             if (typeSimuCombo.getSelectedIndex() == 2) {
-                nbSimField.setText("1"); //$NON-NLS-1$
-                openTapsField.setText("-"); //$NON-NLS-1$
+                nbSimField.setText("1"); 
+                openTapsField.setText("-"); 
 
                 TapSelectionDialog dialog = new TapSelectionDialog(design, this);
                 dialog.setVisible(true);
@@ -189,34 +189,34 @@ public class NewSimuDialog extends JDialog implements ActionListener {
 
     public Properties getParameters() {
         Properties p = new Properties(prop);
-        p.setProperty("simu.nbsim.value", nbSimField.getText()); //$NON-NLS-1$
-        p.setProperty("simu.simopentaps.value", openTapsField.getText()); //$NON-NLS-1$
-        p.setProperty("simu.targetflow.value", outFlowField.getText()); //$NON-NLS-1$
-        p.setProperty("simu.mincriticalflow.value", critFlowLowField.getText()); //$NON-NLS-1$
-        p.setProperty("simu.maxcriticalflow.value", critFlowHighField.getText()); //$NON-NLS-1$
-        p.setProperty("simu.typeorifice.value", //$NON-NLS-1$
+        p.setProperty("simu.nbsim.value", nbSimField.getText()); 
+        p.setProperty("simu.simopentaps.value", openTapsField.getText()); 
+        p.setProperty("simu.targetflow.value", outFlowField.getText()); 
+        p.setProperty("simu.mincriticalflow.value", critFlowLowField.getText()); 
+        p.setProperty("simu.maxcriticalflow.value", critFlowHighField.getText()); 
+        p.setProperty("simu.typeorifice.value", 
             typeOrificeCombo.getSelectedItem().toString());
 
-        String value = ""; //$NON-NLS-1$
+        String value = ""; 
 
         switch (typeSimuCombo.getSelectedIndex()) {
         case 0:
-            value = "random"; //$NON-NLS-1$
+            value = "random"; 
 
             break;
 
         case 1:
-            value = "tapbytap"; //$NON-NLS-1$
+            value = "tapbytap"; 
 
             break;
 
         case 2:
-            value = "handmade"; //$NON-NLS-1$
+            value = "handmade"; 
 
             break;
         }
 
-        p.setProperty("simu.typesimu.value", value); //$NON-NLS-1$
+        p.setProperty("simu.typesimu.value", value); 
 
         return p;
     }

@@ -37,9 +37,9 @@ public class ProjectPane extends JPanel implements Observer, ChangeListener {
         this.properties = properties;
         this.database = database;
         icons.put(new Integer(Project.TYPE_TOPO),
-            new ImageIcon(getClass().getResource("/neatwork/gui/images/Topo.gif"))); //$NON-NLS-1$
+            new ImageIcon(getClass().getResource("/neatwork/gui/images/Topo.gif"))); 
         icons.put(new Integer(Project.TYPE_DESIGN),
-            new ImageIcon(getClass().getResource("/neatwork/gui/images/Design.gif"))); //$NON-NLS-1$
+            new ImageIcon(getClass().getResource("/neatwork/gui/images/Design.gif"))); 
 
         projectManager.addObserver(this);
 
@@ -71,7 +71,7 @@ public class ProjectPane extends JPanel implements Observer, ChangeListener {
 
         if (tabbedPane.getTabCount() == 0) {
             PresentationPanel panel = new PresentationPanel(properties);
-            tabbedPane.addTab(Messages.getString("ProjectPane.NeatWork"), panel); //$NON-NLS-1$
+            tabbedPane.addTab(Messages.getString("ProjectPane.NeatWork"), panel); 
         }
 
         projectManager.setIndex(tabbedPane.getSelectedIndex());

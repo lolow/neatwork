@@ -60,7 +60,7 @@ public class CoreTopographie {
             //validit\u00E9 des valeurs
             if (tap < 0) {
                 throw new RuntimeException(
-                    "fichier topo non valide (number of taps <0)"); //$NON-NLS-1$
+                    "fichier topo non valide (number of taps <0)"); 
             }
 
             //attribution des valeurs
@@ -99,7 +99,7 @@ public class CoreTopographie {
                 } else {
                     for (int i = 0; i < tap; i++) {
                         String taps;
-                        taps = nod + " - " + i; //$NON-NLS-1$
+                        taps = nod + " - " + i; 
                         nvector.addNodes(taps, height, 1);
                         pvector.addPipes(nod, taps, 1);
 

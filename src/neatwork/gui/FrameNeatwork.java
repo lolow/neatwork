@@ -77,13 +77,13 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
     private Action reportDesignAction;
 
     //Loclization    
-    private String[] langList = { Messages.getString("FrameNeatwork.English"), Messages.getString("FrameNeatwork.Spanish"), Messages.getString("FrameNeatwork.French") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    private String[] langList = { Messages.getString("FrameNeatwork.English"), Messages.getString("FrameNeatwork.Spanish"), Messages.getString("FrameNeatwork.French") };   //$NON-NLS-3$
     private String[] langcode = { Locale.ENGLISH.getLanguage(),
     	                                        "sp",
-    	                                         Locale.FRENCH.getLanguage() }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    	                                         Locale.FRENCH.getLanguage() };   //$NON-NLS-3$
 
     public FrameNeatwork(Properties properties) {
-        super(properties.getProperty("appli.name", "NeatWork")); //$NON-NLS-1$ //$NON-NLS-2$
+        super(properties.getProperty("appli.name", "NeatWork"));  
         this.properties = properties;
         setSize(750, 550);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -92,7 +92,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         defineMenu();
 
         //charge les managers en memoire
-        if (properties.getProperty("file.distant").equals("true")) { //$NON-NLS-1$ //$NON-NLS-2$
+        if (properties.getProperty("file.distant").equals("true")) {  
             fileManager = new FileManagerClient(properties);
         } else {
             fileManager = new FileManagerDisk(properties);
@@ -128,12 +128,12 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
     /** definit les actions*/
     private void defineAction() {
-        String pathImg = "/neatwork/gui/images/"; //$NON-NLS-1$
+        String pathImg = "/neatwork/gui/images/"; 
 
         //create Action Exit
         Icon exitIcon = null;
-        exitAction = new NeatworkAction(Messages.getString("FrameNeatwork.Exit"), //$NON-NLS-1$
-                exitIcon, Messages.getString("FrameNeatwork.Exit_Application"), //$NON-NLS-1$ //$NON-NLS-2$
+        exitAction = new NeatworkAction(Messages.getString("FrameNeatwork.Exit"), 
+                exitIcon, Messages.getString("FrameNeatwork.Exit_Application"),  
                 'X') {
                     public void actionPerformed(ActionEvent e) {
                         exitApplication();
@@ -143,8 +143,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action New Topo
         Icon newTopoIcon = null;
         newTopoAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.New_Topography..."), newTopoIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.New_Topography"), 'N') { //$NON-NLS-1$
+                    "FrameNeatwork.New_Topography..."), newTopoIcon, 
+                Messages.getString("FrameNeatwork.New_Topography"), 'N') { 
                     public void actionPerformed(ActionEvent e) {
                         dialog.show(FileManagerDialog.TYPEDIALOG_NEW,
                             Project.TYPE_TOPO);
@@ -160,8 +160,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Open Topo
         Icon openTopoIcon = null;
         openTopoAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Open_Topography..."), openTopoIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Open_Topography"), 'T') { //$NON-NLS-1$
+                    "FrameNeatwork.Open_Topography..."), openTopoIcon, 
+                Messages.getString("FrameNeatwork.Open_Topography"), 'T') { 
                     public void actionPerformed(ActionEvent e) {
                         dialog.show(FileManagerDialog.TYPEDIALOG_OPEN,
                             Project.TYPE_TOPO);
@@ -179,8 +179,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Open Design
         Icon openDesignIcon = null;
         openDesignAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Open_Design..."), openDesignIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Open_Design"), 'T') { //$NON-NLS-1$
+                    "FrameNeatwork.Open_Design..."), openDesignIcon, 
+                Messages.getString("FrameNeatwork.Open_Design"), 'T') { 
                     public void actionPerformed(ActionEvent e) {
                         dialog.show(FileManagerDialog.TYPEDIALOG_OPEN,
                             Project.TYPE_DESIGN);
@@ -198,8 +198,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         //create Action Save
         Icon saveIcon = null;
-        saveAction = new NeatworkAction(Messages.getString("FrameNeatwork.Save"), //$NON-NLS-1$
-                saveIcon, Messages.getString("FrameNeatwork.Save"), 'S') { //$NON-NLS-1$ //$NON-NLS-2$
+        saveAction = new NeatworkAction(Messages.getString("FrameNeatwork.Save"), 
+                saveIcon, Messages.getString("FrameNeatwork.Save"), 'S') {  
                     public void actionPerformed(ActionEvent e) {
                         Project project = projectManager.getCurrentProject();
                         String newname = fileManager.getFirstNameCompatible(project);
@@ -215,8 +215,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Save As
         Icon saveAsIcon = null;
         saveAsAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Save_as..."), saveAsIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Save_as"), //$NON-NLS-1$ //$NON-NLS-2$
+                    "FrameNeatwork.Save_as..."), saveAsIcon, 
+                Messages.getString("FrameNeatwork.Save_as"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         Project project = projectManager.getCurrentProject();
@@ -236,22 +236,22 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Close
         Icon closeIcon = null;
         closeAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Close"), closeIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Close_this_file"), //$NON-NLS-1$ //$NON-NLS-2$
+                    "FrameNeatwork.Close"), closeIcon, 
+                Messages.getString("FrameNeatwork.Close_this_file"),  
                 'C') {
                     public void actionPerformed(ActionEvent e) {
                         Object[] options = {
-                            Messages.getString("FrameNeatwork.Yes"), //$NON-NLS-1$
-                            Messages.getString("FrameNeatwork.No") //$NON-NLS-1$
-                        }; //$NON-NLS-1$ //$NON-NLS-2$
+                            Messages.getString("FrameNeatwork.Yes"), 
+                            Messages.getString("FrameNeatwork.No") 
+                        };  
 
                         if (JOptionPane.showOptionDialog(null,
                                     Messages.getString(
-                                        "FrameNeatwork.Do_you_want_to_close_the_file") + //$NON-NLS-1$
+                                        "FrameNeatwork.Do_you_want_to_close_the_file") + 
                                     projectManager.getCurrentProject().getName() +
-                                    "?", //$NON-NLS-1$
+                                    "?", 
                                     Messages.getString(
-                                        "FrameNeatwork.Close_File"), //$NON-NLS-1$ //$NON-NLS-2$
+                                        "FrameNeatwork.Close_File"),  
                                     JOptionPane.YES_NO_OPTION,
                                     JOptionPane.WARNING_MESSAGE, null, options,
                                     options[0]) == JOptionPane.YES_OPTION) {
@@ -263,19 +263,19 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Close All
         Icon closeAllIcon = null;
         closeAllAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Close_All"), closeAllIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Close_all_files"), 'A') { //$NON-NLS-1$
+                    "FrameNeatwork.Close_All"), closeAllIcon, 
+                Messages.getString("FrameNeatwork.Close_all_files"), 'A') { 
                     public void actionPerformed(ActionEvent e) {
                         Object[] options = {
-                            Messages.getString("FrameNeatwork.Yes"), //$NON-NLS-1$
-                            Messages.getString("FrameNeatwork.No") //$NON-NLS-1$
-                        }; //$NON-NLS-1$ //$NON-NLS-2$
+                            Messages.getString("FrameNeatwork.Yes"), 
+                            Messages.getString("FrameNeatwork.No") 
+                        };  
 
                         if (JOptionPane.showOptionDialog(null,
                                     Messages.getString(
-                                        "FrameNeatwork.Do_you_want_to_close_all_the_files"), //$NON-NLS-1$
+                                        "FrameNeatwork.Do_you_want_to_close_all_the_files"), 
                                     Messages.getString(
-                                        "FrameNeatwork.Close_All_The_Files"), //$NON-NLS-1$
+                                        "FrameNeatwork.Close_All_The_Files"), 
                                     JOptionPane.YES_NO_OPTION,
                                     JOptionPane.WARNING_MESSAGE, null, options,
                                     options[0]) == JOptionPane.YES_OPTION) {
@@ -291,11 +291,11 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Delete Topo
         Icon deleteTopoIcon = null;
         deleteTopoAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Delete_a_Topography..."), //$NON-NLS-1$
+                    "FrameNeatwork.Delete_a_Topography..."), 
                 deleteTopoIcon,
-                Messages.getString("FrameNeatwork.Delete_a_Topography"), 'T') { //$NON-NLS-1$
+                Messages.getString("FrameNeatwork.Delete_a_Topography"), 'T') { 
                     public void actionPerformed(ActionEvent e) {
-                        dialog.setFileName(""); //$NON-NLS-1$
+                        dialog.setFileName(""); 
                         dialog.show(FileManagerDialog.TYPEDIALOG_DELETE,
                             Project.TYPE_TOPO);
                     }
@@ -304,11 +304,11 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Delete Design
         Icon deleteDesignIcon = null;
         deleteDesignAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Delete_a_Design..."), //$NON-NLS-1$
+                    "FrameNeatwork.Delete_a_Design..."), 
                 deleteDesignIcon,
-                Messages.getString("FrameNeatwork.Delete_a_Design"), 'D') { //$NON-NLS-1$
+                Messages.getString("FrameNeatwork.Delete_a_Design"), 'D') { 
                     public void actionPerformed(ActionEvent e) {
-                        dialog.setFileName(""); //$NON-NLS-1$
+                        dialog.setFileName(""); 
                         dialog.show(FileManagerDialog.TYPEDIALOG_DELETE,
                             Project.TYPE_DESIGN);
                     }
@@ -316,11 +316,11 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         //create Action About
         Icon aboutIcon = new ImageIcon(getClass().getResource(pathImg +
-                    "Inform.png")); //$NON-NLS-1$
+                    "Inform.png")); 
         ;
         aboutAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.About"), aboutIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.About_Neatwork"), //$NON-NLS-1$ //$NON-NLS-2$
+                    "FrameNeatwork.About"), aboutIcon, 
+                Messages.getString("FrameNeatwork.About_Neatwork"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         aboutDialog.setVisible(true);
@@ -330,8 +330,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create Action Unit
         Icon unitIcon = null;
         unitAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Units"), unitIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Units"), //$NON-NLS-1$ //$NON-NLS-2$
+                    "FrameNeatwork.Units"), unitIcon, 
+                Messages.getString("FrameNeatwork.Units"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         unitDialog.setVisible(true);
@@ -340,11 +340,11 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         //create Action DataBase
         Icon databaseIcon = new ImageIcon(getClass().getResource(pathImg +
-                    "Cylinder.png")); //$NON-NLS-1$
+                    "Cylinder.png")); 
         ;
         databaseAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Edit_database..."), databaseIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Edit_database..."), 'B') { //$NON-NLS-1$
+                    "FrameNeatwork.Edit_database..."), databaseIcon, 
+                Messages.getString("FrameNeatwork.Edit_database..."), 'B') { 
                     public void actionPerformed(ActionEvent e) {
                         databaseDialog.setVisible(true);
                     }
@@ -353,9 +353,9 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create MakeDesign Action
         Icon makeDesignIcon = null;
         makeDesignAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Make_Design..."), makeDesignIcon, //$NON-NLS-1$
+                    "FrameNeatwork.Make_Design..."), makeDesignIcon, 
                 Messages.getString(
-                    "FrameNeatwork.Make_a_design_from_your_current_topo"), 'K') { //$NON-NLS-1$
+                    "FrameNeatwork.Make_a_design_from_your_current_topo"), 'K') { 
                     public void actionPerformed(ActionEvent e) {
                         Topographie topo = (Topographie) projectManager.getCurrentProject();
                         topo.setContent(topo.getContent());
@@ -363,15 +363,15 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
                         if (!topo.isATree()) {
                             JOptionPane.showMessageDialog(FrameNeatwork.this,
                                 Messages.getString(
-                                    "FrameNeatwork.The_topography_must_be_a_tree__!"), //$NON-NLS-1$
-                                Messages.getString("FrameNeatwork.Not_a_tree"), //$NON-NLS-1$
-                                JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
+                                    "FrameNeatwork.The_topography_must_be_a_tree__!"), 
+                                Messages.getString("FrameNeatwork.Not_a_tree"), 
+                                JOptionPane.INFORMATION_MESSAGE); 
                         } else if (!(topo.getMinLength() > 0)) {
                             JOptionPane.showMessageDialog(FrameNeatwork.this,
                                 Messages.getString(
-                                    "FrameNeatwork.All_pipe_lengths_must_be_greater_than_0__!"), //$NON-NLS-1$
-                                Messages.getString("FrameNeatwork.Bad_length"), //$NON-NLS-1$
-                                JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
+                                    "FrameNeatwork.All_pipe_lengths_must_be_greater_than_0__!"), 
+                                Messages.getString("FrameNeatwork.Bad_length"), 
+                                JOptionPane.INFORMATION_MESSAGE); 
                         }  else {
                             MakeDesignDialog dialog = new MakeDesignDialog(FrameNeatwork.this,
                                     database, topo);
@@ -388,8 +388,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create InformationTopo Action
         Icon topoStatIcon = null;
         topoStatAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Network_summary..."), topoStatIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Network_summary"), 'U') { //$NON-NLS-1$
+                    "FrameNeatwork.Network_summary..."), topoStatIcon, 
+                Messages.getString("FrameNeatwork.Network_summary"), 'U') { 
                     public void actionPerformed(ActionEvent e) {
                         Topographie topo = (Topographie) projectManager.getCurrentProject();
                         TopoStatDialog dialog = new TopoStatDialog(topo,
@@ -401,86 +401,86 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create ReportTopo Action
         Icon reportopoIcon = null;
         reportTopoAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Report_in_HTML..."), //$NON-NLS-1$
-                reportopoIcon, "", 'H') { //$NON-NLS-1$
+                    "FrameNeatwork.Report_in_HTML..."), 
+                reportopoIcon, "", 'H') { 
                     public void actionPerformed(ActionEvent e) {
                         Topographie topo = (Topographie) projectManager.getCurrentProject();
-                        String s = "<html><head><title>"; //$NON-NLS-1$
+                        String s = "<html><head><title>"; 
                         s += Messages.getString(
-                            "FrameNeatwork.Topography_report"); //$NON-NLS-1$
-                        s += "</title></head><body>"; //$NON-NLS-1$
-                        s += ("<h1>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Topography_report0") + //$NON-NLS-1$
-                        topo.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-                        "</h1>"); //$NON-NLS-1$
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Node_List") + //$NON-NLS-1$
-                        "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                            "FrameNeatwork.Topography_report"); 
+                        s += "</title></head><body>"; 
+                        s += ("<h1>" + 
+                        Messages.getString("FrameNeatwork.Topography_report0") + 
+                        topo.getName() +  
+                        "</h1>"); 
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Node_List") + 
+                        "</h2>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += Messages.getString(
-                            "FrameNeatwork.<tr><th>ID</th><th>Height</th><th>X</th><th>Y</th><th>Faucets</th><th>Nature</th></tr>"); //$NON-NLS-1$
+                            "FrameNeatwork.<tr><th>ID</th><th>Height</th><th>X</th><th>Y</th><th>Faucets</th><th>Nature</th></tr>"); 
 
                         for (Iterator en = topo.getNodeIterator();
                                 en.hasNext();) {
                             Node n = (Node) en.next();
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + n.getName() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getHeight() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getCoordX() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getCoordY() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getNbTaps() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + Node.getNameType(n.getType()) + //$NON-NLS-1$
-                            "</td>"); //$NON-NLS-1$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + n.getName() + "</td>");  
+                            s += ("<td>" + n.getHeight() + "</td>");  
+                            s += ("<td>" + n.getCoordX() + "</td>");  
+                            s += ("<td>" + n.getCoordY() + "</td>");  
+                            s += ("<td>" + n.getNbTaps() + "</td>");  
+                            s += ("<td>" + Node.getNameType(n.getType()) + 
+                            "</td>"); 
+                            s += "</tr>"; 
                         }
 
-                        s += "</table>"; //$NON-NLS-1$
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Arc_List") + "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                        s += "</table>"; 
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Arc_List") + "</h2>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += Messages.getString(
-                            "FrameNeatwork.<tr><th>Begin</th><th>End</th><th>Length</th></tr>"); //$NON-NLS-1$
+                            "FrameNeatwork.<tr><th>Begin</th><th>End</th><th>Length</th></tr>"); 
 
                         for (Iterator en = topo.getPipeIterator();
                                 en.hasNext();) {
                             Pipe n = (Pipe) en.next();
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + n.getBegin() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getEnd() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getLength() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + n.getBegin() + "</td>");  
+                            s += ("<td>" + n.getEnd() + "</td>");  
+                            s += ("<td>" + n.getLength() + "</td>");  
+                            s += "</tr>"; 
                         }
 
-                        s += "</table>"; //$NON-NLS-1$
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Summary") + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.</h2>")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        s += "</table>"; 
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Summary") + 
+                        Messages.getString("FrameNeatwork.</h2>"));   //$NON-NLS-3$
                         s += (Messages.getString(
-                            "FrameNeatwork.<B>Number_of_Nodes__</B>") + //$NON-NLS-1$
-                        topo.getNbNodes() + //$NON-NLS-1$
-                        "<UL>" + //$NON-NLS-1$
+                            "FrameNeatwork.<B>Number_of_Nodes__</B>") + 
+                        topo.getNbNodes() + 
+                        "<UL>" + 
                         Messages.getString(
-                            "FrameNeatwork.<LI>_<i>Branching_nodes__</i>") + //$NON-NLS-1$ //$NON-NLS-2$
+                            "FrameNeatwork.<LI>_<i>Branching_nodes__</i>") +  
                         topo.getNbNodes(Node.TYPE_DISPATCH) +
                         Messages.getString(
-                            "FrameNeatwork.<LI>_<i>Faucet_nodes__</i>") + //$NON-NLS-1$
+                            "FrameNeatwork.<LI>_<i>Faucet_nodes__</i>") + 
                         topo.getNbNodes(Node.TYPE_FAUCET) +
-                        Messages.getString("FrameNeatwork._(with__") + //$NON-NLS-1$
+                        Messages.getString("FrameNeatwork._(with__") + 
                         topo.getNbTotalTaps() +
                         Messages.getString(
-                            "FrameNeatwork._individual_faucets)_") + //$NON-NLS-1$
-                        "</UL>" + //$NON-NLS-1$
+                            "FrameNeatwork._individual_faucets)_") + 
+                        "</UL>" + 
                         Messages.getString(
-                            "FrameNeatwork.<B>Total_height_change__</B>") + //$NON-NLS-1$ //$NON-NLS-2$
-                        Tools.doubleFormat("#", topo.getTotalHeightChange()) + //$NON-NLS-1$
-                        " m<BR><BR>" + //$NON-NLS-1$
+                            "FrameNeatwork.<B>Total_height_change__</B>") +  
+                        Tools.doubleFormat("#", topo.getTotalHeightChange()) + 
+                        " m<BR><BR>" + 
                         Messages.getString(
-                            "FrameNeatwork.<B>Number_of_Pipes__</B>") + //$NON-NLS-1$ //$NON-NLS-2$
-                        topo.getNbPipes() + " <BR>" + //$NON-NLS-1$
+                            "FrameNeatwork.<B>Number_of_Pipes__</B>") +  
+                        topo.getNbPipes() + " <BR>" + 
                         Messages.getString(
-                            "FrameNeatwork.<B>Total_length__</B>") + //$NON-NLS-1$ //$NON-NLS-2$
-                        Tools.doubleFormat("#", topo.getTotalLength()) + " m "); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += ("<p>" + new Date().toString() + "</p>"); //$NON-NLS-1$ //$NON-NLS-2$
+                            "FrameNeatwork.<B>Total_length__</B>") +  
+                        Tools.doubleFormat("#", topo.getTotalLength()) + " m ");  
+                        s += ("<p>" + new Date().toString() + "</p>");  
                         Tools.enregFich(s);
                     }
                 };
@@ -488,8 +488,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create QuickCheck Action
         Icon quickCheckIcon = null;
         quickCheckAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Quick_Check..."), quickCheckIcon, //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Quick_faucets_check"), 'U') { //$NON-NLS-1$
+                    "FrameNeatwork.Quick_Check..."), quickCheckIcon, 
+                Messages.getString("FrameNeatwork.Quick_faucets_check"), 'U') { 
                     public void actionPerformed(ActionEvent e) {
                         Topographie topo = (Topographie) projectManager.getCurrentProject();
                         QuickCheckDialog dialog = new QuickCheckDialog(FrameNeatwork.this,
@@ -501,9 +501,9 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create designParameter Action
         Icon designParameterIcon = null;
         designParameterAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Design_Parameters..."), //$NON-NLS-1$
+                    "FrameNeatwork.Design_Parameters..."), 
                 designParameterIcon,
-                Messages.getString("FrameNeatwork.Design_Parameters"), 'U') { //$NON-NLS-1$
+                Messages.getString("FrameNeatwork.Design_Parameters"), 'U') { 
                     public void actionPerformed(ActionEvent e) {
                         Design design = (Design) projectManager.getCurrentProject();
                         DesignParaDialog dialog = new DesignParaDialog(FrameNeatwork.this,
@@ -515,9 +515,9 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create designExtractTopo Action
         Icon designExtractTopoIcon = null;
         designExtractTopoAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Extract_topography"), //$NON-NLS-1$
+                    "FrameNeatwork.Extract_topography"), 
                 designParameterIcon,
-                Messages.getString("FrameNeatwork.Extract_topography"), 'U') { //$NON-NLS-1$
+                Messages.getString("FrameNeatwork.Extract_topography"), 'U') { 
                     public void actionPerformed(ActionEvent e) {
                         Design design = (Design) projectManager.getCurrentProject();
 
@@ -530,7 +530,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
                         } else {
                             JOptionPane.showConfirmDialog(null,
                                 Messages.getString(
-                                    "FrameNeatwork.This_feature_is_not_valid_for_non-tree_design")); //$NON-NLS-1$
+                                    "FrameNeatwork.This_feature_is_not_valid_for_non-tree_design")); 
                         }
                     }
                 };
@@ -538,71 +538,71 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create ReportDesign Action
         Icon repordesignIcon = null;
         reportDesignAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Report_in_HTML..."), //$NON-NLS-1$
-                repordesignIcon, "", 'H') { //$NON-NLS-1$
+                    "FrameNeatwork.Report_in_HTML..."), 
+                repordesignIcon, "", 'H') { 
                     public void actionPerformed(ActionEvent e) {
                         Design dsg = (Design) projectManager.getCurrentProject();
-                        String s = "<html><head><title>"; //$NON-NLS-1$
-                        s += Messages.getString("FrameNeatwork.Design_report"); //$NON-NLS-1$
-                        s += "</title></head><body>"; //$NON-NLS-1$
-                        s += ("<h1>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Design_report0") + //$NON-NLS-1$
-                        dsg.getName() + //$NON-NLS-1$ //$NON-NLS-2$
-                        "</h1>"); //$NON-NLS-1$
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Node_List") + //$NON-NLS-1$
-                        "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                        String s = "<html><head><title>"; 
+                        s += Messages.getString("FrameNeatwork.Design_report"); 
+                        s += "</title></head><body>"; 
+                        s += ("<h1>" + 
+                        Messages.getString("FrameNeatwork.Design_report0") + 
+                        dsg.getName() +  
+                        "</h1>"); 
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Node_List") + 
+                        "</h2>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += Messages.getString(
-                            "FrameNeatwork.<tr><th>ID</th><th>Height</th><th>X</th><th>Y</th><th>Ideal_Orifice</th><th>Commercial_Orifice</th><th>Nature</th></tr>"); //$NON-NLS-1$
+                            "FrameNeatwork.<tr><th>ID</th><th>Height</th><th>X</th><th>Y</th><th>Ideal_Orifice</th><th>Commercial_Orifice</th><th>Nature</th></tr>"); 
 
                         for (Iterator en = dsg.getNodeIterator(); en.hasNext();) {
                             Node n = (Node) en.next();
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + n.getName() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getHeight() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getCoordX() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getCoordY() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getOrifice() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getComercialOrifice() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + Node.getNameType(n.getType()) + //$NON-NLS-1$
-                            "</td>"); //$NON-NLS-1$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + n.getName() + "</td>");  
+                            s += ("<td>" + n.getHeight() + "</td>");  
+                            s += ("<td>" + n.getCoordX() + "</td>");  
+                            s += ("<td>" + n.getCoordY() + "</td>");  
+                            s += ("<td>" + n.getOrifice() + "</td>");  
+                            s += ("<td>" + n.getComercialOrifice() + "</td>");  
+                            s += ("<td>" + Node.getNameType(n.getType()) + 
+                            "</td>"); 
+                            s += "</tr>"; 
                         }
 
-                        s += "</table>"; //$NON-NLS-1$
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Arc_List") + "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                        s += "</table>"; 
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Arc_List") + "</h2>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += Messages.getString(
-                            "FrameNeatwork.<tr><th>Begin</th><th>End</th><th>Length</th><th>Length1</th><th>Diam1</th><th>Length2</th><th>Diam2</th></tr>"); //$NON-NLS-1$
+                            "FrameNeatwork.<tr><th>Begin</th><th>End</th><th>Length</th><th>Length1</th><th>Diam1</th><th>Length2</th><th>Diam2</th></tr>"); 
 
                         for (Iterator en = dsg.getPipeIterator(); en.hasNext();) {
                             Pipe n = (Pipe) en.next();
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + n.getBegin() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getEnd() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getLength() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getLength1() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getRefDiam1() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getLength2() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + n.getRefDiam2() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + n.getBegin() + "</td>");  
+                            s += ("<td>" + n.getEnd() + "</td>");  
+                            s += ("<td>" + n.getLength() + "</td>");  
+                            s += ("<td>" + n.getLength1() + "</td>");  
+                            s += ("<td>" + n.getRefDiam1() + "</td>");  
+                            s += ("<td>" + n.getLength2() + "</td>");  
+                            s += ("<td>" + n.getRefDiam2() + "</td>");  
+                            s += "</tr>"; 
                         }
 
-                        s += "</table>"; //$NON-NLS-1$
+                        s += "</table>"; 
 
                         Hashtable usedlength = dsg.getSummary();
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Diameter_references") + //$NON-NLS-1$
-                        "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Diameter_references") + 
+                        "</h2>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += (Messages.getString(
-                            "FrameNeatwork.<tr><th>Ref</th><th>Nominal</th><th>SDR</th><th>Internal_Diameter</th><th>Unit_cost</th>") + //$NON-NLS-1$
+                            "FrameNeatwork.<tr><th>Ref</th><th>Nominal</th><th>SDR</th><th>Internal_Diameter</th><th>Unit_cost</th>") + 
                         Messages.getString(
-                            "FrameNeatwork.<th>Max_Pressure</th><th>Type</th><th>Roughness</th>") + //$NON-NLS-1$
+                            "FrameNeatwork.<th>Max_Pressure</th><th>Type</th><th>Roughness</th>") + 
                         Messages.getString(
-                            "FrameNeatwork.<th>Total_length</th><th>Total_cost</th></tr>")); //$NON-NLS-1$
+                            "FrameNeatwork.<th>Total_length</th><th>Total_cost</th></tr>")); 
 
                         Vector v = new Vector(dsg.getDiamTable().keySet());
                         Collections.sort(v);
@@ -614,101 +614,101 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
                             double l = ((usedlength.get(k) == null) ? 0
                                                                     : Double.parseDouble(usedlength.get(
                                         k).toString()));
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + k + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getNominal() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getSdr() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getDiameter() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + //$NON-NLS-1$
-                            Tools.doubleFormat("0.##", d.getCost()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getMaxLength() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getType() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getRoughness() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + l + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + (l*d.getCost()) + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + k + "</td>");  
+                            s += ("<td>" + d.getNominal() + "</td>");  
+                            s += ("<td>" + d.getSdr() + "</td>");  
+                            s += ("<td>" + d.getDiameter() + "</td>");  
+                            s += ("<td>" + 
+                            Tools.doubleFormat("0.##", d.getCost()) + "</td>");  
+                            s += ("<td>" + d.getMaxLength() + "</td>");  
+                            s += ("<td>" + d.getType() + "</td>");  
+                            s += ("<td>" + d.getRoughness() + "</td>");  
+                            s += ("<td>" + l + "</td>");  
+                            s += ("<td>" + (l*d.getCost()) + "</td>");  
+                            s += "</tr>"; 
                         }
 
-                        s += "</table>"; //$NON-NLS-1$
+                        s += "</table>"; 
 
                         if (dsg.getOrifices().size() > 0) {
-                            s += ("<h2>" + //$NON-NLS-1$
+                            s += ("<h2>" + 
                             Messages.getString(
-                                "FrameNeatwork.Available_orifices") + "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                            s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                                "FrameNeatwork.Available_orifices") + "</h2>");   //$NON-NLS-3$
+                            s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                             s += Messages.getString(
-                                "FrameNeatwork.<tr><th>Diameter</th></tr>"); //$NON-NLS-1$
+                                "FrameNeatwork.<tr><th>Diameter</th></tr>"); 
 
                             for (Enumeration en = dsg.getOrifices().elements();
                                     en.hasMoreElements();) {
-                                s += "<tr>"; //$NON-NLS-1$
-                                s += ("<td>" + en.nextElement().toString() + //$NON-NLS-1$
-                                "</td>"); //$NON-NLS-1$
-                                s += "</tr>"; //$NON-NLS-1$
+                                s += "<tr>"; 
+                                s += ("<td>" + en.nextElement().toString() + 
+                                "</td>"); 
+                                s += "</tr>"; 
                             }
 
-                            s += "</table>"; //$NON-NLS-1$
+                            s += "</table>"; 
                         }
 
                         //s += dsg.getSummary();
-                        s += ("<h2>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Summary") + "</h2>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += ("<h3>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Project_cost") + //$NON-NLS-1$ //$NON-NLS-2$
-                        Tools.doubleFormat("0", dsg.getCost()) + "</h3>"); //$NON-NLS-1$ //$NON-NLS-2$
+                        s += ("<h2>" + 
+                        Messages.getString("FrameNeatwork.Summary") + "</h2>");   //$NON-NLS-3$
+                        s += ("<h3>" + 
+                        Messages.getString("FrameNeatwork.Project_cost") +  
+                        Tools.doubleFormat("0", dsg.getCost()) + "</h3>");  
 
                         Properties p = dsg.getProperties();
-                        s += ("<h3>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Global_Parameter") + //$NON-NLS-1$
-                        "</h3>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += (Messages.getString("topo.watertemp.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.watertemp.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += (Messages.getString("topo.pipelength.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.pipelength.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += ("<h3>" + "Design Parameter" + "</h3>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += (Messages.getString("topo.opentaps.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.opentaps.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += (Messages.getString("topo.servicequal.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.servicequal.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += (Messages.getString("topo.targetflow.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.targetflow.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += (Messages.getString("topo.limitbudget.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.limitbudget.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += ("<h3>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Advanced_Parameter") + //$NON-NLS-1$
-                        "</h3>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += (Messages.getString("topo.orifcoef.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.orifcoef.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += (Messages.getString("topo.faucetcoef.name") + " : " + //$NON-NLS-1$ //$NON-NLS-2$
-                        p.getProperty("topo.faucetcoef.value") + "<br>"); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += ("<h3>" + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.Structure") + //$NON-NLS-1$
-                        "</h3>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        s += ("<h3>" + 
+                        Messages.getString("FrameNeatwork.Global_Parameter") + 
+                        "</h3>");   //$NON-NLS-3$
+                        s += (Messages.getString("topo.watertemp.name") + " : " +  
+                        p.getProperty("topo.watertemp.value") + "<br>");  
+                        s += (Messages.getString("topo.pipelength.name") + " : " +  
+                        p.getProperty("topo.pipelength.value") + "<br>");  
+                        s += ("<h3>" + "Design Parameter" + "</h3>");   //$NON-NLS-3$
+                        s += (Messages.getString("topo.opentaps.name") + " : " +  
+                        p.getProperty("topo.opentaps.value") + "<br>");  
+                        s += (Messages.getString("topo.servicequal.name") + " : " +  
+                        p.getProperty("topo.servicequal.value") + "<br>");  
+                        s += (Messages.getString("topo.targetflow.name") + " : " +  
+                        p.getProperty("topo.targetflow.value") + "<br>");  
+                        s += (Messages.getString("topo.limitbudget.name") + " : " +  
+                        p.getProperty("topo.limitbudget.value") + "<br>");  
+                        s += ("<h3>" + 
+                        Messages.getString("FrameNeatwork.Advanced_Parameter") + 
+                        "</h3>");   //$NON-NLS-3$
+                        s += (Messages.getString("topo.orifcoef.name") + " : " +  
+                        p.getProperty("topo.orifcoef.value") + "<br>");  
+                        s += (Messages.getString("topo.faucetcoef.name") + " : " +  
+                        p.getProperty("topo.faucetcoef.value") + "<br>");  
+                        s += ("<h3>" + 
+                        Messages.getString("FrameNeatwork.Structure") + 
+                        "</h3>");   //$NON-NLS-3$
                         s += (Messages.getString(
-                            "FrameNeatwork.<B>Number_of_Nodes__</B>") + //$NON-NLS-1$
-                        dsg.getNbNodes() + //$NON-NLS-1$
-                        Messages.getString("FrameNeatwork.<UL>_270") + //$NON-NLS-1$
+                            "FrameNeatwork.<B>Number_of_Nodes__</B>") + 
+                        dsg.getNbNodes() + 
+                        Messages.getString("FrameNeatwork.<UL>_270") + 
                         Messages.getString(
-                            "FrameNeatwork.<LI>_<i>Branching_nodes__</i>") + //$NON-NLS-1$ //$NON-NLS-2$
+                            "FrameNeatwork.<LI>_<i>Branching_nodes__</i>") +  
                         dsg.getNbNodes(Node.TYPE_DISPATCH) +
                         Messages.getString(
-                            "FrameNeatwork.<LI>_<i>Faucet_nodes__</i>") + //$NON-NLS-1$
+                            "FrameNeatwork.<LI>_<i>Faucet_nodes__</i>") + 
                         dsg.getNbNodes(Node.TYPE_FAUCET) +
-                        Messages.getString("FrameNeatwork._(with") + //$NON-NLS-1$
+                        Messages.getString("FrameNeatwork._(with") + 
                         dsg.getNbTotalTaps() + " " +
-                        Messages.getString("FrameNeatwork._individual_faucets)") + //$NON-NLS-1$
-                        "</UL>" + //$NON-NLS-1$
+                        Messages.getString("FrameNeatwork._individual_faucets)") + 
+                        "</UL>" + 
                         Messages.getString(
-                            "FrameNeatwork.<B>Total_height_change__</B>") + //$NON-NLS-1$ //$NON-NLS-2$
-                        Tools.doubleFormat("#", dsg.getTotalHeightChange()) + //$NON-NLS-1$
-                        " m<BR><BR>" + //$NON-NLS-1$
+                            "FrameNeatwork.<B>Total_height_change__</B>") +  
+                        Tools.doubleFormat("#", dsg.getTotalHeightChange()) + 
+                        " m<BR><BR>" + 
                         Messages.getString(
-                            "FrameNeatwork.<B>Number_of_Pipes__</B>") + //$NON-NLS-1$ //$NON-NLS-2$
-                        dsg.getNbPipes() + " <BR>" + //$NON-NLS-1$
+                            "FrameNeatwork.<B>Number_of_Pipes__</B>") +  
+                        dsg.getNbPipes() + " <BR>" + 
                         Messages.getString(
-                            "FrameNeatwork.<B>Total_length__</B>") + //$NON-NLS-1$ //$NON-NLS-2$
-                        Tools.doubleFormat("#", dsg.getTotalLength()) + " m "); //$NON-NLS-1$ //$NON-NLS-2$
-                        s += ("<p>" + new Date().toString() + "</p>"); //$NON-NLS-1$ //$NON-NLS-2$
+                            "FrameNeatwork.<B>Total_length__</B>") +  
+                        Tools.doubleFormat("#", dsg.getTotalLength()) + " m ");  
+                        s += ("<p>" + new Date().toString() + "</p>");  
                         Tools.enregFich(s);
                     }
                 };
@@ -716,9 +716,9 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         //create designLoadFactor Action
         Icon designLoadFactorIcon = null;
         designLoadFactorAction = new NeatworkAction(Messages.getString(
-                    "FrameNeatwork.Design_Load_Factors..."), //$NON-NLS-1$
+                    "FrameNeatwork.Design_Load_Factors..."), 
                 designParameterIcon,
-                Messages.getString("FrameNeatwork.Design_Load_Factors"), 'U') { //$NON-NLS-1$
+                Messages.getString("FrameNeatwork.Design_Load_Factors"), 'U') { 
                     public void actionPerformed(ActionEvent e) {
                         Design design = (Design) projectManager.getCurrentProject();
                         JDialog dialog = new DesignLoadFactorDialog(FrameNeatwork.this,
@@ -730,13 +730,13 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
     /** definit les menus*/
     private void defineMenu() {
-        boolean standalone = properties.getProperty("appli.standalone").equals("true"); //$NON-NLS-1$ //$NON-NLS-2$
+        boolean standalone = properties.getProperty("appli.standalone").equals("true");  
 
         //Barre de menu
         menuBar = new JMenuBar();
 
         //Menu File
-        fileMenu = new JMenu(Messages.getString("FrameNeatwork.File")); //$NON-NLS-1$
+        fileMenu = new JMenu(Messages.getString("FrameNeatwork.File")); 
         fileMenu.setMnemonic('F');
         fileMenu.add(newTopoAction).setIcon(null);
         fileMenu.addSeparator();
@@ -756,7 +756,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         if (!standalone) {
             exitAction.putValue(Action.SHORT_DESCRIPTION,
-                Messages.getString("FrameNeatwork.Hide")); //$NON-NLS-1$
+                Messages.getString("FrameNeatwork.Hide")); 
         }
 
         saveAsAction.setEnabled(false);
@@ -765,7 +765,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         //topographie menu
         topographyMenu = new JMenu(Messages.getString(
-                    "FrameNeatwork.Topography")); //$NON-NLS-1$
+                    "FrameNeatwork.Topography")); 
         topographyMenu.setVisible(false);
         topographyMenu.setMnemonic('T');
         topographyMenu.add(quickCheckAction).setIcon(null);
@@ -779,7 +779,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         topographyMenu.add(makeDesignAction).setIcon(null);
 
         //design menu
-        designMenu = new JMenu(Messages.getString("FrameNeatwork.Design")); //$NON-NLS-1$
+        designMenu = new JMenu(Messages.getString("FrameNeatwork.Design")); 
         designMenu.setVisible(false);
         designMenu.setMnemonic('D');
         designMenu.add(designExtractTopoAction).setIcon(null);
@@ -793,12 +793,12 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         designMenu.add(designLoadFactorAction).setIcon(null);
 
         //database Menu
-        databaseMenu = new JMenu(Messages.getString("FrameNeatwork.Database")); //$NON-NLS-1$
+        databaseMenu = new JMenu(Messages.getString("FrameNeatwork.Database")); 
         databaseMenu.setMnemonic('O');
         databaseMenu.add(databaseAction).setIcon(null);
 
         //Menu Language
-        langMenu = new JMenu(Messages.getString("FrameNeatwork.Language")); //$NON-NLS-1$
+        langMenu = new JMenu(Messages.getString("FrameNeatwork.Language")); 
 
         ButtonGroup group = new ButtonGroup();
         JMenuItem[] langItem = new JRadioButtonMenuItem[langList.length];
@@ -812,7 +812,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
             langItem[i].setSelected(false);
             group.add(langItem[i]);
 
-            if (properties.getProperty("appli.locale", "null").equals(langcode[i])) { //$NON-NLS-1$ //$NON-NLS-2$
+            if (properties.getProperty("appli.locale", "null").equals(langcode[i])) {  
                 langItem[i].setSelected(true);
             }
 
@@ -820,7 +820,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         }
 
         //Menu Help
-        helpMenu = new JMenu(Messages.getString("FrameNeatwork.Help")); //$NON-NLS-1$
+        helpMenu = new JMenu(Messages.getString("FrameNeatwork.Help")); 
         helpMenu.setMnemonic('H');
         helpMenu.add(unitAction);
         helpMenu.add(langMenu);
@@ -841,14 +841,14 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         if (JOptionPane.showConfirmDialog(null,
                     Messages.getString(
-                        "FrameNeatwork.Do_you_really_want_to_quit"), //$NON-NLS-1$
-                    Messages.getString("FrameNeatwork.Confirmation_Dialog"), //$NON-NLS-1$
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { //$NON-NLS-1$
+                        "FrameNeatwork.Do_you_really_want_to_quit"), 
+                    Messages.getString("FrameNeatwork.Confirmation_Dialog"), 
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
             allFramesClosed = true;
         }
 
         if (allFramesClosed) {
-            if (properties.getProperty("appli.standalone").equals("true")) { //$NON-NLS-1$ //$NON-NLS-2$
+            if (properties.getProperty("appli.standalone").equals("true")) {  
                 System.exit(0);
             } else {
                 this.setVisible(false);
@@ -860,7 +860,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
     public void runMakeDesign(MakeDesignDialog dialog) {
         AbstractSolver solver = null;
 
-        if (properties.getProperty("solver.distant").equals("true")) { //$NON-NLS-1$ //$NON-NLS-2$
+        if (properties.getProperty("solver.distant").equals("true")) {  
             solver = new SolverClient(properties);
         } else {
             solver = new SolverDisk();
@@ -894,8 +894,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
         if (!isOk) {
             JOptionPane.showMessageDialog(this,
                 Messages.getString(
-                    "FrameNeatwork.there_is_no_feasible_solution__!"), //$NON-NLS-1$
-                Messages.getString("FrameNeatwork.Optimization_warning"), //$NON-NLS-1$ //$NON-NLS-2$
+                    "FrameNeatwork.there_is_no_feasible_solution__!"), 
+                Messages.getString("FrameNeatwork.Optimization_warning"),  
                 JOptionPane.INFORMATION_MESSAGE);
         } else {
             //affiche les informations de pressions
@@ -972,8 +972,8 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable,
 
         if ((e.getItem().equals(menuItemSolverLocal)) ||
                 (e.getItem().equals(menuItemSolverLocal))) {
-            properties.setProperty("solver.distant", //$NON-NLS-1$
-                ((menuItemSolverLocal.isSelected()) ? "false" : "true")); //$NON-NLS-1$ //$NON-NLS-2$
+            properties.setProperty("solver.distant", 
+                ((menuItemSolverLocal.isSelected()) ? "false" : "true"));  
         }
     }
 }

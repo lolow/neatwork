@@ -25,15 +25,15 @@ public class Network extends Project {
         //si une source
         if ((node.getType() == Node.TYPE_RESERVOIR) && thereIsAlreadyASource()) {
             addInfoModif(Project.ERROR +
-                Messages.getString("Network.can__t_add") + node + //$NON-NLS-1$
-                Messages.getString("Network.___there_is_already_a_source")); //$NON-NLS-1$
+                Messages.getString("Network.can__t_add") + node + 
+                Messages.getString("Network.___there_is_already_a_source")); 
         } else if (findIndex(nodeList, node) == -1) {
             nodeList.add(node);
             setNodesType();
         } else {
             addInfoModif(Project.ERROR +
-                Messages.getString("Network.can__t_add") + node + //$NON-NLS-1$
-                Messages.getString("Network.___existing_name")); //$NON-NLS-1$
+                Messages.getString("Network.can__t_add") + node + 
+                Messages.getString("Network.___existing_name")); 
         }
     }
 
@@ -55,23 +55,23 @@ public class Network extends Project {
     public void addPipe(Pipe pipe) {
         if (pipe.getBegin().equals(pipe.getEnd())) {
             addInfoModif(Project.ERROR +
-                Messages.getString("Network.can__t_add") + pipe + //$NON-NLS-1$
-                Messages.getString("Network.___begin_and_end_are_same")); //$NON-NLS-1$
+                Messages.getString("Network.can__t_add") + pipe + 
+                Messages.getString("Network.___begin_and_end_are_same")); 
         } else if (findIndex(nodeList, new Node(pipe.getBegin())) == -1) {
             addInfoModif(Project.ERROR +
-                Messages.getString("Network.can__t_add") + pipe + //$NON-NLS-1$
-                Messages.getString("Network.___begin_doesn__t_exist")); //$NON-NLS-1$
+                Messages.getString("Network.can__t_add") + pipe + 
+                Messages.getString("Network.___begin_doesn__t_exist")); 
         } else if (findIndex(nodeList, new Node(pipe.getEnd())) == -1) {
             addInfoModif(Project.ERROR +
-                Messages.getString("Network.can__t_add") + pipe + //$NON-NLS-1$
-                Messages.getString("Network.___end_doesn__t_exist")); //$NON-NLS-1$
+                Messages.getString("Network.can__t_add") + pipe + 
+                Messages.getString("Network.___end_doesn__t_exist")); 
         } else if (findIndex(pipeList, pipe) == -1) {
             pipeList.add(pipe);
             setNodesType();
         } else {
             addInfoModif(Project.ERROR +
-                Messages.getString("Network.can__t_add") + pipe + //$NON-NLS-1$
-                Messages.getString("Network.___existing_name")); //$NON-NLS-1$
+                Messages.getString("Network.can__t_add") + pipe + 
+                Messages.getString("Network.___existing_name")); 
         }
     }
 
@@ -223,7 +223,7 @@ public class Network extends Project {
         int cpt = 0;
 
         while (findIndex(nodeList, new Node(nodeName)) != -1) {
-            nodeName = old + " (" + (++cpt) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            nodeName = old + " (" + (++cpt) + ")";  
         }
 
         return nodeName;
@@ -253,12 +253,12 @@ public class Network extends Project {
     protected void addNewSource() {
         if (getNbNodes() == 0) {
             Node node = new Node();
-            node.setName(getFirstPossibleNodeName(Messages.getString("Network.Source"))); //$NON-NLS-1$
+            node.setName(getFirstPossibleNodeName(Messages.getString("Network.Source"))); 
             node.setType(Node.TYPE_RESERVOIR);
             addNode(node);
             addInfoModif(Project.WARNING +
-                Messages.getString("Network._a_source") + node.getName() + //$NON-NLS-1$
-                Messages.getString("Network.)_has_been_added")); //$NON-NLS-1$
+                Messages.getString("Network._a_source") + node.getName() + 
+                Messages.getString("Network.)_has_been_added")); 
         }
     }
 

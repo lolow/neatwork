@@ -26,7 +26,7 @@ public class DesignPipeModel extends FancyTableModel {
         Messages.getString("DesignPipeModel.Length_1"),
         Messages.getString("DesignPipeModel.diam_1"),
         Messages.getString("DesignPipeModel.Length_2"),
-        Messages.getString("DesignPipeModel.diam_2") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        Messages.getString("DesignPipeModel.diam_2")   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
     };
     private int[] myWhidthHeader = { 80, 80, 70, 80, 80, 80, 80 };
     private Design design;
@@ -57,7 +57,7 @@ public class DesignPipeModel extends FancyTableModel {
             line.add(pipe.getRefDiam1());
             line.add(new Double(pipe.getLength2()));
             line.add(pipe.getRefDiam2());
-            line.add("N"); //$NON-NLS-1$
+            line.add("N"); 
             data.add(line);
         }
     }
@@ -96,10 +96,10 @@ public class DesignPipeModel extends FancyTableModel {
         line.add(design.getLastNode().getName());
         line.add(new Double(0));
         line.add(new Double(0));
-        line.add("0"); //$NON-NLS-1$
+        line.add("0"); 
         line.add(new Double(0));
-        line.add("0"); //$NON-NLS-1$
-        line.add("N"); //$NON-NLS-1$
+        line.add("0"); 
+        line.add("N"); 
 
         return line;
     }
@@ -109,7 +109,7 @@ public class DesignPipeModel extends FancyTableModel {
 
         if (col == 6) {
             if (((Double) getValueAt(row, 5)).doubleValue() == 0) {
-                return "-"; //$NON-NLS-1$
+                return "-"; 
             }
         }
 
@@ -118,7 +118,7 @@ public class DesignPipeModel extends FancyTableModel {
 
     public boolean isCellEditable(int row, int col) {
         if (col == 6) {
-            if (getValueAt(row, 6).toString().equals("-")) { //$NON-NLS-1$
+            if (getValueAt(row, 6).toString().equals("-")) { 
 
                 return false;
             }
@@ -130,10 +130,10 @@ public class DesignPipeModel extends FancyTableModel {
     public void setValueAt(Object obj, int row, int col) {
         if (((col == 4) || (col == 6)) && (obj != null)) {
             String diam = ((String) obj).substring(5,
-                    obj.toString().indexOf(":")); //$NON-NLS-1$
-            String sdr = ((String) obj).substring(obj.toString().indexOf(":") + //$NON-NLS-1$
-                    5, obj.toString().lastIndexOf(":")); //$NON-NLS-1$
-            String type = ((String) obj).substring(obj.toString().lastIndexOf(":")); //$NON-NLS-1$
+                    obj.toString().indexOf(":")); 
+            String sdr = ((String) obj).substring(obj.toString().indexOf(":") + 
+                    5, obj.toString().lastIndexOf(":")); 
+            String type = ((String) obj).substring(obj.toString().lastIndexOf(":")); 
             int ttype = 1;
 
             for (int i = 1; i < Diameter.typeName.length; i++) {
@@ -155,7 +155,7 @@ public class DesignPipeModel extends FancyTableModel {
             } else {
                 //ajout du diametre
                 ref = getRef(database.getDiametersTable(), temp);
-                obj = "D" + (design.getDiamTable().size() + 1); //$NON-NLS-1$
+                obj = "D" + (design.getDiamTable().size() + 1); 
                 design.getDiamTable().put(obj.toString(),
                     database.getDiametersTable().get(ref));
             }
@@ -172,7 +172,7 @@ public class DesignPipeModel extends FancyTableModel {
         return content;
     }
 
-    //renvoie la réference correspondante au diametre dans la hashtable, null sinon
+    //renvoie la rï¿½ference correspondante au diametre dans la hashtable, null sinon
     private String getRef(Hashtable htable, Diameter diam) {
         String ref = null;
         Enumeration e = htable.keys();
@@ -190,15 +190,15 @@ public class DesignPipeModel extends FancyTableModel {
 
     /**
      * paste le contenu
-     * renvoie true si ca c'est bien passé
+     * renvoie true si ca c'est bien passï¿½
      */
     public boolean setPaste(String clip) {
-        //vérifie le format
-        StringTokenizer st1 = new StringTokenizer(clip, "\n"); //$NON-NLS-1$
+        //vï¿½rifie le format
+        StringTokenizer st1 = new StringTokenizer(clip, "\n"); 
         boolean isOk = true;
 
         while ((st1.hasMoreTokens()) && (isOk)) {
-            StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); //$NON-NLS-1$
+            StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); 
             isOk = st2.countTokens() == getColumnCount();
         }
 
@@ -207,10 +207,10 @@ public class DesignPipeModel extends FancyTableModel {
             data.clear();
 
             Vector nline = getNewVector();
-            st1 = new StringTokenizer(clip, "\n"); //$NON-NLS-1$
+            st1 = new StringTokenizer(clip, "\n"); 
 
             for (int i = 0; st1.hasMoreTokens(); i++) {
-                StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); //$NON-NLS-1$
+                StringTokenizer st2 = new StringTokenizer(st1.nextToken(), "\t"); 
                 Vector line = new Vector();
 
                 for (int j = 0; st2.hasMoreTokens(); j++) {

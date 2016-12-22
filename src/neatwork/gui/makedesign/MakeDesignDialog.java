@@ -29,7 +29,7 @@ public class MakeDesignDialog extends JDialog implements ActionListener {
 
     public MakeDesignDialog(JFrame frame, Database database,
         Topographie topographie) {
-        super(frame, Messages.getString("MakeDesignDialog.Make_Design"), true); //$NON-NLS-1$
+        super(frame, Messages.getString("MakeDesignDialog.Make_Design"), true); 
         setSize(600, 400);
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -51,13 +51,13 @@ public class MakeDesignDialog extends JDialog implements ActionListener {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         tabbedPane.addTab(Messages.getString("MakeDesignDialog.Hardware"),
-            materialPane); //$NON-NLS-1$
+            materialPane); 
         tabbedPane.addTab(Messages.getString("MakeDesignDialog.Parameters"),
-            parametersPane); //$NON-NLS-1$
+            parametersPane); 
         tabbedPane.addTab(Messages.getString("MakeDesignDialog.Constraints"),
-            constraintsPane); //$NON-NLS-1$
+            constraintsPane); 
         tabbedPane.addTab(Messages.getString("MakeDesignDialog.Load_Factors"),
-            loadFactorPane); //$NON-NLS-1$
+            loadFactorPane); 
 
         container.setLayout(new BorderLayout(5, 5));
         container.add(tabbedPane, BorderLayout.CENTER);
@@ -67,15 +67,15 @@ public class MakeDesignDialog extends JDialog implements ActionListener {
         panelBottom.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JButton button = new JButton(Messages.getString(
-                    "MakeDesignDialog.Run_Make_Design")); //$NON-NLS-1$
+                    "MakeDesignDialog.Run_Make_Design")); 
         button.setActionCommand(Messages.getString(
-                "MakeDesignDialog.Make_Design")); //$NON-NLS-1$
+                "MakeDesignDialog.Make_Design")); 
         button.addActionListener(this);
         button.setMnemonic('M');
 
         JButton button0 = new JButton(Messages.getString(
-                    "MakeDesignDialog.Abort")); //$NON-NLS-1$
-        button0.setActionCommand(Messages.getString("MakeDesignDialog.Close")); //$NON-NLS-1$
+                    "MakeDesignDialog.Abort")); 
+        button0.setActionCommand(Messages.getString("MakeDesignDialog.Close")); 
         button0.addActionListener(this);
         button0.setMnemonic('A');
 
@@ -87,17 +87,17 @@ public class MakeDesignDialog extends JDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(Messages.getString(
-                        "MakeDesignDialog.Close"))) { //$NON-NLS-1$
+                        "MakeDesignDialog.Close"))) { 
             this.dispose();
         }
 
         if (e.getActionCommand().equals(Messages.getString(
-                        "MakeDesignDialog.Make_Design"))) { //$NON-NLS-1$
+                        "MakeDesignDialog.Make_Design"))) { 
 
-            if (getDiametersContent().equals("")) { //$NON-NLS-1$
+            if (getDiametersContent().equals("")) { 
                 JOptionPane.showMessageDialog(this,
                     Messages.getString(
-                        "MakeDesignDialog.You_must_choose_at_least_one_diameter")); //$NON-NLS-1$
+                        "MakeDesignDialog.You_must_choose_at_least_one_diameter")); 
             } else {
                 canceled = false;
                 this.dispose();

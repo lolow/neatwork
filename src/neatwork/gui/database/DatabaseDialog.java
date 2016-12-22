@@ -30,11 +30,11 @@ public class DatabaseDialog extends JDialog implements Observer {
     private FancyTable jTableOrifice;
     private FancyTable jTableDiameter;
     private JTabbedPane jTabbedPane;
-    String pathImage = "/neatwork/gui/images/"; //$NON-NLS-1$
+    String pathImage = "/neatwork/gui/images/"; 
 
     public DatabaseDialog(FrameNeatwork frame, Database database0) {
         super(frame, Messages.getString("DatabaseDialog.Materials_database"),
-            true); //$NON-NLS-1$
+            true); 
         setSize(640, 400);
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -47,8 +47,8 @@ public class DatabaseDialog extends JDialog implements Observer {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(panel, BorderLayout.CENTER);
 
-        boolean standalone = frame.properties.getProperty("appli.standalone") //$NON-NLS-1$
-            .equals("true"); //$NON-NLS-1$
+        boolean standalone = frame.properties.getProperty("appli.standalone") 
+            .equals("true"); 
         diameterTableModel = new DBDiameterTableModel(database);
 
         orificeTableModel = new DBOrificeTableModel(database);
@@ -64,12 +64,12 @@ public class DatabaseDialog extends JDialog implements Observer {
         //AddDiam
         actions[0] = jTableDiameter.insertRowAction;
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DatabaseDialog.Insert_a_new_diameter")); //$NON-NLS-1$
+            Messages.getString("DatabaseDialog.Insert_a_new_diameter")); 
 
         //DeleteDiam
         actions[1] = jTableDiameter.deleteRowAction;
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DatabaseDialog.Delete_selected_diameter(s)")); //$NON-NLS-1$
+            Messages.getString("DatabaseDialog.Delete_selected_diameter(s)")); 
 
         //espace
         actions[2] = null;
@@ -86,16 +86,16 @@ public class DatabaseDialog extends JDialog implements Observer {
         //undo
         actions[6] = jTableDiameter.updateAction;
         actions[6].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DatabaseDialog.Load_data")); //$NON-NLS-1$
+            Messages.getString("DatabaseDialog.Load_data")); 
         actions[6].putValue(Action.SMALL_ICON,
-            new ImageIcon(getClass().getResource(pathImage + "DataExtract.png"))); //$NON-NLS-1$
+            new ImageIcon(getClass().getResource(pathImage + "DataExtract.png"))); 
 
         //check
         Icon icon = new ImageIcon(getClass().getResource(pathImage +
-                    "DataStore.png")); //$NON-NLS-1$
+                    "DataStore.png")); 
         actions[7] = new NeatworkAction(Messages.getString(
                     "DatabaseDialog.Apply"), icon,
-                Messages.getString("DatabaseDialog.Save_data"), 'A') { //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DatabaseDialog.Save_data"), 'A') {  
                     public void actionPerformed(ActionEvent e) {
                         database.setDiametersContent(diameterTableModel.getContent());
                         jTableDiameter.updateData();
@@ -108,46 +108,46 @@ public class DatabaseDialog extends JDialog implements Observer {
 
         //save tableau
         Icon icon3 = new ImageIcon(getClass().getResource(pathImage +
-                    "report.png")); //$NON-NLS-1$
+                    "report.png")); 
         actions[9] = new NeatworkAction(Messages.getString(
                     "DatabaseDialog.Export"), icon3,
-                Messages.getString("DatabaseDialog.Report_in_HTML"), 'A') { //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DatabaseDialog.Report_in_HTML"), 'A') {  
                     public void actionPerformed(ActionEvent e) {
                         //Ecris un rapport html des diameters
                         String s = Messages.getString(
-                                "DatabaseDialog.<html><head><title>"); //$NON-NLS-1$
+                                "DatabaseDialog.<html><head><title>"); 
                         s += Messages.getString(
-                            "DatabaseDialog.Database_-_Diameters"); //$NON-NLS-1$
-                        s += "</title></head><body>"; //$NON-NLS-1$
+                            "DatabaseDialog.Database_-_Diameters"); 
+                        s += "</title></head><body>"; 
                         s += ("<h1>" +
                         Messages.getString(
-                            "DatabaseDialog.Database_-_Diameters") + "</h1>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                            "DatabaseDialog.Database_-_Diameters") + "</h1>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += Messages.getString(
-                            "DatabaseDialog.<tr><th>Nominal</th><th>SDR</th><th>Cost</th><th>Max_Pressure</th><th>Type</th><th>Roughness</th></tr>"); //$NON-NLS-1$
+                            "DatabaseDialog.<tr><th>Nominal</th><th>SDR</th><th>Cost</th><th>Max_Pressure</th><th>Type</th><th>Roughness</th></tr>"); 
 
                         for (Enumeration en = database.getDiameters();
                                 en.hasMoreElements();) {
                             Diameter d = (Diameter) en.nextElement();
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + d.getNominal() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getSdr() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getCost() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getMaxLength() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getType() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += ("<td>" + d.getRoughness() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + d.getNominal() + "</td>");  
+                            s += ("<td>" + d.getSdr() + "</td>");  
+                            s += ("<td>" + d.getCost() + "</td>");  
+                            s += ("<td>" + d.getMaxLength() + "</td>");  
+                            s += ("<td>" + d.getType() + "</td>");  
+                            s += ("<td>" + d.getRoughness() + "</td>");  
+                            s += "</tr>"; 
                         }
 
-                        s += ("</table><p>" + new Date().toString() + "</p>"); //$NON-NLS-1$ //$NON-NLS-2$
+                        s += ("</table><p>" + new Date().toString() + "</p>");  
                         Tools.enregFich(s);
                     }
                 };
         actions[9].setEnabled(standalone);
-        jTabbedPane.addTab(Messages.getString("DatabaseDialog.Diameters"), //$NON-NLS-1$
+        jTabbedPane.addTab(Messages.getString("DatabaseDialog.Diameters"), 
             new FancyTablePanel(Messages.getString(
                     "DatabaseDialog.Diameters_list"), actions, jTableDiameter,
-                true)); //$NON-NLS-1$
+                true)); 
 
         //orifice
         actions = new Action[10];
@@ -155,12 +155,12 @@ public class DatabaseDialog extends JDialog implements Observer {
         //AddOrifice
         actions[0] = jTableOrifice.insertRowAction;
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DatabaseDialog.Insert_a_new_orifice")); //$NON-NLS-1$
+            Messages.getString("DatabaseDialog.Insert_a_new_orifice")); 
 
         //DeleteOrifice
         actions[1] = jTableOrifice.deleteRowAction;
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DatabaseDialog.Delete_selected_orifice(s)")); //$NON-NLS-1$
+            Messages.getString("DatabaseDialog.Delete_selected_orifice(s)")); 
 
         //espace
         actions[2] = null;
@@ -177,16 +177,16 @@ public class DatabaseDialog extends JDialog implements Observer {
         //undo
         actions[6] = jTableOrifice.updateAction;
         actions[6].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("DatabaseDialog.Load_data")); //$NON-NLS-1$
+            Messages.getString("DatabaseDialog.Load_data")); 
         actions[6].putValue(Action.SMALL_ICON,
-            new ImageIcon(getClass().getResource(pathImage + "DataExtract.png"))); //$NON-NLS-1$
+            new ImageIcon(getClass().getResource(pathImage + "DataExtract.png"))); 
 
         //
         icon = new ImageIcon(getClass().getResource(pathImage +
-                    "DataStore.png")); //$NON-NLS-1$
+                    "DataStore.png")); 
         actions[7] = new NeatworkAction(Messages.getString(
                     "DatabaseDialog.Apply"), icon,
-                Messages.getString("DatabaseDialog.Save_data"), 'A') { //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DatabaseDialog.Save_data"), 'A') {  
                     public void actionPerformed(ActionEvent e) {
                         database.setOrificesContent(orificeTableModel.getContent());
                         jTableOrifice.updateData();
@@ -199,40 +199,40 @@ public class DatabaseDialog extends JDialog implements Observer {
 
         //save tableau
         Icon icon4 = new ImageIcon(getClass().getResource(pathImage +
-                    "report.png")); //$NON-NLS-1$
+                    "report.png")); 
         actions[9] = new NeatworkAction(Messages.getString(
                     "DatabaseDialog.Export"), icon3,
-                Messages.getString("DatabaseDialog.Report_in_HTML"), 'A') { //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("DatabaseDialog.Report_in_HTML"), 'A') {  
                     public void actionPerformed(ActionEvent e) {
                         //Ecris un rapport html des orifices
-                        String s = "<html><head><title>"; //$NON-NLS-1$
+                        String s = "<html><head><title>"; 
                         s += Messages.getString(
-                            "DatabaseDialog.Database_-_Orifices"); //$NON-NLS-1$
-                        s += "</title></head><body>"; //$NON-NLS-1$
+                            "DatabaseDialog.Database_-_Orifices"); 
+                        s += "</title></head><body>"; 
                         s += ("<h1>" +
                         Messages.getString("DatabaseDialog.Database_-_Orifices") +
-                        "</h1>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; //$NON-NLS-1$
+                        "</h1>");   //$NON-NLS-3$
+                        s += "<table BORDER CELLPADDING=0 CELLSPACING=0>"; 
                         s += Messages.getString(
-                            "DatabaseDialog.<tr><th>Diameter</th></tr>"); //$NON-NLS-1$
+                            "DatabaseDialog.<tr><th>Diameter</th></tr>"); 
 
                         for (Iterator en = database.getOrifices().iterator();
                                 en.hasNext();) {
                             Orifice d = (Orifice) en.next();
-                            s += "<tr>"; //$NON-NLS-1$
-                            s += ("<td>" + d.getDiameter() + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
-                            s += "</tr>"; //$NON-NLS-1$
+                            s += "<tr>"; 
+                            s += ("<td>" + d.getDiameter() + "</td>");  
+                            s += "</tr>"; 
                         }
 
-                        s += ("</table><p>" + new Date().toString() + "</p>"); //$NON-NLS-1$ //$NON-NLS-2$
+                        s += ("</table><p>" + new Date().toString() + "</p>");  
                         Tools.enregFich(s);
                     }
                 };
         actions[9].setEnabled(standalone);
-        jTabbedPane.addTab(Messages.getString("DatabaseDialog.Orifices"), //$NON-NLS-1$
+        jTabbedPane.addTab(Messages.getString("DatabaseDialog.Orifices"), 
             Tools.getPanelTable(Messages.getString(
                     "DatabaseDialog.<html>Orifices_list"), actions,
-                jTableOrifice)); //$NON-NLS-1$
+                jTableOrifice)); 
 
         panel.add(jTabbedPane, BorderLayout.CENTER);
 
@@ -240,7 +240,7 @@ public class DatabaseDialog extends JDialog implements Observer {
         jPanel2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JButton buttonClose = new JButton(Messages.getString(
-                    "DatabaseDialog.Close")); //$NON-NLS-1$
+                    "DatabaseDialog.Close")); 
         jPanel2.add(buttonClose);
         buttonClose.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {

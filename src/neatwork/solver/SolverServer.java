@@ -26,7 +26,7 @@ public class SolverServer {
         String orificesSet, String diametersSet, Hashtable loadFactor,
         Vector constraints) {
         SolverDisk solver = new SolverDisk();
-        Topographie t = new Topographie("temp", topographie, new Properties()); //$NON-NLS-1$
+        Topographie t = new Topographie("temp", topographie, new Properties()); 
         
         t.makeExpandedTopo();
         solver.makeDesign(t, orificesSet, diametersSet, loadFactor, constraints,0);
@@ -43,7 +43,7 @@ public class SolverServer {
         Hashtable faucetRef) {
         SolverDisk solver = new SolverDisk();
         Properties p = new Properties();
-        Design d = new Design("temp", design, p); //$NON-NLS-1$
+        Design d = new Design("temp", design, p); 
         p = new Properties();
         p.putAll(parameters);
         solver.simulation(d, p, faucetRef);

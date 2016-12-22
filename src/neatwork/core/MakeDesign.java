@@ -28,21 +28,21 @@ public class MakeDesign {
         this.dvector = dvector;
         this.loadFactor = LoadFactor;
 
-        //extraction des properties
+        // Properties and default value
         double outflow = Double.parseDouble(prop.getProperty(
-                    "topo.targetflow.value", "0.2")) / 1000; //$NON-NLS-1$ //$NON-NLS-2$
+				"topo.targetflow.value", "0.2")) / 1000;
         double qualite = Double.parseDouble(prop.getProperty(
-                    "topo.servicequal.value", "0.8")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.servicequal.value", "0.8"));
         double rated = Double.parseDouble(prop.getProperty(
-                    "topo.opentaps.value", "0.4")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.opentaps.value", "0.4"));
         double length_com = Double.parseDouble(prop.getProperty(
-                    "topo.pipelength.value", "6.0")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.pipelength.value", "6.0"));
         double alpha = Double.parseDouble(prop.getProperty(
-                    "topo.faucetcoef.value", "0.00000002")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.faucetcoef.value", "0.00000002"));
         double prixMax = Double.parseDouble(prop.getProperty(
-                    "topo.limitbudget.value", "1000000000")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.limitbudget.value", "1000000000"));
         double coeffOrifice = Double.parseDouble(prop.getProperty(
-                    "topo.orifcoef.value", "0.59")); //$NON-NLS-1$ //$NON-NLS-2$
+                    "topo.orifcoef.value", "0.59"));
 
         // Compute out-flow distributions
         double[] proba = calculProba(outflow, topo.tvector.size(), rated,
@@ -60,7 +60,7 @@ public class MakeDesign {
                                                          .toString()) * outflow;
         }
 
-        //parametres de Design
+        // Design parameters
         int n = ((dvector.size() * topo.pvector.size()) + topo.nvector.size()) -
             1;
         int m = topo.nvector.size() + topo.pvector.size();
@@ -75,7 +75,7 @@ public class MakeDesign {
                 topo.tvector, dvector, ovector, loadFactor1, outflow,
                 length_com, n, m, prixMax, coeffOrifice);
 
-        //cr�e les r�f�rences des diam�tres
+        // Diameter reference
         int cpt = 0;
         Hashtable dejaFait = new Hashtable();
         HashSet dejaFait2 = new HashSet(); //a refaire mas pas le temps
@@ -115,7 +115,7 @@ public class MakeDesign {
             }
         }
 
-        //r�cup�re la liste des tuyaux
+        // pipe list
         enun = dejaFait.elements();
         diametresContent = new Vector();
 
@@ -138,20 +138,20 @@ public class MakeDesign {
         orificeContent = new Vector();
 
         for (Enumeration e = ovector.elements(); e.hasMoreElements();) {
-            orificeContent.add("" + ((Orifices) e.nextElement()).diam); //$NON-NLS-1$
+            orificeContent.add("" + ((Orifices) e.nextElement()).diam); 
         }
     }
 
     private Vector diametreVector(int cpt, Diameters d) {
         Vector line = new Vector();
-        line.add("D" + Tools.doubleFormat("000", cpt)); //$NON-NLS-1$ //$NON-NLS-2$
+        line.add("D" + Tools.doubleFormat("000", cpt));  
         line.add(d.nominal);
-        line.add("" + d.SDR); //$NON-NLS-1$
-        line.add("" + d.diam); //$NON-NLS-1$
-        line.add("" + d.cost); //$NON-NLS-1$
-        line.add("" + d.pression); //$NON-NLS-1$
-        line.add("" + d.type); //$NON-NLS-1$
-        line.add("" + d.rugosite); //$NON-NLS-1$
+        line.add("" + d.SDR); 
+        line.add("" + d.diam); 
+        line.add("" + d.cost); 
+        line.add("" + d.pression); 
+        line.add("" + d.type); 
+        line.add("" + d.rugosite); 
 
         return line;
     }
@@ -179,7 +179,7 @@ public class MakeDesign {
         source.add(new Double(hsource));
         
         for (int i = 0; i < 8; i++)
-            source.add("0"); //$NON-NLS-1$
+            source.add("0"); 
 
         v.add(source);
 
@@ -194,19 +194,19 @@ public class MakeDesign {
             line.add(String.valueOf(nodes.height + hsource));
             line.add(String.valueOf(pipes.length));
             line.add(String.valueOf(nodes.taps));
-            line.add(Tools.doubleFormat("0.###", pipes.l1)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.###", pipes.l2)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.###", pipes.l1)); 
+            line.add(Tools.doubleFormat("0.###", pipes.l2)); 
             line.add(pipes.refDiam1);
             line.add(pipes.refDiam2);
 
             if (topo.tvector.isTaps(nodes.nodes)) {
                 Taps taps = (Taps) topo.tvector.get(i - topo.pvector.size() +
                         topo.tvector.size());
-                line.add(Tools.doubleFormat("0.########", taps.orif_ideal)); //$NON-NLS-1$
-                line.add(Tools.doubleFormat("0.########", taps.orif_com)); //$NON-NLS-1$
+                line.add(Tools.doubleFormat("0.########", taps.orif_ideal)); 
+                line.add(Tools.doubleFormat("0.########", taps.orif_com)); 
             } else {
-                line.add("0"); //$NON-NLS-1$
-                line.add("0"); //$NON-NLS-1$
+                line.add("0"); 
+                line.add("0"); 
             }
 
             v.add(line);
@@ -225,11 +225,11 @@ public class MakeDesign {
         while (enun.hasMoreElements()) {
             Vector z = new Vector();
             z.add(enun.nextElement().toString());
-            z.add("N"); //$NON-NLS-1$
-            z.add("N"); //$NON-NLS-1$
-            z.add("N"); //$NON-NLS-1$
-            z.add("N"); //$NON-NLS-1$
-            z.add("N"); //$NON-NLS-1$
+            z.add("N"); 
+            z.add("N"); 
+            z.add("N"); 
+            z.add("N"); 
+            z.add("N"); 
             v.add(z);
         }
 
@@ -245,7 +245,7 @@ public class MakeDesign {
         source.add(((Nodes) topo.nvector.get(0)).nodes);
         source.add(Tools.doubleFormat("0.##", hsource));
         for (int i = 0; i < 2; i++)
-            source.add("0"); //$NON-NLS-1$
+            source.add("0"); 
 
         v.add(source);
 
@@ -254,9 +254,9 @@ public class MakeDesign {
             Nodes nodes = (Nodes) topo.nvector.get(i);
             Vector line = new Vector();
             line.add(nodes.nodes);
-            line.add(Tools.doubleFormat("0.##", nodes.height + hsource)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.##", nodes.pressure)); //$NON-NLS-1$
-            line.add(Tools.doubleFormat("0.##", nodes.suction)); //$NON-NLS-1$
+            line.add(Tools.doubleFormat("0.##", nodes.height + hsource)); 
+            line.add(Tools.doubleFormat("0.##", nodes.pressure)); 
+            line.add(Tools.doubleFormat("0.##", nodes.suction)); 
             v.add(line);
         }
 
@@ -266,10 +266,10 @@ public class MakeDesign {
     /** renvoie les r\u00E9sultats de pression constat\u00E9*/
     public static Vector getResultPressureHeader() {
         Vector v = new Vector();
-        v.add(Messages.getString("MakeDesign.ID")); //$NON-NLS-1$
-        v.add(Messages.getString("MakeDesign.Height")); //$NON-NLS-1$
-        v.add(Messages.getString("MakeDesign.Pressure")); //$NON-NLS-1$
-        v.add(Messages.getString("MakeDesign.Suction")); //$NON-NLS-1$
+        v.add(Messages.getString("MakeDesign.ID")); 
+        v.add(Messages.getString("MakeDesign.Height")); 
+        v.add(Messages.getString("MakeDesign.Pressure")); 
+        v.add(Messages.getString("MakeDesign.Suction")); 
 
         return v;
     }

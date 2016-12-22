@@ -46,33 +46,33 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
 
         Properties prop = topo.getProperties();
         fieldPane.add(new JLabel(Messages.getString(
-                    "ParametersPane.<html><b>-_Make_Design_Parameters</b>"))); //$NON-NLS-1$
-        fieldPane.add(new JLabel("")); //$NON-NLS-1$
+                    "ParametersPane.<html><b>-_Make_Design_Parameters</b>"))); 
+        fieldPane.add(new JLabel("")); 
 
         //0: Fraction of open taps
-        fieldPane.add(new JLabel(Messages.getString("topo.opentaps.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel(Messages.getString("topo.opentaps.name") + ":"));  
         fieldPane.add(textfield[0]);
 
         //1: Service Quality
-        fieldPane.add(new JLabel(Messages.getString("topo.servicequal.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("topo.servicequal.name") + 
+                ":")); 
         fieldPane.add(textfield[1]);
 
         //2: Target Flow
-        fieldPane.add(new JLabel(Messages.getString("topo.targetflow.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("topo.targetflow.name") + 
+                ":")); 
         fieldPane.add(textfield[2]);
 
         //3: Limit on budget
-        fieldPane.add(new JLabel(Messages.getString("topo.limitbudget.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("topo.limitbudget.name") + 
+                ":")); 
         fieldPane.add(textfield[3]);
         fieldPane.add(new JLabel(Messages.getString(
-                    "ParametersPane.<html><b>-_Physical_Parameters</b>"))); //$NON-NLS-1$
-        fieldPane.add(new JLabel("")); //$NON-NLS-1$
+                    "ParametersPane.<html><b>-_Physical_Parameters</b>"))); 
+        fieldPane.add(new JLabel("")); 
 
         //4: Water Temperature
-        fieldPane.add(new JLabel(Messages.getString("topo.watertemp.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel(Messages.getString("topo.watertemp.name") + ":"));  
 
         JPanel pann = new JPanel(new BorderLayout());
 
@@ -99,35 +99,35 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
         fieldPane.add(pann);
 
         //5: Pipes commercial length
-        fieldPane.add(new JLabel(Messages.getString("topo.pipelength.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("topo.pipelength.name") + 
+                ":")); 
         fieldPane.add(textfield[5]);
         fieldPane.add(new JLabel(Messages.getString(
-                    "ParametersPane.<html><b>-_Advanced_Parameters</b>"))); //$NON-NLS-1$
-        fieldPane.add(new JLabel("")); //$NON-NLS-1$
+                    "ParametersPane.<html><b>-_Advanced_Parameters</b>"))); 
+        fieldPane.add(new JLabel("")); 
 
         //6: Orifice coeff
-        fieldPane.add(new JLabel(Messages.getString("topo.orifcoef.name") + ":")); //$NON-NLS-1$ //$NON-NLS-2$
+        fieldPane.add(new JLabel(Messages.getString("topo.orifcoef.name") + ":"));  
         fieldPane.add(textfield[6]);
 
         //7: Pipes coeff
-        fieldPane.add(new JLabel(Messages.getString("topo.faucetcoef.name") + //$NON-NLS-1$
-                ":")); //$NON-NLS-1$
+        fieldPane.add(new JLabel(Messages.getString("topo.faucetcoef.name") + 
+                ":")); 
         fieldPane.add(textfield[7]);
 
         //top
         JPanel paneltop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        Icon icon0 = new ImageIcon(getClass().getResource("/neatwork/gui/images/Undo.png")); //$NON-NLS-1$
+        Icon icon0 = new ImageIcon(getClass().getResource("/neatwork/gui/images/Undo.png")); 
         JButton button0 = new JButton(Messages.getString("ParametersPane.Reset"),
-                icon0); //$NON-NLS-1$
-        button0.setActionCommand("reset"); //$NON-NLS-1$
+                icon0); 
+        button0.setActionCommand("reset"); 
         button0.addActionListener(this);
         paneltop.add(button0);
 
-        Icon icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Check.gif")); //$NON-NLS-1$
+        Icon icon = new ImageIcon(getClass().getResource("/neatwork/gui/images/Check.gif")); 
         JButton button = new JButton(Messages.getString("ParametersPane.Apply"),
-                icon); //$NON-NLS-1$
-        button.setActionCommand("apply"); //$NON-NLS-1$
+                icon); 
+        button.setActionCommand("apply"); 
         button.addActionListener(this);
         paneltop.add(button);
 
@@ -141,28 +141,28 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
 
     private void loadValue() {
         //0: Fraction of open taps
-        textfield[0].setText(topo.getProperties().getProperty("topo.opentaps.value")); //$NON-NLS-1$
+        textfield[0].setText(topo.getProperties().getProperty("topo.opentaps.value")); 
 
         //1: Service Quality
-        textfield[1].setText(topo.getProperties().getProperty("topo.servicequal.value")); //$NON-NLS-1$
+        textfield[1].setText(topo.getProperties().getProperty("topo.servicequal.value")); 
 
         //2: Target Flow
-        textfield[2].setText(topo.getProperties().getProperty("topo.targetflow.value")); //$NON-NLS-1$
+        textfield[2].setText(topo.getProperties().getProperty("topo.targetflow.value")); 
 
         //3: Limit on budget
-        textfield[3].setText(topo.getProperties().getProperty("topo.limitbudget.value")); //$NON-NLS-1$
+        textfield[3].setText(topo.getProperties().getProperty("topo.limitbudget.value")); 
 
         //4: Water Temperature
-        textfield[4].setText(topo.getProperties().getProperty("topo.watertemp.value")); //$NON-NLS-1$
+        textfield[4].setText(topo.getProperties().getProperty("topo.watertemp.value")); 
 
         //5: Pipes commercial length
-        textfield[5].setText(topo.getProperties().getProperty("topo.pipelength.value")); //$NON-NLS-1$
+        textfield[5].setText(topo.getProperties().getProperty("topo.pipelength.value")); 
 
         //6: Orifice coeff
-        textfield[6].setText(topo.getProperties().getProperty("topo.orifcoef.value")); //$NON-NLS-1$
+        textfield[6].setText(topo.getProperties().getProperty("topo.orifcoef.value")); 
 
         //7: Pipes coeff
-        textfield[7].setText(topo.getProperties().getProperty("topo.faucetcoef.value")); //$NON-NLS-1$
+        textfield[7].setText(topo.getProperties().getProperty("topo.faucetcoef.value")); 
     }
 
     private void saveValue() {
@@ -170,57 +170,57 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
 
         //0: Fraction of open taps
         try {
-            prop.setProperty("topo.opentaps.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[0].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.opentaps.value", 
+                "" + Double.parseDouble(textfield[0].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //1: Service Quality
         try {
-            prop.setProperty("topo.servicequal.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[1].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.servicequal.value", 
+                "" + Double.parseDouble(textfield[1].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //2: Target Flow
         try {
-            prop.setProperty("topo.targetflow.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[2].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.targetflow.value", 
+                "" + Double.parseDouble(textfield[2].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //3: Limit on budget
         try {
-            prop.setProperty("topo.limitbudget.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[3].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.limitbudget.value", 
+                "" + Double.parseDouble(textfield[3].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //4: Water Temperature
         try {
-            prop.setProperty("topo.watertemp.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[4].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.watertemp.value", 
+                "" + Double.parseDouble(textfield[4].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //5: Pipes commercial length
         try {
-            prop.setProperty("topo.pipelength.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[5].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.pipelength.value", 
+                "" + Double.parseDouble(textfield[5].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //6: Orifice coeff
         try {
-            prop.setProperty("topo.orifcoef.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[6].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.orifcoef.value", 
+                "" + Double.parseDouble(textfield[6].getText())); 
         } catch (NumberFormatException e) {
         }
 
         //7: Pipes coeff
         try {
-            prop.setProperty("topo.faucetcoef.value", //$NON-NLS-1$
-                "" + Double.parseDouble(textfield[7].getText())); //$NON-NLS-1$
+            prop.setProperty("topo.faucetcoef.value", 
+                "" + Double.parseDouble(textfield[7].getText())); 
         } catch (NumberFormatException e) {
         }
 
@@ -245,11 +245,11 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("apply")) { //$NON-NLS-1$
+        if (e.getActionCommand().equals("apply")) { 
             saveValue();
         }
 
-        if (e.getActionCommand().equals("reset")) { //$NON-NLS-1$
+        if (e.getActionCommand().equals("reset")) { 
             loadValue();
         }
     }

@@ -34,7 +34,7 @@ public class SolverDisk extends AbstractSolver {
     public void makeDesign(Topographie topographie, String orificesSet,
         String diametersSet, Hashtable loadFactor, Vector constraints, double hsource) {
         setProgress(0);
-        setStatus(Messages.getString("SolverDisk.Initialization...")); //$NON-NLS-1$
+        setStatus(Messages.getString("SolverDisk.Initialization...")); 
 
         long tick = getTick();
 
@@ -108,7 +108,7 @@ public class SolverDisk extends AbstractSolver {
                     diametersSet), topographie.getProperties());
 
         setProgress(50);
-        setStatus(Messages.getString("SolverDisk.Building_Design..")); //$NON-NLS-1$
+        setStatus(Messages.getString("SolverDisk.Building_Design..")); 
 
         //lance le design
         makeDesign = new MakeDesign(topo, dvector, ovector,
@@ -116,7 +116,7 @@ public class SolverDisk extends AbstractSolver {
 
         setProgress(100);
         setStatus(Messages.getString("SolverDisk.Completed.") +
-            getElapsedTime(tick) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+            getElapsedTime(tick) + ")");  
     }
 
     /** Parse les resultats du design dans l'ancien format et renvoie un design valide pour neatwork*/
@@ -138,11 +138,11 @@ public class SolverDisk extends AbstractSolver {
                     Vector node = new Vector();
                     node.add(line.get(0)); //node id
                     node.add(line.get(2)); //height
-                    node.add("" + n.getCoordX()); //coordX //$NON-NLS-1$
-                    node.add("" + n.getCoordY()); //coordY //$NON-NLS-1$
+                    node.add("" + n.getCoordX()); //coordX 
+                    node.add("" + n.getCoordY()); //coordY 
                     node.add(line.get(9)); //orifice ideal
                     node.add(line.get(10));
-                    node.add("" + n.getType()); //nature //$NON-NLS-1$
+                    node.add("" + n.getType()); //nature 
                     design.add(node);
 
                     //ajout d'un pipe
@@ -154,25 +154,25 @@ public class SolverDisk extends AbstractSolver {
                     pipe.add(line.get(7)); //diam1
                     pipe.add(line.get(6)); //length2
                     pipe.add(line.get(8)); //diam2
-                    pipe.add("N"); //$NON-NLS-1$
+                    pipe.add("N"); 
                     design.add(pipe);
                 } else {
                     //ajout de la source
                     Vector node = new Vector();
                     node.add(line.get(0)); //node id
                     node.add(line.get(2)); //height
-                    node.add("" + n.getCoordX()); //coordX //$NON-NLS-1$
-                    node.add("" + n.getCoordY()); //coordY //$NON-NLS-1$
-                    node.add("0"); //orifice ideal //$NON-NLS-1$
-                    node.add("0"); //orifice comercial //$NON-NLS-1$
-                    node.add("" + n.getType()); //nature //$NON-NLS-1$
+                    node.add("" + n.getCoordX()); //coordX 
+                    node.add("" + n.getCoordY()); //coordY 
+                    node.add("0"); //orifice ideal 
+                    node.add("0"); //orifice comercial 
+                    node.add("" + n.getType()); //nature 
                     design.add(node);
                 }
             }
 
             if (line.size() == 8) {
                 Vector diam = new Vector(line);
-                diam.add("N"); //$NON-NLS-1$
+                diam.add("N"); 
                 design.add(diam);
             }
 
@@ -211,7 +211,7 @@ public class SolverDisk extends AbstractSolver {
         Hashtable faucetStatus) {
         this.design = design;
         setProgress(0);
-        setStatus(Messages.getString("SolverDisk.Initialization...")); //$NON-NLS-1$
+        setStatus(Messages.getString("SolverDisk.Initialization...")); 
 
         long tick = getTick();
 
@@ -224,19 +224,19 @@ public class SolverDisk extends AbstractSolver {
         CoreDesign dsg = new CoreDesign(design.getCoreDesign(), dvector, ovector);
         
         setProgress(0);
-        setStatus(Messages.getString("SolverDisk.Running_simulations..")); //$NON-NLS-1$
+        setStatus(Messages.getString("SolverDisk.Running_simulations..")); 
 
         makeSimulation = new MakeSimulation(dsg, dvector, ovector, parameters,
                 faucetStatus, this);
 
         setProgress(100);
         setStatus(Messages.getString("SolverDisk.Completed.") +
-            getElapsedTime(tick) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+            getElapsedTime(tick) + ")");  
     }
 
     /** renvoie les pressions des noeuds estim�s d'une simu */
     public String getSimulationContent() {
-        String content = ""; //$NON-NLS-1$
+        String content = ""; 
 
         //ajout du design
         content += design.getContent();

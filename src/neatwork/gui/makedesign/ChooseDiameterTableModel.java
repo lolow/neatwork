@@ -23,8 +23,8 @@ public class ChooseDiameterTableModel extends DBDiameterTableModel {
         Messages.getString("ChooseDiameterTableModel.Diam"),
         Messages.getString("ChooseDiameterTableModel.Cost"),
         Messages.getString("ChooseDiameterTableModel.Max_Pressure"),
-        Messages.getString("ChooseDiameterTableModel.Type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-        Messages.getString("ChooseDiameterTableModel.Roughness") //$NON-NLS-1$
+        Messages.getString("ChooseDiameterTableModel.Type"),   //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        Messages.getString("ChooseDiameterTableModel.Roughness") 
     };
     private int[] myWhidthHeader = { 15, 55, 45, 45, 45, 65, 80, 75 };
 

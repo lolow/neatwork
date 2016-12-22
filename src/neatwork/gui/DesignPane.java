@@ -36,13 +36,13 @@ public class DesignPane extends JPanel {
 
         //text pane
         jTabbedPane.addTab(Messages.getString("DesignPane.Tables"),
-            new DesignTablePane(design, database)); //$NON-NLS-1$
-        jTabbedPane.addTab(Messages.getString("DesignPane.Simulation"), //$NON-NLS-1$
+            new DesignTablePane(design, database)); 
+        jTabbedPane.addTab(Messages.getString("DesignPane.Simulation"), 
             new SimulationPane(design, fileManager, properties));
         jTabbedPane.addTab(Messages.getString("DesignPane.TreeView"),
-            new TreePane(design)); //$NON-NLS-1$
+            new TreePane(design)); 
         jTabbedPane.addTab(Messages.getString("DesignPane.Text"),
-            new TextPane(design)); //$NON-NLS-1$
+            new TextPane(design)); 
 
         add(jTabbedPane, BorderLayout.CENTER);
     }

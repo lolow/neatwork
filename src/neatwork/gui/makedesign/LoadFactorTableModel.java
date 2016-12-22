@@ -19,8 +19,8 @@ public class LoadFactorTableModel extends FancyTableModel {
         Messages.getString("LoadFactorTableModel.Begin"),
         Messages.getString("LoadFactorTableModel.End_2"),
         Messages.getString("LoadFactorTableModel.__#_of_faucets"),
-        Messages.getString("LoadFactorTableModel.Theoric_load_factor"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        Messages.getString("LoadFactorTableModel.Modified_load_factor") //$NON-NLS-1$
+        Messages.getString("LoadFactorTableModel.Theoric_load_factor"),   //$NON-NLS-3$ //$NON-NLS-4$
+        Messages.getString("LoadFactorTableModel.Modified_load_factor") 
     };
     private int[] myWhidthHeader = { 50, 50, 100, 120, 120 };
     private Topographie topo;
@@ -96,12 +96,12 @@ public class LoadFactorTableModel extends FancyTableModel {
 
     protected Vector getNewVector() {
         Vector line = new Vector();
-        line.add(""); //$NON-NLS-1$
-        line.add(""); //$NON-NLS-1$
+        line.add(""); 
+        line.add(""); 
         line.add(new Integer(0));
         line.add(new Double(0));
         line.add(new Double(0));
-        line.add(""); //$NON-NLS-1$
+        line.add(""); 
 
         return line;
     }
@@ -124,9 +124,9 @@ public class LoadFactorTableModel extends FancyTableModel {
 
     private boolean propertiesHasChanged() {
         double targetflow0 = Double.parseDouble(topo.getProperties()
-                                                    .getProperty("topo.targetflow.value")); //$NON-NLS-1$
-        double opentaps0 = Double.parseDouble(topo.getProperties().getProperty("topo.opentaps.value")); //$NON-NLS-1$
-        double qualite0 = Double.parseDouble(topo.getProperties().getProperty("topo.servicequal.value")); //$NON-NLS-1$
+                                                    .getProperty("topo.targetflow.value")); 
+        double opentaps0 = Double.parseDouble(topo.getProperties().getProperty("topo.opentaps.value")); 
+        double qualite0 = Double.parseDouble(topo.getProperties().getProperty("topo.servicequal.value")); 
         boolean changed;
         changed = ((targetflow != targetflow0) || (opentaps != opentaps0) ||
             (qualite0 != servicequal));

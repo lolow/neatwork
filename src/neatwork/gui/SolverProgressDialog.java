@@ -20,12 +20,12 @@ import javax.swing.*;
 public class SolverProgressDialog extends JDialog implements Observer,
     ActionListener {
     private AbstractSolver solver;
-    private JLabel labelStatus = new JLabel(""); //$NON-NLS-1$
+    private JLabel labelStatus = new JLabel(""); 
     private JProgressBar progressBar = new JProgressBar(0, 100);
     private JButton buttonClose;
 
     public SolverProgressDialog(AbstractSolver solver, Thread thread) {
-        setTitle(Messages.getString("SolverProgressDialog.In_Progress")); //$NON-NLS-1$
+        setTitle(Messages.getString("SolverProgressDialog.In_Progress")); 
         setModal(true);
         setSize(400, 150);
 
@@ -50,7 +50,7 @@ public class SolverProgressDialog extends JDialog implements Observer,
         JPanel panelB = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelB.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 5));
         buttonClose = new JButton(Messages.getString(
-                    "SolverProgressDialog.Close")); //$NON-NLS-1$
+                    "SolverProgressDialog.Close")); 
         buttonClose.setMnemonic('C');
         buttonClose.setEnabled(false);
         panelB.add(buttonClose);

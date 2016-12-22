@@ -16,7 +16,7 @@ public class Node implements Comparator, Same {
     public static final int TYPE_RESERVOIR = 0;
     public static final int TYPE_DISPATCH = 1;
     public static final int TYPE_FAUCET = 2;
-    private String name = "node"; //$NON-NLS-1$
+    private String name = "node"; 
     private double coordX = 0;
     private double coordY = 0;
     private double height = 0;
@@ -44,7 +44,7 @@ public class Node implements Comparator, Same {
     }
 
     public String toString() {
-        return Messages.getString("Node.Node") + name; //$NON-NLS-1$
+        return Messages.getString("Node.Node") + name; 
     }
 
     public boolean isSame(Object o) {
@@ -124,16 +124,16 @@ public class Node implements Comparator, Same {
     public static String getNameType(int type) {
         switch (type) {
         case TYPE_DISPATCH:
-            return Messages.getString("Node.BRANCHING_NODE"); //$NON-NLS-1$
+            return Messages.getString("Node.BRANCHING_NODE"); 
 
         case TYPE_FAUCET:
-            return Messages.getString("Node.FAUCET_NODE"); //$NON-NLS-1$
+            return Messages.getString("Node.FAUCET_NODE"); 
 
         case TYPE_RESERVOIR:
-            return Messages.getString("Node.TANK"); //$NON-NLS-1$
+            return Messages.getString("Node.TANK"); 
 
         default:
-            return ""; //$NON-NLS-1$
+            return ""; 
         }
     }
 }

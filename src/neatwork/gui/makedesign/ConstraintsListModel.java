@@ -31,32 +31,32 @@ public class ConstraintsListModel extends AbstractListModel {
         case 0:
             return "[ " + line.get(1) +
             Messages.getString(
-                "ConstraintsListModel.]_pipe(s)_must_be_greater_than") + //$NON-NLS-1$ //$NON-NLS-2$
+                "ConstraintsListModel.]_pipe(s)_must_be_greater_than") +  
             line.get(2);
 
         case 1:
             return "[ " + line.get(1) +
             Messages.getString(
-                "ConstraintsListModel.]_pipe(s)_must_be_lower_than") + //$NON-NLS-1$ //$NON-NLS-2$
+                "ConstraintsListModel.]_pipe(s)_must_be_lower_than") +  
             line.get(2);
 
         case 2:
             return "[ " + line.get(1) +
             Messages.getString(
-                "ConstraintsListModel.]_pipe(s)_must_be_equal_to") + //$NON-NLS-1$ //$NON-NLS-2$
+                "ConstraintsListModel.]_pipe(s)_must_be_equal_to") +  
             line.get(2);
 
         case 3:
             return "[ " + line.get(1) +
             Messages.getString("ConstraintsListModel.]_pipe_1_is_(diam") +
-            line.get(2) + //$NON-NLS-1$ //$NON-NLS-2$
+            line.get(2) +  
             Messages.getString("ConstraintsListModel._and_length") +
             line.get(3) +
-            Messages.getString("ConstraintsListModel.)_and_pipe_2_is_(diam") + //$NON-NLS-1$ //$NON-NLS-2$
-            line.get(4) + ")"; //$NON-NLS-1$
+            Messages.getString("ConstraintsListModel.)_and_pipe_2_is_(diam") +  
+            line.get(4) + ")"; 
         }
 
-        return Messages.getString("ConstraintsListModel.bad_constraint"); //$NON-NLS-1$
+        return Messages.getString("ConstraintsListModel.bad_constraint"); 
     }
 
     public void addConstraints() {

@@ -39,7 +39,7 @@ public class ExcelAdapter implements ActionListener {
         // Identifying the Paste KeyStroke user can modify this
         //to copy on some other Key combination.
         jTable1.registerKeyboardAction(this,
-            Messages.getString("ExcelAdapter.Copy"), copy, //$NON-NLS-1$
+            Messages.getString("ExcelAdapter.Copy"), copy, 
             JComponent.WHEN_FOCUSED);
 
         //jTable1.registerKeyboardAction(this,"Paste",paste,JComponent.WHEN_FOCUSED);
@@ -67,7 +67,7 @@ public class ExcelAdapter implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().compareTo(Messages.getString(
-                        "ExcelAdapter.Copy")) == 0) { //$NON-NLS-1$
+                        "ExcelAdapter.Copy")) == 0) { 
 
             StringBuffer sbf = new StringBuffer();
 
@@ -93,11 +93,11 @@ public class ExcelAdapter implements ActionListener {
                     sbf.append(jTable1.getValueAt(i, j));
 
                     if (j < (numcols - 1)) {
-                        sbf.append("\t"); //$NON-NLS-1$
+                        sbf.append("\t"); 
                     }
                 }
 
-                sbf.append("\n"); //$NON-NLS-1$
+                sbf.append("\n"); 
             }
 
             stsel = new StringSelection(sbf.toString());

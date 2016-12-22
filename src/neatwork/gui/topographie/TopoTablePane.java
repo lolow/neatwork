@@ -28,7 +28,7 @@ public class TopoTablePane extends JPanel implements Observer {
     private FancyTable jTablePipe;
     private FancyTable jTableNode;
     private JSplitPane jSplitPane;
-    String pathImage = "/neatwork/gui/images/"; //$NON-NLS-1$
+    String pathImage = "/neatwork/gui/images/"; 
 
     public TopoTablePane(Topographie topo0) {
         this.topo = topo0;
@@ -47,12 +47,12 @@ public class TopoTablePane extends JPanel implements Observer {
         //AddNode
         actions[0] = jTableNode.insertRowAction;
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("TopoTablePane.Insert_a_new_node")); //$NON-NLS-1$
+            Messages.getString("TopoTablePane.Insert_a_new_node")); 
 
         //DeleteNode
         actions[1] = jTableNode.deleteRowAction;
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("TopoTablePane.Delete_selected_node(s)")); //$NON-NLS-1$
+            Messages.getString("TopoTablePane.Delete_selected_node(s)")); 
 
         //espace
         actions[2] = null;
@@ -60,14 +60,14 @@ public class TopoTablePane extends JPanel implements Observer {
         //undo
         actions[6] = jTableNode.updateAction;
         actions[6].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("TopoTablePane.Undo_modifications")); //$NON-NLS-1$
+            Messages.getString("TopoTablePane.Undo_modifications")); 
 
         //check
         Icon icon = new ImageIcon(getClass().getResource(pathImage +
-                    "Check.gif")); //$NON-NLS-1$
+                    "Check.gif")); 
         actions[7] = new NeatworkAction(Messages.getString(
                     "TopoTablePane.Apply"), icon,
-                Messages.getString("TopoTablePane.Apply_modifications"), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("TopoTablePane.Apply_modifications"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         apply();
@@ -83,7 +83,7 @@ public class TopoTablePane extends JPanel implements Observer {
         //paste
         actions[4] = jTableNode.pasteAction;
         jSplitPane.setTopComponent(new FancyTablePanel(Messages.getString(
-                    "TopoTablePane.Node_list"), actions, //$NON-NLS-1$
+                    "TopoTablePane.Node_list"), actions, 
                 jTableNode));
 
         //BOTTOM
@@ -92,12 +92,12 @@ public class TopoTablePane extends JPanel implements Observer {
         //AddPipe
         actions[0] = jTablePipe.insertRowAction;
         actions[0].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("TopoTablePane.Insert_a_new_pipe")); //$NON-NLS-1$
+            Messages.getString("TopoTablePane.Insert_a_new_pipe")); 
 
         //DeletePipe
         actions[1] = jTablePipe.deleteRowAction;
         actions[1].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("TopoTablePane.Delete_selected_pipe(s)")); //$NON-NLS-1$
+            Messages.getString("TopoTablePane.Delete_selected_pipe(s)")); 
 
         //espace
         actions[2] = null;
@@ -114,20 +114,20 @@ public class TopoTablePane extends JPanel implements Observer {
         //undo
         actions[6] = jTablePipe.updateAction;
         actions[6].putValue(Action.SHORT_DESCRIPTION,
-            Messages.getString("TopoTablePane.Undo_modifications")); //$NON-NLS-1$
+            Messages.getString("TopoTablePane.Undo_modifications")); 
 
         //check
-        icon = new ImageIcon(getClass().getResource(pathImage + "Check.gif")); //$NON-NLS-1$
+        icon = new ImageIcon(getClass().getResource(pathImage + "Check.gif")); 
         actions[7] = new NeatworkAction(Messages.getString(
                     "TopoTablePane.Apply"), icon,
-                Messages.getString("TopoTablePane.Apply_modifications"), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("TopoTablePane.Apply_modifications"),  
                 'A') {
                     public void actionPerformed(ActionEvent e) {
                         apply();
                     }
                 };
         jSplitPane.setBottomComponent(new FancyTablePanel(Messages.getString(
-                    "TopoTablePane.Arc_list"), //$NON-NLS-1$
+                    "TopoTablePane.Arc_list"), 
                 actions, jTablePipe));
 
         //TOTAL
@@ -168,9 +168,9 @@ public class TopoTablePane extends JPanel implements Observer {
             nodesTableModel.getContent() + pipesTableModel.getContent();
         topo.setContent(content);
 
-        if (!topo.getInfoModif().equals("")) { //$NON-NLS-1$
+        if (!topo.getInfoModif().equals("")) { 
             JOptionPane.showMessageDialog(null,
-                Messages.getString("TopoTablePane.error_in_your_project")); //$NON-NLS-1$
+                Messages.getString("TopoTablePane.error_in_your_project")); 
             JOptionPane.showMessageDialog(null, topo.getInfoModif());
         }
     }

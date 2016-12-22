@@ -27,12 +27,12 @@ public class Pipe implements Same {
     }
 
     public Pipe(String toString) {
-        setBegin(toString.substring(6, toString.lastIndexOf(" -> "))); //$NON-NLS-1$
-        setEnd(toString.substring(toString.lastIndexOf(" -> ") + 4)); //$NON-NLS-1$
+        setBegin(toString.substring(6, toString.lastIndexOf(" -> "))); 
+        setEnd(toString.substring(toString.lastIndexOf(" -> ") + 4)); 
     }
 
     public String toString() {
-        return "Arc : " + getBegin() + " -> " + getEnd(); //$NON-NLS-1$ //$NON-NLS-2$
+        return "Arc : " + getBegin() + " -> " + getEnd();  
     }
 
     /** un pipe est unique par son sens*/
@@ -42,7 +42,7 @@ public class Pipe implements Same {
     }
 
     private String toinvString() {
-        return "Arc : " + getEnd() + " -> " + getBegin(); //$NON-NLS-1$ //$NON-NLS-2$
+        return "Arc : " + getEnd() + " -> " + getBegin();  
     }
 
     public void setLength(double newLength) {

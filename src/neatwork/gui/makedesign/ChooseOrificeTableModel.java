@@ -19,7 +19,7 @@ import java.util.*;
 public class ChooseOrificeTableModel extends DBOrificeTableModel {
     private String[] myHeader = {
         " ", Messages.getString("ChooseOrificeTableModel.Diameter")
-    }; //$NON-NLS-1$ //$NON-NLS-2$
+    };  
     private int[] myWhidthHeader = { 15, 100 };
 
     public ChooseOrificeTableModel(Database database) {

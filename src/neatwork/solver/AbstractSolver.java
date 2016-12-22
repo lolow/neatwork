@@ -44,7 +44,7 @@ public abstract class AbstractSolver extends Observable {
 
     public void init() {
         setProgress(0);
-        setStatus(""); //$NON-NLS-1$
+        setStatus(""); 
     }
 
     //TIME
