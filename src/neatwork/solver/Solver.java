@@ -18,101 +18,11 @@ public class Solver {
 		
         System.out.println("Using GLPK " + GLPK.glp_version());
         
-        //	Minimize z = -.5 * x1 + .5 * x2 - x3 + 1
-        //
-        //	subject to
-        //	0.0 <= x1 - .5 * x2 <= 0.2
-        //  -x2 + x3 <= 0.4
-        //	where,
-        //	0.0 <= x1 <= 0.5
-        //	0.0 <= x2 <= 0.5
-        //  0.0 <= x3 <= 0.5
-
-        glp_prob lp;
         glp_prob lpk;
         glp_smcp parm;
-        SWIGTYPE_p_int ind;
+        SWIGTYPE_p_int index;
         SWIGTYPE_p_double value;
-
-        try {
-            // Create problem
-            lp = GLPK.glp_create_prob();
-            System.out.println("Problem created");
-            GLPK.glp_set_prob_name(lp, "myProblem");
-
-            // Define columns
-            GLPK.glp_add_cols(lp, 3);
-            GLPK.glp_set_col_name(lp, 1, "x1");
-            GLPK.glp_set_col_kind(lp, 1, GLPKConstants.GLP_CV);
-            GLPK.glp_set_col_bnds(lp, 1, GLPKConstants.GLP_DB, 0, .5);
-            GLPK.glp_set_col_name(lp, 2, "x2");
-            GLPK.glp_set_col_kind(lp, 2, GLPKConstants.GLP_CV);
-            GLPK.glp_set_col_bnds(lp, 2, GLPKConstants.GLP_DB, 0, .5);
-            GLPK.glp_set_col_name(lp, 3, "x3");
-            GLPK.glp_set_col_kind(lp, 3, GLPKConstants.GLP_CV);
-            GLPK.glp_set_col_bnds(lp, 3, GLPKConstants.GLP_DB, 0, .5);
-
-            // Create constraints
-
-            // Allocate memory
-            ind = GLPK.new_intArray(3);
-            value = GLPK.new_doubleArray(3);
-
-            // Create rows
-            GLPK.glp_add_rows(lp, 2);
-
-            // Set row details
-            GLPK.glp_set_row_name(lp, 1, "c1");
-            GLPK.glp_set_row_bnds(lp, 1, GLPKConstants.GLP_DB, 0, 0.2);
-            GLPK.intArray_setitem(ind, 1, 1);
-            GLPK.intArray_setitem(ind, 2, 2);
-            GLPK.doubleArray_setitem(value, 1, 1.);
-            GLPK.doubleArray_setitem(value, 2, -.5);
-            GLPK.glp_set_mat_row(lp, 1, 2, ind, value);
-
-            GLPK.glp_set_row_name(lp, 2, "c2");
-            GLPK.glp_set_row_bnds(lp, 2, GLPKConstants.GLP_UP, 0, 0.4);
-            GLPK.intArray_setitem(ind, 1, 2);
-            GLPK.intArray_setitem(ind, 2, 3);
-            GLPK.doubleArray_setitem(value, 1, -1.);
-            GLPK.doubleArray_setitem(value, 2, 1.);
-            GLPK.glp_set_mat_row(lp, 2, 2, ind, value);
-
-            // Free memory
-            GLPK.delete_intArray(ind);
-            GLPK.delete_doubleArray(value);
-
-            // Define objective
-            GLPK.glp_set_obj_name(lp, "z");
-            GLPK.glp_set_obj_dir(lp, GLPKConstants.GLP_MIN);
-            GLPK.glp_set_obj_coef(lp, 0, 1.);
-            GLPK.glp_set_obj_coef(lp, 1, -.5);
-            GLPK.glp_set_obj_coef(lp, 2, .5);
-            GLPK.glp_set_obj_coef(lp, 3, -1);
-
-            // Write model to file
-            // GLPK.glp_write_lp(lp, null, "lp.lp");
-
-            // Solve model
-            parm = new glp_smcp();
-            GLPK.glp_init_smcp(parm);
-            int ret = GLPK.glp_simplex(lp, parm);
-
-            // Retrieve solution
-            if (ret == 0) {
-                write_lp_solution(lp);
-            } else {
-                System.out.println("The problem could not be solved");
-            }
-
-            // Free memory
-            GLPK.glp_delete_prob(lp);
-            
-        } catch (GlpkException ex) {
-            ex.printStackTrace();
-	    }
-        
-        
+                
 
         try {
         	
@@ -137,8 +47,7 @@ public class Solver {
 
             // Create constraints
             GLPK.glp_add_rows(lpk, cont);
-            
-            for(int i = 1; i <= cont; i++){
+            for(int i = 1; i <= cont; i++){            	
             	switch (bkc[i-1]) {
                 case 1: // MSK_BK_UP
                 	GLPK.glp_set_row_bnds(lpk, i, GLPKConstants.GLP_UP, blc[i-1],buc[i-1]); break;
@@ -147,52 +56,28 @@ public class Solver {
                 }
             }
             
+            
+            // Add matrix values by columns
+            index = GLPK.new_intArray(numvar);
+            value = GLPK.new_doubleArray(numvar);
+            for(int col=1; col<=numvar; col++){
+            	int k = 0;
+            	for(int ptr = ptrb[col-1]; ptr < ptre[col-1]; ptr++){
+        			k++;
+                	GLPK.intArray_setitem(index, k, sub[ptr] + 1);
+                	GLPK.doubleArray_setitem(value, k, val[ptr]);
+            	}            	
+        		GLPK.glp_set_mat_col(lpk, col, k, index, value);
+        	}
+            GLPK.delete_intArray(index);
+            GLPK.delete_doubleArray(value);
+            
             // Define objective
             GLPK.glp_set_obj_dir(lpk, GLPKConstants.GLP_MIN);
             for(int i = 1; i <= numvar; i++){
                 GLPK.glp_set_obj_coef(lpk, i, c[i-1]);
             }
             
-            // Allocate memory
-            SWIGTYPE_p_int ia = GLPK.new_intArray(numanz);
-            SWIGTYPE_p_int ja = GLPK.new_intArray(numanz);
-            SWIGTYPE_p_double ar = GLPK.new_doubleArray(numanz);
-            
-            // Create sparse matrix
-            int k = 1;
-            for(int col = 0; col < numvar; col++){
-            	for(int ptr = ptrb[col]; ptr < ptre[col]; ptr++){
-            		System.out.println(k);
-            		GLPK.intArray_setitem(ia, k, sub[ptr] + 1);
-            		GLPK.intArray_setitem(ja, k, col + 1);
-            		GLPK.doubleArray_setitem(ar, k, val[ptr]);
-            		System.out.println(GLPK.intArray_getitem(ia, k) + " " + GLPK.intArray_getitem(ja, k) + " " + GLPK.doubleArray_getitem(ar,k));
-            		k++;
-                }
-            }
-            // TODO Use glp_set_mat_col instead
-            /* ind = GLPK.new_intArray(3);
-            GLPK.intArray_setitem(ind, 1, 1);
-            GLPK.intArray_setitem(ind, 2, 2);
-            val = GLPK.new_doubleArray(3);
-            GLPK.doubleArray_setitem(val, 1, 1.);
-            GLPK.doubleArray_setitem(val, 2, -1.);
-            GLPK.glp_set_mat_row(lp, 1, 2, ind, val);
-            GLPK.delete_doubleArray(val);
-			GLPK.delete_intArray(ind);
-            */
-            
-            // Free memory
-            GLPK.delete_intArray(ia);
-            GLPK.delete_intArray(ja);
-            GLPK.delete_doubleArray(ar);
-            
-            // Load the whole constraint matrix.
-            GLPK.glp_load_matrix(lpk, numanz, ia, ja, ar);
-            
-            // write problem for debug purpose
-            //GLPK.glp_write_lp(lpk, null, "/home/lolow/neatwork.lpk");
-
             // Solve model
             parm = new glp_smcp();
             GLPK.glp_init_smcp(parm);
