@@ -1,3 +1,7 @@
+## 3.5
+
+	- LP problem can be solved either by MOSEK or GLPK. Not yet available in the interface.
+
 ## 3.3
 
 	- Convert to new java standards
@@ -23,6 +27,6 @@
 	- Corrections dans l'interface
 
 ## 3.22
-	- Changer Select en Browse... (DONE)
-	- Enlever le tooltip dans simulation (DONE)
-	- Type d'orifice commercial par defaut. Garder en memoire les parametres de New Simulation (DONE)
+	- Changer Select en Browse...
+	- Enlever le tooltip dans simulation
+	- Type d'orifice commercial par defaut. Keep parameters in memory of New Simulation
