@@ -1,8 +1,11 @@
 package neatwork.core.run;
 
 import java.util.Collections;
+
+import mosek.boundkey;
 import neatwork.core.defs.*;
 import neatwork.solver.Solver;
+
 
 public class RunMakeDesign {
 	//variables generales du probleme Design
@@ -54,7 +57,7 @@ public class RunMakeDesign {
 		double[] c = Cvector(x, n, dvector, pvector);
 
 		/* Variables definition */
-		int[] bkx = new int[n];
+		mosek.boundkey[] bkx = new mosek.boundkey[n];
 		double[] blx = new double[n];
 		double[] bux = new double[n];
 
@@ -164,10 +167,10 @@ public class RunMakeDesign {
 	public void Resolution(double[] x, NodesVector nvector,
 			PipesVector pvector, DiametersVector dvector, TapsVector tvector,
 			double outflow, double PrixMax, double[] ACoeff, int[] AIRow,
-			int[] AIColumn, int[] AIColumn2, int L, double[] c, int[] bkx,
+			int[] AIColumn, int[] AIColumn2, int L, double[] c, boundkey[] bkx,
 			double[] blx, double[] bux, double lcom) {
 		/* constraints definition */
-		int[] bkc = new int[m];
+		mosek.boundkey[] bkc = new mosek.boundkey[m];
 		double[] blc = new double[m];
 		InitializeConstraints(bkc, blc, nvector, pvector, tvector, outflow,
 				PrixMax, lcom);
@@ -181,9 +184,11 @@ public class RunMakeDesign {
 			ex.printStackTrace();
 		}
 
-		solver.lp(m, n, L, bkc, blc, Cste, bkx, blx, bux,
-				AIColumn, AIColumn2, AIRow, ACoeff, x, c);
-		int rrr = 3;
+		solver.lp(m, n, L,
+				bkc, blc, Cste,
+				bkx, blx, bux,
+				AIColumn, AIColumn2, AIRow, ACoeff,
+				x, c);
 	}
 
 	/* definition de la matrice A sous forme creuse */
@@ -279,7 +284,7 @@ public class RunMakeDesign {
 	}
 
 	/* Initialise les valeurs constantes et le type des contraintes */
-	public void InitializeConstraints(int[] bkc, double[] blc,
+	public void InitializeConstraints(boundkey[] bkc, double[] blc,
 			NodesVector nvector, PipesVector pvector, TapsVector tvector,
 			double outflow, double PrixMax, double lcom) {
 		Nodes nodes;
@@ -290,7 +295,7 @@ public class RunMakeDesign {
 		for (int i = 0; i < (NbNodes - NbTaps - 1); i++) {
 			nodes = (Nodes) nvector.elementAt(i + 1);
 			Cste[i] = -nodes.height;
-			bkc[i] = 1;
+			bkc[i] = mosek.boundkey.up;
 			blc[i] = -1.0e30;
 		}
 
@@ -307,7 +312,7 @@ public class RunMakeDesign {
 						.pow(CoefOrif / taps.orifice, 4))));
 			}
 
-			bkc[i] = 1;
+			bkc[i] = mosek.boundkey.up;
 			blc[i] = -1.0e30;
 		}
 
@@ -317,18 +322,18 @@ public class RunMakeDesign {
 
 			Cste[i] = pipes.length;
 
-			bkc[i] = 2;
+			bkc[i] = mosek.boundkey.fx;
 			blc[i] = Cste[i];
 		}
 
 		/* contrainte de prix max */
 		Cste[m - 1] = PrixMax;
-		bkc[m - 1] = 1;
+		bkc[m - 1] = mosek.boundkey.up;
 		blc[m - 1] = -1.0e30;
 	}
 
 	/* Initialise les bornes inferieures et superieures des variables */
-	public void InitializeVariable(double[] x, PipesVector pvector, int[] bkx,
+	public void InitializeVariable(double[] x, PipesVector pvector, boundkey[] bkx,
 			double[] blx, double[] bux, DiametersVector dvector,
 			NodesVector nvector, double outflow) {
 		Pipes pipes;
@@ -344,39 +349,39 @@ public class RunMakeDesign {
 			for (int j = 0; j < NbDiam; j++) {
 				diam = (Diameters) dvector.elementAt(j);
 
-				blx[(i * NbDiam) + j] = 0; /* borne inferieure finie */
-
-				bkx[(i * NbDiam) + j] = 4; /* bornee inf et sup */
-
 				/* control du SDR */
 				if ((-nodes.height < diam.pression)
 						&& (diam.diam > pipes.imposdiammin)
 						&& (diam.diam < pipes.imposdiammax)) {
-					bux[(i * NbDiam) + j] = pipes.length; /*
-														   * borne superieure
-														   * finie
-														   */
+					blx[(i * NbDiam) + j] = 0;
+					bux[(i * NbDiam) + j] = pipes.length;
+					bkx[(i * NbDiam) + j] = mosek.boundkey.ra;
+					
 				} else {
+					blx[(i * NbDiam) + j] = 0;
 					bux[(i * NbDiam) + j] = 0;
+					bkx[(i * NbDiam) + j] = mosek.boundkey.fx;
 				}
 
 				if (pipes.imposdiam1 == diam.diam) {
 					bux[(i * NbDiam) + j] = pipes.imposlength1;
 					blx[(i * NbDiam) + j] = bux[(i * NbDiam) + j];
+					bkx[(i * NbDiam) + j] = mosek.boundkey.fx;
 				}
 
 				if (pipes.imposdiam2 == diam.diam) {
 					bux[(i * NbDiam) + j] = pipes.length - pipes.imposlength1;
 					blx[(i * NbDiam) + j] = bux[(i * NbDiam) + j];
+					bkx[(i * NbDiam) + j] = mosek.boundkey.fx;
 				}
 			}
 		}
 
-		/* Les variables d'\uFFFDcarts */
+		// Slack variables
 		for (int i = NbPipes * NbDiam; i < (((NbPipes * NbDiam) + NbNodes) - 1); i++) {
 			bux[i] = 1.0e30; // borne superieure infinie
 			blx[i] = 0; // borne inferieure finie
-			bkx[i] = 0; /* bornee inferieurement */
+			bkx[i] = mosek.boundkey.lo; /* bornee inferieurement */
 		}
 	}
 
