@@ -148,8 +148,8 @@ public class PipesVector extends Vector {
         return pipes;
     }
 
-    /* Cette proc\uFFFDdure recherche tous les pred et les suiv
-    d'un noeud donn\uFFFD */
+    /* Cette procedure recherche tous les pred et les suiv
+    d'un noeud donne */
     public void GetSuivPred(Nodes nodes) {
         Pipes pipes;
         nodes.suiv = new Vector();
@@ -168,8 +168,8 @@ public class PipesVector extends Vector {
         }
     }
 
-    /* Renvoie le nombre de predecesseurs d'un noeud donn\uFFFD
-      Cette fonction sert \uFFFD definir si le rseau est un arbre
+    /* Renvoie le nombre de predecesseurs d'un noeud donne
+      Cette fonction sert e definir si le rseau est un arbre
       ou s'il contient des boucles.
       si le nombre de predecesseurs est > 1 alors il y a des boucles */
     public int GetNumberOfPred(Nodes nodes) {

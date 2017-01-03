@@ -130,7 +130,7 @@ public class MakeSimulation {
         // simulation robinet par robinet
         if (typeSimulation.equals("tapbytap")) { 
 
-            //Remet les stats des precedentes simulation \uFFFD 0
+            //Remet les stats des precedentes simulation e 0
             dsg.pvector.initializeSimulation(dsg.tvector.size());
             dsg.nvector.initializeSimulation(dsg.tvector.size());
 
@@ -619,15 +619,15 @@ public class MakeSimulation {
      * si elle n'existe pas deja
      */
     private void addInversBranch() {
-        Pipes pipes; /* Pipes trait\uFFFD */
-        Pipes invpipes; /* Pipes invers\uFFFD */
+        Pipes pipes; /* Pipes traite */
+        Pipes invpipes; /* Pipes inverse */
         Nodes source = (Nodes) dsg.nvector.elementAt(0); /* on prend la source */
 
         for (int i = 0; i < dsg.pvector.size(); i++) {
             pipes = (Pipes) dsg.pvector.elementAt(i);
 
             /* si la branche inverse n'exste pas deja (a faire)*/
-            /* ne pas effectuer l'op\uFFFDration sur les robinets et sur la source */
+            /* ne pas effectuer l'operation sur les robinets et sur la source */
             if ((dsg.nvector.getNbTaps(pipes.nodes_end) == 0) &&
                     (dsg.tvector.isTaps(pipes.nodes_end) == false) &&
                     (!pipes.nodes_beg.equalsIgnoreCase(source.nodes))) {

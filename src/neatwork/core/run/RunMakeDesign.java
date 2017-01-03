@@ -256,7 +256,7 @@ public class RunMakeDesign {
 			}
 		}
 
-		/* Les variables d'\uFFFDcarts */
+		/* Les variables d'ecarts */
 		for (int i = L - NbNodes + 1; i < L; i++) {
 			AIColumn[I3] = I1;
 			AIColumn2[I3 - 1] = AIColumn[I3];
@@ -470,7 +470,7 @@ public class RunMakeDesign {
 		return grad;
 	}
 
-	/* Calcul le coeff de la variable d'\uFFFDcart dans la fonction objectif */
+	/* Calcul le coeff de la variable d'ecart dans la fonction objectif */
 	public double CoeffM(PipesVector pvector, DiametersVector dvector) {
 		double Coeff = 0;
 		Pipes pipes;

@@ -9,6 +9,7 @@ import neatwork.core.defs.TapsVector;
 import neatwork.solver.AbstractSolver;
 import neatwork.solver.Solver;
 
+import mosek.*;
 
 /**
  * run simulation operation
@@ -61,7 +62,8 @@ public class RunSimulation {
         TapsVector tv, double outflow, double rate, double seuil,
         double seuil2, String operation, int index, double CoefOrif1,
         AbstractSolver solver) {
-        /* Cr�ation des sous vecteurs de pipes, de nodes et de taps */
+    	
+        /* Creation des sous vecteurs de pipes, de nodes et de taps */
         psubvector = new PipesVector();
         nsubvector = new NodesVector();
         tsubvector = new TapsVector();
@@ -70,9 +72,9 @@ public class RunSimulation {
         pvector = pv;
         nvector = nv;
         tvector = tv;
-        F = f; /* Vecteurs de flots r�sultant de l'optimisation */
+        F = f; /* Vecteurs de flots resultant de l'optimisation */
 
-        //alpha = alpha1; /* param�tres de r�solution */
+        //alpha = alpha1; /* parametres de resolution */
         CoefOrif = CoefOrif1;
 
         /* dimensions des vecteurs pipes, nodes et taps*/
@@ -87,7 +89,7 @@ public class RunSimulation {
               le sous vecteur de taps*/
             SelectTaps(rate);
 
-            /* On cr�e le sous r�seau (sous vecteur de pipes et de nodes)*/
+            /* On cree le sous reseau (sous vecteur de pipes et de nodes)*/
             DoSubReseau();
 
             /* Nombre de variables */
@@ -96,7 +98,7 @@ public class RunSimulation {
             /* Nombre de contraintes */
             m = nsubvector.size();
 
-            /* proc�dure de r�solution */
+            /* procedure de resolution */
             Resolution(outflow);
             TapsStatistic(seuil2, seuil, index);
         }
@@ -126,7 +128,7 @@ public class RunSimulation {
             }
         }
 
-        /* Simulation avec seulement les robinets selectionn�s */
+        /* Simulation avec seulement les robinets selectionnes */
         if (operation.equals("handmade")) { 
 
             Taps taps;
@@ -199,14 +201,14 @@ public class RunSimulation {
         }
     }
 
-    /* Cette proc�dure permet de d\uFFFDfinir le sous r�seau associ�
-      � l'ensemble des robinets ouverts*/
+    /* Cette procedure permet de definir le sous reseau associe
+      a l'ensemble des robinets ouverts*/
     public void DoSubReseau() {
         Nodes nodes;
         Taps taps;
         Pipes pipes;
 
-        /* On conserve tous les noeuds interm�diaires */
+        /* On conserve tous les noeuds intermediaires */
         for (int i = 0; i < (NbNodes - NbTaps); i++) {
             nodes = (Nodes) nvector.elementAt(i);
             nsubvector.addNodes(nodes);
@@ -223,7 +225,7 @@ public class RunSimulation {
             }
         }
 
-        /* On conserve toutes branches interm�diaires */
+        /* On conserve toutes branches intermediaires */
         for (int i = 0; i < (NbPipes - NbTaps); i++) {
             pipes = (Pipes) pvector.elementAt(i);
             psubvector.addPipes(pipes);
@@ -241,40 +243,47 @@ public class RunSimulation {
         }
     }
 
-    /* Cette proc�dure initialise tous les vecteurs de donn�es n�cessaires
-      � Mosek pour la r�solution d'une simulation */
+    // Initialization for the resolution of simulation
     public void Resolution(double outflow) {
-        /*Recherhce des noeuds suivant et precedant de tous les noeuds */
+
+    	// look for preceding, following nodes
         for (int i = 0; i < nsubvector.size(); i++) {
             Nodes nodes = (Nodes) nsubvector.elementAt(i);
             psubvector.GetSuivPred(nodes);
         }
 
-        /* D�claration de toutes les variables Mosek */
-        int[] bkc = new int[m]; /* types des contraintes */
+        boundkey[] bkc = new boundkey[m]; /* types des contraintes */
         double[] blc = new double[m]; /* bornes inf des contraintes */
         double[] buc = new double[m]; /* bornes sup des contraintes */
-        double[] c = new double[n]; /* coeff des variables lin\uFFFDaires dans la fonction obj*/
-        int[] bkx = new int[n]; /* types des variables */
+        double[] c = new double[n]; /* coeff des variables lineaires dans la fonction obj*/
+        
+        boundkey[] bkx = new boundkey[n]; /* types des variables */
+        Lower = new double[n];
+        Upper = new double[n];
+        
         double[] oprfo = new double[n - 1];
         double[] oprgo = new double[n - 1];
         double[] oprho = new double[n - 1];
-        int[] opro = new int[n - 1];
+        mosek.scopr[] opro = new mosek.scopr[n - 1];
         int[] oprjo = new int[n - 1];
 
         y = new double[m]; /* variables duales */
-
-        Lower = new double[n];
-        Upper = new double[n];
 
         Type = new int[m];
         Cste = new double[m];
 
         /* Initialisation des bornes des variables */
-        InitializeVariable(outflow);
+        for (int i = 0; i < n; i++) {
+            Lower[i] = 0;
+            Upper[i] = tsubvector.size() * outflow * 1000 * 100;
+            bkx[i] = mosek.boundkey.ra;
+        }
 
         /* Initialisation de la partie constante des contraintes */
-        InitializeConstraints();
+        for (int i = 0; i < m; i++){
+            Cste[i] = 0;
+            bkc[i] = mosek.boundkey.fx;
+        }
 
         /* Coefficients de la matrice A */
         double[] CstGradCoeff = new double[(2 * psubvector.size()) + 1 +
@@ -289,6 +298,7 @@ public class RunSimulation {
 
         /* Indice du dernier coeff de la colonne i */
         int[] CstGradIColumn2 = new int[n];
+        
         MatriceA(CstGradCoeff, CstGradIRow, CstGradIColumn, CstGradIColumn2);
 
         /* les valeurs des coefficients dans la fonction objective
@@ -301,7 +311,7 @@ public class RunSimulation {
 
         for (int j = 0; j < psubvector.size(); j++) {
             Pipes pipes = (Pipes) psubvector.elementAt(j);
-            opro[j] = 3;
+            opro[j] = mosek.scopr.pow;
             oprjo[j] = j + 1;
             oprfo[j] = PipesConst[j];
             oprgo[j] = pipes.p1 + 1;
@@ -312,8 +322,9 @@ public class RunSimulation {
 
         Solver solver = new Solver();
 
-        solver.mainnlp(m, n, L, psubvector.size(), bkc, blc, buc, bkx,
-            CstGradIColumn, CstGradIColumn2, Lower, Upper, F, y, c,
+        solver.nlp(m, n, L, psubvector.size(), 
+        		bkc, blc, buc, 
+        		bkx, CstGradIColumn, CstGradIColumn2, Lower, Upper, F, y, c,
             CstGradIRow, CstGradCoeff, PipesConst, TapsConst1, TapsConst2,
             oprfo, oprgo, oprho, opro, oprjo);
 
@@ -348,21 +359,7 @@ public class RunSimulation {
         return dual;
     }
 
-    /* Initialise la partie constante des contraintes */
-    public void InitializeConstraints() {
-        for (int i = 0; i < m; i++)
-            Cste[i] = 0;
-    }
-
-    /* Initialise les bornes inf et sup des varaibles */
-    public void InitializeVariable(double outflow) {
-        for (int i = 0; i < n; i++) {
-            Lower[i] = 0;
-            Upper[i] = tsubvector.size() * outflow * 1000 * 100;
-        }
-    }
-
-    /* Cette proc\uFFFDdure calcule tous les coeff de la fonction objective */
+    /* Cette procedure calcule tous les coeff de la fonction objective */
     public void Cvector(double[] PipesConst, double[] TapsConst1,
         double[] TapsConst2) {
         for (int i = 0; i < psubvector.size(); i++) {
@@ -382,7 +379,7 @@ public class RunSimulation {
         }
     }
 
-    /* Cette proc\uFFFDdure initialise la matrice A du probl\uFFFDme de
+    /* Cette procedure initialise la matrice A du probleme de
       simulation */
     public void MatriceA(double[] CstGradCoeff, int[] CstGradIRow,
         int[] CstGradIColumn, int[] CstGradIColumn2) {

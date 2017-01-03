@@ -314,7 +314,7 @@ public class MakeDesign {
     static double CalculProba2(int n, double pfrac, double proba) {
         double resu = 0;
 
-        /* Calcul de la qualit\uFFFD de service */
+        /* Calcul de la qualite de service */
         double proba1 = (proba * (1 - Math.pow(1 - pfrac, n))) +
             Math.pow((1 - pfrac), n);
 

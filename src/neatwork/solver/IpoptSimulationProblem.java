@@ -2,7 +2,7 @@ package neatwork.solver;
 
 import org.coinor.Ipopt;
 
-public class SimulationProblem extends Ipopt {
+public class IpoptSimulationProblem extends Ipopt {
 
     // Problem sizes
     int n, m, nele_jac, nele_hess;
@@ -13,53 +13,28 @@ public class SimulationProblem extends Ipopt {
     double[] oprfo;
     double[] oprgo;
     double[] val;
+    double[] bux;
+    double[] blx;
+    double[] buc;
+    double[] blc;
     
     /**
      * Initialize the bounds and create the native Ipopt problem.
      */
-    public SimulationProblem(int cont, int numvar, int numanz, int NbPipes,
-			int[] bkc, double[] blc, double[] buc, int[] bkx, int[] ptrb,
+    public IpoptSimulationProblem(int cont, int numvar, int numanz, int NbPipes,
+    		mosek.boundkey[] bkc, double[] blc, double[] buc, mosek.boundkey[] bkx, int[] ptrb,
 			int[] ptre, double[] blx, double[] bux, double[] x, double[] y,
 			double[] c, int[] sub, double[] val, double[] PipesConst,
 			double[] TapsConst1, double[] TapsConst2, double[] oprfo,
-			double[] oprgo, double[] oprho, int[] opro, int[] oprjo) {
+			double[] oprgo, double[] oprho, mosek.scopr[] opro, int[] oprjo) {
 
+                
             /* Number of non-zeros in the Jacobian of the constraints */
             nele_jac = numanz;
             /* Number of non-zeros in the Hessian of the Lagrangian (lower or
              * upper triangular part only) */
             nele_hess = numvar;
-            
-            for(int j=NbPipes;j<numvar-1;j++){
-                oprfo[j] = TapsConst2[j - NbPipes];
-                oprgo[j] = 3.0;
-            }
-            for(int j=0;j<NbPipes+1;j++){
-            	c[j] = 0;
-            }
-            for(int j=NbPipes + 1;j<numvar;j++){
-            	c[j] = TapsConst1[j - NbPipes - 1];
-            }
 
-            /* set the number of variables and allocate space for the bounds */
-            n = numvar;
-            double x_L[] = new double[n];
-            double x_U[] = new double[n];
-            for(int i=0; i < n; i++){
-                    x_L[i] = blx[i];
-                    x_U[i] = bux[i];
-            }
-
-            /* set the number of constraints and allocate space for the bounds */
-            m = cont;
-            double g_L[] = new double[m];
-            double g_U[] = new double[m];
-            /* set the values of the constraint bounds */
-            for(int i=0; i < m; i++){
-                g_L[i] = blc[i];
-                g_U[i] = buc[i];
-            }
-            
             /* Index style for the irow/jcol elements */
             int index_style = Ipopt.C_STYLE;
             
@@ -71,42 +46,36 @@ public class SimulationProblem extends Ipopt {
             this.ptre = ptre;
             this.sub = sub;
             this.val = val;
+            this.blx = blx;
+            this.bux = bux;
+            this.blc = blc;
+            this.buc = buc;
 
-            /* create the IpoptProblem */
-            //create(n, x_L, x_U, m, g_L, g_U, nele_jac, nele_hess, index_style);
-            create(n, m, nele_jac, nele_hess, index_style);
-            //addStrOption("jac_c_constant","yes"); //because of the linear constraints
-            //addStrOption("mehrotra_algorithm","yes");
-            //addStrOption("linear_solver","mumps");
-            //addNumOption("mumps_pivtol",1);
+
+            setStringOption("jac_c_constant","yes"); //because of the linear constraints
             setStringOption("mehrotra_algorithm","yes");
             setStringOption("linear_solver","mumps");
             setNumericOption("mumps_pivtol",1);
+            setIntegerOption("print_level", 100);//0 to disable
             
-            //addIntOption("print_level",0);
-    }
-    
-    public double[] getInitialGuess(){
-            /* allocate space for the initial point and set the values */
-            double x[] = new double[n];
-            for(int i=0; i < x.length; i++){
-                    x[i] = 0;
-            }
-            return x;
+            /* create the IpoptProblem */
+            create(n, m, nele_jac, nele_hess, index_style);
     }
 
     protected boolean eval_f(int n, double[] x, boolean new_x, double[] obj_value) {
             assert n == this.n;
 
+            // x>= 0
             for(int i = 0; i < n; i++){
             	if(x[i] < 0){
                 	return false;
                 }
             }
 
+            // 
             obj_value[0] = 0;
             for(int i=0; i < n; i++){
-            	obj_value[0] += this.c[i]*x[i];
+            	obj_value[0] += c[i]*x[i];
             }
             for(int i=0; i < n-1; i++){
             	obj_value[0] += oprfo[i] * Math.pow(x[i+1], oprgo[i]);
@@ -213,25 +182,34 @@ public class SimulationProblem extends Ipopt {
     	return Math.pow(a,b);
     }
 
-	@Override
 	protected boolean get_bounds_info(int n, double[] x_l, double[] x_u, int m, double[] g_l, double[] g_u) {
-		// TODO Auto-generated method stub
-        /* set the number of variables and allocate space for the bounds */
-        //n = numvar;
-        //double x_L[] = new double[n];
-        //double x_U[] = new double[n];
-        //for(int i=0; i < n; i++){
-        //        x_L[i] = blx[i];
-        //        x_U[i] = bux[i];
-        //}
-		return false;
+        assert n == this.n;
+        assert m == this.m;
+        
+		for(int i=0; i < n; i++){
+        	x_l[i] = blx[i];
+        	x_u[i] = bux[i];
+        }
+		
+        for(int i=0; i < m; i++){
+        	g_l[i] = blc[i];
+        	g_u[i] = buc[i];
+        }
+        
+        
+		return true;
 	}
-
-	@Override
+	
 	protected boolean get_starting_point(int n, boolean init_x, double[] x, boolean init_z, double[] z_L, double[] z_U,
 			int m, boolean init_lambda, double[] lambda) {
-		// TODO Auto-generated method stub
-		return false;
+    	assert init_z == false;
+    	assert init_lambda = false;
+    	if( init_x ){
+    		for(int i=0; i < x.length; i++){
+    			x[i] = 0;
+    		}
+    	}
+		return true;
 	}
 
 }
