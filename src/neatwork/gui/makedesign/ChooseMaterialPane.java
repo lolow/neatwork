@@ -13,7 +13,7 @@ import javax.swing.*;
 
 
 /**
- * Panel de choix du mat�riel
+ * Panel de choix du materiel
  * @author L. DROUET
  * @version 1.0
  */

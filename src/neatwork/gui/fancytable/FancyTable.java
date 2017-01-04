@@ -13,7 +13,7 @@ import javax.swing.event.*;
 
 
 /**
- * JTable am�lior� :
+ * JTable ameliore :
  * @author L. DROUET
  * @version 1.0
  */

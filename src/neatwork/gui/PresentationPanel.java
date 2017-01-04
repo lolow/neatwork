@@ -11,7 +11,7 @@ import javax.swing.border.*;
 
 
 /**
- * Page de pr�sentation
+ * Page de presentation
  * @author L. DROUET
  * @version 1.0
  */

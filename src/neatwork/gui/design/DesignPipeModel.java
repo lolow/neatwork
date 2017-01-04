@@ -172,7 +172,7 @@ public class DesignPipeModel extends FancyTableModel {
         return content;
     }
 
-    //renvoie la r�ference correspondante au diametre dans la hashtable, null sinon
+    //renvoie la reference correspondante au diametre dans la hashtable, null sinon
     private String getRef(Hashtable htable, Diameter diam) {
         String ref = null;
         Enumeration e = htable.keys();
@@ -190,10 +190,10 @@ public class DesignPipeModel extends FancyTableModel {
 
     /**
      * paste le contenu
-     * renvoie true si ca c'est bien pass�
+     * renvoie true si ca c'est bien passe
      */
     public boolean setPaste(String clip) {
-        //v�rifie le format
+        //verifie le format
         StringTokenizer st1 = new StringTokenizer(clip, "\n"); 
         boolean isOk = true;
 

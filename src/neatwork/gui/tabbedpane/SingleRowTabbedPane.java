@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.*;
 
 
 /**
- * Classe qui d�finit un tabbedPane sur une ligne
+ * Classe qui definit un tabbedPane sur une ligne
  * ATTENTION LE RAMO
  * @author L. DROUET
  * @version 1.0

@@ -29,7 +29,7 @@ public class RunSimulation {
     //private double alpha ;
     public double CoefOrif;
 
-    /*variables de dimensionnement du probl�me en question*/
+    /*variables de dimensionnement du probleme en question*/
     public int NbDiam;
     public int NbPipes;
     public int NbNodes;
@@ -37,19 +37,15 @@ public class RunSimulation {
     public int n;
     public int m;
 
-    /*Bornes inf�rieures et sup�rieures sur les variables*/
-    public double[] Lower;
-    public double[] Upper;
+    /*Bornes inferieures et superieures sur les variables*/
     public double[] F;
     public double[] y;
     public double[] Dual;
 
     /*Types et valeurs des Constantes des contraintes*/
     public int[] Type;
-    public double[] Cste;
     public boolean TypePb = true;
 
-    //public int MOSEKKEY[];
     public RunSimulation(double[] f, NodesVector nv, PipesVector pv,
         TapsVector tv, double outflow, double rate, double seuil,
         double seuil2, String operation, int index, double CoefOrif1) {
@@ -243,89 +239,170 @@ public class RunSimulation {
         }
     }
 
-    // Initialization for the resolution of simulation
+        
+    // Preparation of the NLP simulation problem
     public void Resolution(double outflow) {
 
-    	// look for preceding, following nodes
+    	// Look for preceding, following nodes
         for (int i = 0; i < nsubvector.size(); i++) {
             Nodes nodes = (Nodes) nsubvector.elementAt(i);
             psubvector.GetSuivPred(nodes);
         }
 
-        boundkey[] bkc = new boundkey[m]; /* types des contraintes */
-        double[] blc = new double[m]; /* bornes inf des contraintes */
-        double[] buc = new double[m]; /* bornes sup des contraintes */
-        double[] c = new double[n]; /* coeff des variables lineaires dans la fonction obj*/
-        
-        boundkey[] bkx = new boundkey[n]; /* types des variables */
-        Lower = new double[n];
-        Upper = new double[n];
-        
-        double[] oprfo = new double[n - 1];
-        double[] oprgo = new double[n - 1];
-        double[] oprho = new double[n - 1];
-        mosek.scopr[] opro = new mosek.scopr[n - 1];
-        int[] oprjo = new int[n - 1];
-
         y = new double[m]; /* variables duales */
 
         Type = new int[m];
-        Cste = new double[m];
-
-        /* Initialisation des bornes des variables */
-        for (int i = 0; i < n; i++) {
-            Lower[i] = 0;
-            Upper[i] = tsubvector.size() * outflow * 1000 * 100;
+        
+        // PROBLEM SIZE
+        int numcon = nsubvector.size();
+        int numvar = psubvector.size() + tsubvector.size() + 1;
+        int numanz = (2 * psubvector.size()) + 1 + tsubvector.size(); // Number of non-zeros
+        
+        // VARIABLES
+        boundkey[] bkx = new boundkey[numvar]; // Variable bound type
+        double[] blx = new double[numvar];
+        double[] bux = new double[numvar];
+        
+        // Variable bounds
+        for (int i = 0; i < numvar; i++) {
+            blx[i] = 0;
+            bux[i] = tsubvector.size() * outflow * 1e3 * 1e2;
             bkx[i] = mosek.boundkey.ra;
         }
-
+        
+        // CONSTRAINTS
+        boundkey[] bkc = new boundkey[numcon]; /* types des contraintes */
+        double[] blc = new double[numcon]; /* bornes inf des contraintes */
+        double[] buc = new double[numcon]; /* bornes sup des contraintes */  
+        
         /* Initialisation de la partie constante des contraintes */
-        for (int i = 0; i < m; i++){
-            Cste[i] = 0;
+        for (int i = 0; i < numcon; i++){
+            blc[i] = 0;
+            buc[i] = 0;
             bkc[i] = mosek.boundkey.fx;
         }
-
-        /* Coefficients de la matrice A */
-        double[] CstGradCoeff = new double[(2 * psubvector.size()) + 1 +
-            tsubvector.size()];
-
-        /* Indice de ligne du coeff de la matrice A */
-        int[] CstGradIRow = new int[(2 * psubvector.size()) + 1 +
-            tsubvector.size()];
-
-        /* Indice du premier coeff de la colonne i */
-        int[] CstGradIColumn = new int[n];
-
-        /* Indice du dernier coeff de la colonne i */
-        int[] CstGradIColumn2 = new int[n];
         
-        MatriceA(CstGradCoeff, CstGradIRow, CstGradIColumn, CstGradIColumn2);
+        //LINEAR component of constraints: matrix A
+		double[] val = new double[numanz]; // matrix coefficient
+		int[] sub = new int[numanz]; // row index
+		int[] ptrb = new int[numvar]; // first coeff in column i
+		int[] ptre = new int[numvar]; // last coeff in column i
 
-        /* les valeurs des coefficients dans la fonction objective
-         * pour les variables Pipes et les variables Taps
-         */
-        double[] PipesConst = new double[psubvector.size()];
-        double[] TapsConst1 = new double[tsubvector.size()];
-        double[] TapsConst2 = new double[tsubvector.size()];
-        Cvector(PipesConst, TapsConst1, TapsConst2);
+		int cpt1 = 1;
 
-        for (int j = 0; j < psubvector.size(); j++) {
-            Pipes pipes = (Pipes) psubvector.elementAt(j);
-            opro[j] = mosek.scopr.pow;
-            oprjo[j] = j + 1;
-            oprfo[j] = PipesConst[j];
-            oprgo[j] = pipes.p1 + 1;
-            oprho[j] = 0.0;
+		// var1
+		val[0] = 1;
+		sub[0] = 0;
+		ptrb[0] = 0;
+
+		// columns for pipe variables
+		for (int i = 1; i < (psubvector.size() + 1); i++) {
+			ptrb[i] = cpt1;
+			ptre[i - 1] = ptrb[i];
+
+			Pipes pipes = (Pipes) psubvector.elementAt(i - 1);
+
+			for (int j = 0; j < numcon; j++) {
+				Nodes nodes = (Nodes) nsubvector.elementAt(j);
+
+				if (nodes.nodes.equalsIgnoreCase(pipes.nodes_beg)) {
+					val[cpt1] = -1;
+					sub[cpt1] = j;
+					cpt1++;
+				}
+
+				if (nodes.nodes.equalsIgnoreCase(pipes.nodes_end)) {
+					val[cpt1] = 1;
+					sub[cpt1] = j;
+					cpt1++;
+				}
+			}
+		}
+
+		// columns for tap variables
+        for (int i = psubvector.size() + 1; i < numvar; i++) {
+            ptrb[i] = cpt1;
+            ptre[i - 1] = ptrb[i];
+            val[cpt1] = -1;
+            sub[cpt1] = (numcon - tsubvector.size() + i) - psubvector.size() - 1;
+            cpt1++;
         }
 
-        int L = (2 * psubvector.size()) + 1 + tsubvector.size();
-
+        ptre[numvar - 1] = cpt1;
+        
+        
+        // OBJECTIVE FUNCTION
+      
+        // NON-LINEAR components of the objective function
+        mosek.scopr[] opro;  // which method 
+        int[]         oprjo; // variable index 
+        double[]      oprfo; // f constant 
+        double[]      oprgo; // g constant 
+        double[]      oprho; // h constant
+        
+        double[] PipesConst = new double[psubvector.size()]; // keep oprfo for pipes
+        
+        // Init, number of nl components is number of variable -1
+        opro = new mosek.scopr[numvar - 1];
+        oprjo = new int[numvar - 1];
+        oprfo = new double[numvar - 1];
+        oprgo = new double[numvar - 1];
+        oprho = new double[numvar - 1];
+        
+        // for each pipe, the nl objective component will be 
+        // oprfo * ( x + oprho )^oprgo
+        for (int j = 0; j < psubvector.size(); j++) {
+            Pipes pipes = (Pipes) psubvector.elementAt(j);
+            
+            opro[j] = mosek.scopr.pow; // funtionnal form
+            oprjo[j] = j + 1;
+            oprfo[j] = pipes.beta1 / (pipes.p1 + 1) * Math.pow(0.001, pipes.p1) * (pipes.l1 / Math.pow(pipes.d1, pipes.q1));
+            oprgo[j] = pipes.p1 + 1;
+            oprho[j] = 0.0;
+            
+            PipesConst[j] = oprfo[j];
+        }
+        
+        // Coefficients of the Tap variables
+        double[] TapsConst1 = new double[tsubvector.size()];
+        double[] TapsConst2 = new double[tsubvector.size()];
+        for (int i = 0; i < tsubvector.size(); i++) {
+            Taps taps = (Taps) tsubvector.elementAt(i);
+            Nodes nodes = (Nodes) nsubvector.elementAt(nsubvector.size() -
+                    tsubvector.size() + i);
+            TapsConst1[i] = nodes.height;
+            TapsConst2[i] = ((1 / (3 * taps.faucetCoef)) +
+                (Math.pow(CoefOrif, 4) / (3 * Math.pow(taps.orifice, 4)))) * 1e-6;
+        }
+        
+        // for each tap, the nl objective component will be 
+        // oprfo * ( x + oprho )^oprgo
+		for (int j = psubvector.size(); j < numvar - 1; j++) {
+			opro[j] = mosek.scopr.pow; // funtionnal form
+			oprjo[j] = j + 1;
+			oprfo[j] = TapsConst2[j - psubvector.size()];
+			oprgo[j] = 3.0;
+			oprho[j] = 0.0;
+		}
+       
+        // LINEAR components of the objective function
+        double[] c = new double[numvar]; // linear coef in the obj func
+        
+		// var1 + pipe variables
+		for (int j = 0; j < psubvector.size() + 1; j++) {
+			c[j] = 0;
+		}
+		// tap variables
+		for (int j = psubvector.size() + 1; j < numvar; j++) {
+			c[j] = TapsConst1[j - psubvector.size() - 1];
+		}
+        
         Solver solver = new Solver();
 
-        solver.nlp(m, n, L, psubvector.size(), 
+        solver.nlp(numcon, numvar, numanz,
         		bkc, blc, buc, 
-        		bkx, CstGradIColumn, CstGradIColumn2, Lower, Upper, F, y, c,
-            CstGradIRow, CstGradCoeff, PipesConst, TapsConst1, TapsConst2,
+        		bkx, ptrb, ptre, blx, bux, F, y, c,
+            sub, val,
             oprfo, oprgo, oprho, opro, oprjo);
 
     }
@@ -357,70 +434,6 @@ public class RunSimulation {
         }
 
         return dual;
-    }
-
-    /* Cette procedure calcule tous les coeff de la fonction objective */
-    public void Cvector(double[] PipesConst, double[] TapsConst1,
-        double[] TapsConst2) {
-        for (int i = 0; i < psubvector.size(); i++) {
-            Pipes pipes = (Pipes) psubvector.elementAt(i);
-
-            PipesConst[i] = pipes.beta1 / (pipes.p1 + 1) * Math.pow(0.001,
-                    pipes.p1) * (pipes.l1 / Math.pow(pipes.d1, pipes.q1));
-        }
-
-        for (int i = 0; i < tsubvector.size(); i++) {
-            Taps taps = (Taps) tsubvector.elementAt(i);
-            Nodes nodes = (Nodes) nsubvector.elementAt(nsubvector.size() -
-                    tsubvector.size() + i);
-            TapsConst1[i] = nodes.height;
-            TapsConst2[i] = ((1 / (3 * taps.faucetCoef)) +
-                (Math.pow(CoefOrif, 4) / (3 * Math.pow(taps.orifice, 4)))) * 0.000001;
-        }
-    }
-
-    /* Cette procedure initialise la matrice A du probleme de
-      simulation */
-    public void MatriceA(double[] CstGradCoeff, int[] CstGradIRow,
-        int[] CstGradIColumn, int[] CstGradIColumn2) {
-        int cpt1 = 1;
-        CstGradCoeff[0] = 1;
-        CstGradIRow[0] = 0;
-        CstGradIColumn[0] = 0;
-
-        for (int i = 1; i < (psubvector.size() + 1); i++) {
-            CstGradIColumn[i] = cpt1;
-            CstGradIColumn2[i - 1] = CstGradIColumn[i];
-
-            Pipes pipes = (Pipes) psubvector.elementAt(i - 1);
-
-            for (int j = 0; j < m; j++) {
-                Nodes nodes = (Nodes) nsubvector.elementAt(j);
-
-                if (nodes.nodes.equalsIgnoreCase(pipes.nodes_beg)) {
-                    CstGradCoeff[cpt1] = -1;
-                    CstGradIRow[cpt1] = j;
-                    cpt1++;
-                }
-
-                if (nodes.nodes.equalsIgnoreCase(pipes.nodes_end)) {
-                    CstGradCoeff[cpt1] = 1;
-                    CstGradIRow[cpt1] = j;
-                    cpt1++;
-                }
-            }
-        }
-
-        for (int i = psubvector.size() + 1; i < n; i++) {
-            CstGradIColumn[i] = cpt1;
-            CstGradIColumn2[i - 1] = CstGradIColumn[i];
-            CstGradCoeff[cpt1] = -1;
-            CstGradIRow[cpt1] = (m - tsubvector.size() + i) -
-                psubvector.size() - 1;
-            cpt1++;
-        }
-
-        CstGradIColumn2[n - 1] = cpt1;
     }
 
     public void TapsStatistic(double seuil2, double seuil, int index) {

@@ -28,7 +28,7 @@ public class Topographie extends Network {
         //nettoie les erreurs
         freeInfoModif();
 
-        //d�coupage des lignes
+        //decoupage des lignes
         Vector v = Tools.readCSV(content);
 
         //mise a jour
@@ -234,8 +234,8 @@ public class Topographie extends Network {
     }
 
     /**
-    * renvoie pour chaque noeud le nombre de robinet � charge
-    * Attention, ne fonctionne qu'avec un topo deja d�ployer
+    * renvoie pour chaque noeud le nombre de robinet e charge
+    * Attention, ne fonctionne qu'avec un topo deja deployer
     */
     public Hashtable getLoadTaps() {
         //remplit la hashtable
@@ -272,7 +272,7 @@ public class Topographie extends Network {
 
     /**
     * renvoie pour chaque noeud le facteur de charge
-    * Attention, ne fonctionne qu'avec un topo deja d�ployer
+    * Attention, ne fonctionne qu'avec un topo deja deployer
     */
     public Hashtable getLoadFactor(Hashtable loadTaps) {
         double targetflow = Double.parseDouble(getProperties().getProperty("topo.targetflow.value")); 
@@ -349,12 +349,12 @@ public class Topographie extends Network {
         return getPredPipe(node, pipeList2);
     }
 
-    //construit le topo modifie avec les points faucet � plusieurs robinets
+    //construit le topo modifie avec les points faucet e plusieurs robinets
     public void makeExpandedTopo() {
         nodeList2 = new Vector();
         pipeList2 = new Vector();
 
-        //g�re les faucet avec 0 robinets
+        //gere les faucet avec 0 robinets
         Iterator iter = nodeList.iterator();
 
         while (iter.hasNext()) {
@@ -382,13 +382,13 @@ public class Topographie extends Network {
             if ((item.getType() == Node.TYPE_FAUCET) && (item.getNbTaps() > 1)) {
                 char a = 'a';
 
-                //ajout du noeud modifi�
+                //ajout du noeud modifie
                 Node oldnode = new Node(item);
                 oldnode.setType(Node.TYPE_DISPATCH);
                 oldnode.setNbTaps(0);
                 nodeList2.add(oldnode);
 
-                //ajout des branches n�cessaires
+                //ajout des branches necessaires
                 for (int i = 0; i < item.getNbTaps(); i++) {
                     //ajout d'un noeud
                     Node n = new Node(item);

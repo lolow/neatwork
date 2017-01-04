@@ -6,7 +6,7 @@ import javax.swing.*;
 
 
 /**
- * vérifie que l'entée est un double
+ * verifie que l'entee est un double
  * @author L. DROUET
  * @version 1.0
  */

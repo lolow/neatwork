@@ -37,7 +37,7 @@ public class MakeDesignDialog extends JDialog implements ActionListener {
             (d.height - getSize().height) / 2);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        //calcul la topographie �tendue
+        //calcul la topographie etendue
         this.topographie = topographie;
         hsource = topographie.setHauteurSource(0);
         topographie.makeExpandedTopo();

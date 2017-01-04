@@ -14,7 +14,7 @@ import java.util.*;
 
 
 /**
- * solver du cot� serveur ou en local
+ * solver du cote serveur ou en local
  * @author L. DROUET
  * @version 1.0
  */
@@ -234,7 +234,7 @@ public class SolverDisk extends AbstractSolver {
             getElapsedTime(tick) + ")");  
     }
 
-    /** renvoie les pressions des noeuds estim�s d'une simu */
+    /** renvoie les pressions des noeuds estimes d'une simu */
     public String getSimulationContent() {
         String content = ""; 
 

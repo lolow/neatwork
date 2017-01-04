@@ -3,7 +3,7 @@ package neatwork.utils;
 import java.util.*;
 
 /**
- * Permet de comparer des vecteurs par leur elements indic�
+ * Permet de comparer des vecteurs par leur elements indice
  * @author L. DROUET
  * @version 1.0
  */

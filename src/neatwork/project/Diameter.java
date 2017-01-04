@@ -13,7 +13,7 @@ import java.util.Comparator;
  * @version 1.0
  */
 public class Diameter implements Same, Comparator {
-    public final static int TYPE_PVC = 1; //index � 1 pour garder la compatibilit� avec old neatwork
+    public final static int TYPE_PVC = 1; //index e 1 pour garder la compatibilite avec old neatwork
     public final static int TYPE_IRON = 2;
     public static String[] typeName = {
         "", Messages.getString("Diameter.PVC"),

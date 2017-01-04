@@ -309,7 +309,7 @@ public class TreeNetwork extends JTable implements Observer, MouseListener {
         }
     }
 
-    // r�agit aux clicks
+    // reagit aux clicks
     public void mouseClicked(MouseEvent e) {
         int row = rowAtPoint(e.getPoint());
         int col = columnAtPoint(e.getPoint());
@@ -317,7 +317,7 @@ public class TreeNetwork extends JTable implements Observer, MouseListener {
 
         if ((node.length() > 0) && (!node.substring(0, 1).equals("_"))) { 
 
-            //remonte � la source
+            //remonte e la source
             nodePath.clear();
 
             Iterator iter = network.getNodeIterator();

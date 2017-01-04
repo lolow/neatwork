@@ -8,3 +8,4 @@ manifest.mf
 build/*
 /bin/
 *.classpath
+*.so

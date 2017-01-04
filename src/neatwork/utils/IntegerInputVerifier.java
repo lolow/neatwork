@@ -6,7 +6,7 @@ import javax.swing.*;
 
 
 /**
- * vérifie que l'entée est un entier
+ * verifie que l'entee est un entier
  * @author L. DROUET
  * @version 1.0
  */

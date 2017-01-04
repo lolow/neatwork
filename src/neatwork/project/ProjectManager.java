@@ -67,7 +67,7 @@ public class ProjectManager extends Observable {
         setIndex(projects.size() - 1);
     }
 
-    /** enl�ve le projet a la position index */
+    /** enleve le projet a la position index */
     public Project removeProject(int index) {
         if ((index > -1) && (index < projects.size())) {
             Project project = (Project) projects.remove(index);
@@ -94,13 +94,13 @@ public class ProjectManager extends Observable {
         return projects.listIterator();
     }
 
-    /** projet deja charg� et renvoie un nouveau project utilisable*/
+    /** projet deja charge et renvoie un nouveau project utilisable*/
     public String isAlreadyLoaded(Project project) {
         String oldname = project.getName();
         String name = oldname;
         int cpt = 2;
 
-        //regarde si le nom est indic�
+        //regarde si le nom est indice
         int i = oldname.lastIndexOf("("); 
         int j = oldname.lastIndexOf(")"); 
 

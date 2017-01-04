@@ -28,7 +28,7 @@ public class Design extends Network {
         //nettoie les erreurs
         freeInfoModif();
 
-        //d�coupage des lignes
+        //decoupage des lignes
         Vector v = Tools.readCSV(content);
 
         //mise a jour
@@ -404,7 +404,7 @@ public class Design extends Network {
         }
     }
 
-    //rafraichit les ref au design avec les donn�es de la database
+    //rafraichit les ref au design avec les donnees de la database
     public void refreshDesign(Database database) {
         Enumeration e = diamTable.keys();
 

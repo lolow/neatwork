@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * @author lolow
  *
- * Cette classe d�finit une action pour changer la locale de l'application
+ * Cette classe definit une action pour changer la locale de l'application
  */
 public class LocaleAction extends AbstractAction {
 

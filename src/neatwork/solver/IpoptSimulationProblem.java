@@ -12,6 +12,7 @@ public class IpoptSimulationProblem extends Ipopt {
     double[] c;
     double[] oprfo;
     double[] oprgo;
+    double[] oprho;
     double[] val;
     double[] bux;
     double[] blx;
@@ -21,11 +22,11 @@ public class IpoptSimulationProblem extends Ipopt {
     /**
      * Initialize the bounds and create the native Ipopt problem.
      */
-    public IpoptSimulationProblem(int cont, int numvar, int numanz, int NbPipes,
+    public IpoptSimulationProblem(int numcon, int numvar, int numanz,
     		mosek.boundkey[] bkc, double[] blc, double[] buc, mosek.boundkey[] bkx, int[] ptrb,
 			int[] ptre, double[] blx, double[] bux, double[] x, double[] y,
-			double[] c, int[] sub, double[] val, double[] PipesConst,
-			double[] TapsConst1, double[] TapsConst2, double[] oprfo,
+			double[] c, int[] sub, double[] val,
+			double[] oprfo,
 			double[] oprgo, double[] oprho, mosek.scopr[] opro, int[] oprjo) {
 
                 
@@ -39,9 +40,12 @@ public class IpoptSimulationProblem extends Ipopt {
             int index_style = Ipopt.C_STYLE;
             
             /* Class variables*/
+            this.n = numvar;
+            this.m = numcon;
             this.c = c;
             this.oprfo = oprfo;
             this.oprgo = oprgo;
+            this.oprho = oprho;
             this.ptrb = ptrb;
             this.ptre = ptre;
             this.sub = sub;
@@ -78,7 +82,7 @@ public class IpoptSimulationProblem extends Ipopt {
             	obj_value[0] += c[i]*x[i];
             }
             for(int i=0; i < n-1; i++){
-            	obj_value[0] += oprfo[i] * Math.pow(x[i+1], oprgo[i]);
+            	obj_value[0] += oprfo[i] * Math.pow(x[i+1] + oprho[i], oprgo[i]);
             }
 
             return true;

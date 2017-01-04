@@ -2,7 +2,7 @@ package neatwork.utils;
 
 
 /**
- * interface pour la méthode isSame()
+ * interface pour la methode isSame()
  * @author L. DROUET
  * @version 1.0
  */

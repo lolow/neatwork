@@ -14,18 +14,17 @@ import mosek.*;
 public class Solver {
 	
 	//Optimize Network design
-	public void lp(int cont, int numvar, int numanz, 
+	public void lp(int numcon, int numvar, int numanz, 
 			boundkey[] bkc, double[] blc, double[] buc, 
 			boundkey[] bkx, double[] blx, double[] bux, 
-			int[] ptrb, int[] ptre, int[] sub, double[] val, 
-			double[] xx, double[] c) {
+			int[] ptrb, int[] ptre, int[] asub, double[] aval, 
+			double[] x, double[] c) {
 
 		// use GLPK
-		lp_glpk(cont, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, sub, val, xx, c);
+		lp_glpk(numcon, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, asub, aval, x, c);
 
 		// or MOSEK
-		lp_mosek(cont, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, sub, val, xx, c);
-		
+		lp_mosek(numcon, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, asub, aval, x, c);
 
 	}
 	
@@ -231,54 +230,41 @@ public class Solver {
 	
 
 	//SIMULATION
-	public void nlp(int cont, int numvar, int numanz, int NbPipes,
+	public void nlp(int cont, int numvar, int numanz, 
 			boundkey[] bkc, double[] blc, double[] buc,
 			boundkey[] bkx, int[] ptrb, int[] ptre, double[] blx, double[] bux,
 			double[] x, double[] y, double[] c, int[] sub, 
-			double[] val, double[] PipesConst,
-			double[] TapsConst1, double[] TapsConst2, double[] oprfo,
+			double[] val,
+			double[] oprfo,
 			double[] oprgo, double[] oprho, mosek.scopr[] opro, int[] oprjo) {
 
-        for(int j=NbPipes;j<numvar-1;j++){
-            oprfo[j] = TapsConst2[j - NbPipes];
-            oprgo[j] = 3.0;
-        }
-        for(int j=0;j<NbPipes+1;j++){
-        	c[j] = 0;
-        }
-        for(int j=NbPipes + 1;j<numvar;j++){
-        	c[j] = TapsConst1[j - NbPipes - 1];
-        }
-		
 		// Use MOSEK
-		nlp_mosek0();
-		nlp_mosek(cont, numvar, numanz, NbPipes,
+		nlp_mosek(cont, numvar, numanz,
 				bkc,  blc, buc, bkx, ptrb,
 				ptre, blx, bux, x, y,
-				c, sub, val, PipesConst,
-				TapsConst1, TapsConst2, oprfo,
+				c, sub, val, 
+				oprfo,
 				oprgo, oprho, opro, oprjo);	
 		
 		// Use IPOPT
-//		nlp_ipopt(cont, numvar, numanz, NbPipes,
-//				bkc,  blc, buc, bkx, ptrb,
-//				ptre, blx, bux, x, y,
-//				c, sub, val, PipesConst,
-//				TapsConst1, TapsConst2, oprfo,
-//				oprgo, oprho, opro, oprjo);	
+		/*nlp_ipopt(cont, numvar, numanz,
+				bkc,  blc, buc, bkx, ptrb,
+				ptre, blx, bux, x, y,
+				c, sub, val,
+				oprfo, oprgo, oprho, opro, oprjo);*/	
 	}
 
 	//SIMULATION
-	public void nlp_ipopt(int cont, int numvar, int numanz, int NbPipes,
+	public void nlp_ipopt(int numcon, int numvar, int numanz,
 			boundkey[] bkc, double[] blc, double[] buc, boundkey[] bkx, int[] ptrb,
 			int[] ptre, double[] blx, double[] bux, double[] x, double[] y,
-			double[] c, int[] sub, double[] val, double[] PipesConst,
-			double[] TapsConst1, double[] TapsConst2, double[] oprfo,
+			double[] c, int[] sub, double[] val,
+			double[] oprfo,
 			double[] oprgo, double[] oprho, mosek.scopr[] opro, int[] oprjo) {
 
-		IpoptSimulationProblem pb = new IpoptSimulationProblem(cont, numvar, numanz, NbPipes,
-				bkc, blc, buc, bkx, ptrb, ptre, blx, bux, x, y, c, sub, val, PipesConst,
-				TapsConst1, TapsConst2, oprfo, oprgo, oprho, opro, oprjo);
+		IpoptSimulationProblem pb = new IpoptSimulationProblem(numcon, numvar, numanz,
+				bkc, blc, buc, bkx, ptrb, ptre, blx, bux, x, y, c, sub, val,
+				oprfo, oprgo, oprho, opro, oprjo);
 
         //Solve the problem
         int status = pb.OptimizeNLP();
@@ -309,88 +295,12 @@ public class Solver {
 		}
     }
 	
-	//SIMULATION
-	public void nlp_mosek0(){
-		try (Env  env  = new Env();
-				Task task = new Task(env,0,0))
-		{
-			task.set_Stream(
-					mosek.streamtype.log,
-					new mosek.Stream() 
-					{ public void stream(String msg) { System.out.print(msg); }});
-
-			int numvar = 2;
-			int numcon = 2;
-			double inf = 0.;
-
-			mosek.boundkey[]
-					bkc = new mosek.boundkey[] {
-							mosek.boundkey.up, 
-							mosek.boundkey.lo};
-
-			double[] blc = new double[] {-inf, .0 };
-			double[] buc = new double[] {  .0, inf};
-
-			mosek.boundkey[] bkx = new mosek.boundkey[] {
-					mosek.boundkey.ra, mosek.boundkey.ra};
-
-			double[] blx = new double[] {0.5, 0.5};
-			double[] bux = new double[] {1.0, 1.0};
-
-			task.appendvars(numvar);
-			task.appendcons(numcon);
-
-			task.putvarboundslice(0, numvar, bkx, blx, bux);
-			task.putconboundslice(0, numcon, bkc, blc, buc);
-
-			task.putaij(1, 1, -1.0);
-
-			mosek.scopr[] opro  = new mosek.scopr[] {mosek.scopr.log, mosek.scopr.exp};
-			int[]    oprjo      = new int[]    {    0,   1 };
-			double[] oprfo      = new double[] { -1.0, 1.0 };
-			double[] oprgo      = new double[] {  1.0, 1.0 };
-			double[] oprho      = new double[] {  0.0, 0.0 };
-
-
-			mosek.scopr[] oprc  = new mosek.scopr[] { mosek.scopr.ent, mosek.scopr.pow };
-			int[] opric         = new int[]    {   0,   1 };
-			int[] oprjc         = new int[]    {   1,   0 };
-			double[] oprfc      = new double[] { 1.0, 1.0 };
-			double[] oprgc      = new double[] {  .0, 0.5 };
-			double[] oprhc      = new double[] {  .0, 0.0 };
-
-			task.putSCeval(opro, oprjo, oprfo, oprgo, oprho,
-					oprc, opric, oprjc, oprfc, oprgc, oprhc);
-			task.putintparam(mosek.iparam.write_ignore_incompatible_items,1);
-			task.writeSC("scopt1.sco","scopt1.opf");
-
-			task.optimize();
-
-			double[] res = new double[numvar];
-			task.getsolutionslice(
-					mosek.soltype.itr,
-					mosek.solitem.xx,
-					0, numvar,
-					res);
-
-			System.out.print("Solution is: [ " + res[0]);
-			for (int i = 1; i < numvar; ++i) System.out.print(", " + res[i]);
-			System.out.println(" ]");
-		}
-		catch (mosek.Exception e)
-		{
-			System.out.println ("An error/warning was encountered");
-			System.out.println (e.toString());
-			throw e;
-		}
-	}
-	
-	public void nlp_mosek(int numcon, int numvar, int numanz, int NbPipes,
+	public void nlp_mosek(int numcon, int numvar, int numanz,
 			boundkey[] bkc, double[] blc, double[] buc, 
 			boundkey[] bkx, int[] ptrb,
 			int[] ptre, double[] blx, double[] bux, double[] x, double[] y,
-			double[] c, int[] sub, double[] val, double[] PipesConst,
-			double[] TapsConst1, double[] TapsConst2, double[] oprfo,
+			double[] c, int[] sub, double[] val,
+			double[] oprfo,
 			double[] oprgo, double[] oprho, mosek.scopr[] opro, int[] oprjo) {
 		
 		//Convert the sparse matrix
@@ -438,36 +348,31 @@ public class Solver {
 						asub[j],               /* Row index of non-zeros in column j.*/
 						aval[j]);              /* Non-zero Values of column j. */
 			}
-
-
-			mosek.scopr[] oprc  = new mosek.scopr[numcon];
-			int[] opric         = new int[numcon];
-			int[] oprjc         = new int[numcon];
-			double[] oprfc      = new double[numcon];
-			double[] oprgc      = new double[numcon];
-			double[] oprhc      = new double[numcon];
 			
 			task.putSCeval(opro, oprjo, oprfo, oprgo, oprho,
-					oprc, opric, oprjc, oprfc, oprgc, oprhc);
-			
-			task.putintparam(mosek.iparam.write_ignore_incompatible_items,1);
-			task.writeSC("scopt1.sco","scopt1.opf");
+					null, null, null, null, null, null); // null indicate no non-linear components in constraints
 
 			// Input the objective sense (minimize/maximize)
 			task.putobjsense(mosek.objsense.minimize);
 			
 			task.optimize();
 
-			double[] res = new double[numvar];
 			task.getsolutionslice(
 					mosek.soltype.itr,
 					mosek.solitem.xx,
 					0, numvar,
-					res);
+					x);
+			for (int i = 1; i < numvar; ++i) System.out.println(x[i]);
+			System.out.println();
+			
+			task.getsolutionslice(
+					mosek.soltype.itr,
+					solitem.y,
+					0, numcon,
+					y);
+			for (int i = 1; i < numcon; ++i) System.out.println(y[i]);
 
-			System.out.print("Solution is: [ " + res[0]);
-			for (int i = 1; i < numvar; ++i) System.out.print(", " + res[i]);
-			System.out.println(" ]");
+			
 		}
 		catch (mosek.Exception e)
 		{

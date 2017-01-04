@@ -21,7 +21,7 @@ public abstract class FancyTableModel extends AbstractTableModel {
     public FancyTableModel() {
     }
 
-    /** mets a jour les donn�es*/
+    /** mets a jour les donnees*/
     public abstract void updateData();
 
     public String getColumnName(int i) {
@@ -114,10 +114,10 @@ public abstract class FancyTableModel extends AbstractTableModel {
 
     /**
      * paste le contenu
-     * renvoie true si ca c'est bien pass�
+     * renvoie true si ca c'est bien passe
      */
     public boolean setPaste(String clip) {
-        //v�rifie le format
+        //verifie le format
         StringTokenizer st1 = new StringTokenizer(clip, "\n"); 
         boolean isOk = true;
 

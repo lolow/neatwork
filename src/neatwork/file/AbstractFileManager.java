@@ -6,7 +6,7 @@ import java.util.*;
 
 
 /**
- * Classe qui d�finit les classes abstraites du FileManager
+ * Classe qui definit les classes abstraites du FileManager
  * @author L. DROUET
  * @version 1.0
  */

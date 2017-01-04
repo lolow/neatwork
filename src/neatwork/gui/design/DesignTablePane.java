@@ -18,7 +18,7 @@ import javax.swing.event.*;
 
 
 /**
- * Panel d'�dition d'un design
+ * Panel d'edition d'un design
  * @author L. DROUET
  * @version 1.0
  */

@@ -112,7 +112,7 @@ public class Tools {
         return index;
     }
 
-    /** renvoie un panel avec un jtable orn� de bouton et d'un lib�*/
+    /** renvoie un panel avec un jtable orne de bouton et d'un libe*/
     public static JPanel getPanelTable(String title, Action[] actions,
         JTable jTable) {
         JPanel main = new JPanel(new BorderLayout(5, 5));

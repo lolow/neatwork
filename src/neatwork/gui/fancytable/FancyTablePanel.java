@@ -6,7 +6,7 @@ import javax.swing.*;
 
 
 /**
- * Panel qui contient un table et des boutons associ�s
+ * Panel qui contient un table et des boutons associes
  * @author L. DROUET
  * @version 1.0
  */

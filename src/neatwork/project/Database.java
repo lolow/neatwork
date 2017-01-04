@@ -93,7 +93,7 @@ public class Database extends Observable {
         return temp.elements();
     }
 
-    //renvoi le diametre de la base qui correspond au caract�ristiques
+    //renvoi le diametre de la base qui correspond au caracteristiques
     public Diameter getDiameter(Diameter diameter) {
         Enumeration e = getDiameters();
 
