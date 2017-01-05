@@ -3,7 +3,7 @@ package neatwork.core.run;
 import neatwork.core.defs.*;
 
 
-/** classe core : ne doit jamais etre appel\u00E9 directement*/
+/** classe core : ne doit jamais etre appele directement*/
 public class Decoupe {
     public Decoupe(double[] x, double lcom, int NbPipes,
         DiametersVector dvector, PipesVector pvector) {

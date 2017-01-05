@@ -3,8 +3,8 @@ package neatwork.core.defs;
 import java.util.Comparator;
 
 
-/** d\u00E9finition d'un orifice*/
-public class Orifices implements Comparator {
+/** definition d'un orifice*/
+public class Orifices implements Comparator<Object> {
     public final static double MAXDIAM = 10000;
     public double diam;
 

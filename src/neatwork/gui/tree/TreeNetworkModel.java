@@ -14,7 +14,8 @@ import javax.swing.table.DefaultTableModel;
  * @version 1.0
  */
 public class TreeNetworkModel extends DefaultTableModel {
-    public Hashtable tableCoord;
+	private static final long serialVersionUID = 7646190904371522798L;
+	public Hashtable tableCoord;
     private int nbrow = 0;
     private int nbcol = 0;
 

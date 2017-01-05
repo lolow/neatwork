@@ -20,7 +20,7 @@ public class Network extends Project {
         super(type, name);
     }
 
-    //gestion des listes=====================================//
+    //gestion des listes
     public void addNode(Node node) {
         //si une source
         if ((node.getType() == Node.TYPE_RESERVOIR) && thereIsAlreadyASource()) {
@@ -305,7 +305,6 @@ public class Network extends Project {
     //algo en O(m)
     public Node getFirstPred(Node n) {
         boolean find = false;
-        boolean find2 = false;
         Iterator iter = pipeList.iterator();
         Pipe p = null;
 

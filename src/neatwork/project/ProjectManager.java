@@ -13,7 +13,7 @@ public class ProjectManager extends Observable {
     public static final int MODIF_ADDPROJECT = 1;
     public static final int MODIF_REMOVEPROJECT = 2;
     public static final int MODIF_SETINDEX = 3;
-    private List projects = new Vector();
+    private List<Project> projects = new Vector<Project>();
     private int index = -1;
 
     public ProjectManager() {
@@ -90,7 +90,7 @@ public class ProjectManager extends Observable {
     }
 
     /** renvoie le nombre de projects*/
-    public ListIterator getProjectIterator() {
+    public ListIterator<Project> getProjectIterator() {
         return projects.listIterator();
     }
 

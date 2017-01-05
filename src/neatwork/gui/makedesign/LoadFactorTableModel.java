@@ -10,7 +10,7 @@ import java.util.*;
 
 
 /**
- * modele de donn\u00E9es pour les facteurs de charge
+ * modele de donnees pour les facteurs de charge
  * @author L. DROUET
  * @version 1.0
  */

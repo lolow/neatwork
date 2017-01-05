@@ -68,7 +68,6 @@ public class SimuTableModel extends FancyTableModel {
     private int[] myWhidthHeader = { 100 };
     private int currentType = 0;
     private Simulation simu;
-    private Design design;
     private FancyTable table;
 
     public SimuTableModel(Design design, Simulation simu, FancyTable table) {

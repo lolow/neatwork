@@ -127,7 +127,7 @@ public class Project extends Observable {
         }
 
         boolean same = true;
-        Enumeration e = p1.propertyNames();
+        Enumeration<?> e = p1.propertyNames();
 
         while ((e.hasMoreElements()) && (same)) {
             String prop = e.nextElement().toString();

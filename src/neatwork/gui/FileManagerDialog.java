@@ -57,7 +57,7 @@ public class FileManagerDialog extends JDialog
 	private JLabel jLabel = new JLabel();
 	private JLabel jLabelPath = new JLabel();
 	private JLabel jLabelStatus = new JLabel(" ");
-	private JList<String> jList = new JList<String>();
+	private JList jList = new JList();
 	private JTextField jTextField = new JTextField();
 
 	public FileManagerDialog(JFrame frame, AbstractFileManager fileManager, Properties properties) {

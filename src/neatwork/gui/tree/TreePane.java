@@ -21,8 +21,8 @@ import javax.swing.JTextField;
  * @version 1.0
  */
 public class TreePane extends JPanel implements ActionListener {
-    private Network network;
-    private JTextField textField;
+	private static final long serialVersionUID = 245617727939983669L;
+	private JTextField textField;
     private TreeNetwork treeNetwork;
 
     public TreePane(Network network) {

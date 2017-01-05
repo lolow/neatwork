@@ -3,9 +3,12 @@ package neatwork.core.defs;
 import java.util.*;
 
 
-/** d\u00E9finition of the vector of pipes*/
+/** definition of the vector of pipes*/
 public class PipesVector extends Vector {
-    public PipesVector() {
+ 
+	private static final long serialVersionUID = -8857049388529568538L;
+
+	public PipesVector() {
     }
 
     public void addPipes(Pipes p) {
@@ -152,8 +155,8 @@ public class PipesVector extends Vector {
     d'un noeud donne */
     public void GetSuivPred(Nodes nodes) {
         Pipes pipes;
-        nodes.suiv = new Vector();
-        nodes.pred = new Vector();
+        nodes.suiv = new Vector<Nodes>();
+        nodes.pred = new Vector<Nodes>();
 
         for (int i = 0; i < size(); i++) {
             pipes = (Pipes) elementAt(i);

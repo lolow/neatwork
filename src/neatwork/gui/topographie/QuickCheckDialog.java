@@ -95,7 +95,6 @@ public class QuickCheckDialog extends JDialog implements ActionListener {
         if (e.getActionCommand().equals("apply")) { 
 
             try {
-                double seuil = Double.parseDouble(textSeuil.getText());
                 Properties p = new Properties();
                 p.setProperty("topo.seuil.value", textSeuil.getText()); 
                 topo.setProperties(p);
@@ -104,7 +103,6 @@ public class QuickCheckDialog extends JDialog implements ActionListener {
             }
 
             try {
-                double alpha = Double.parseDouble(textAlpha.getText());
                 Properties p = new Properties();
                 p.setProperty("topo.faucetcoef.value", textAlpha.getText()); 
                 topo.setProperties(p);

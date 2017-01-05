@@ -13,7 +13,7 @@ import java.util.*;
 public class Design extends Network {
     private Hashtable diamTable;
     private Hashtable loadFactor;
-    private Vector orifice;
+    private Vector<Object> orifice;
 
     public Design(String name, String content, Properties defaultProperties) {
         super(Project.TYPE_DESIGN, name);
@@ -35,12 +35,12 @@ public class Design extends Network {
         Properties properties = new Properties(getProperties());
         diamTable = new Hashtable();
         loadFactor = new Hashtable();
-        orifice = new Vector();
+        orifice = new Vector<Object>();
         removeNetwork();
 
         //passe 1 : node et properties
-        for (Enumeration e = v.elements(); e.hasMoreElements();) {
-            Vector t = (Vector) e.nextElement();
+        for (Enumeration<?> e = v.elements(); e.hasMoreElements();) {
+            Vector<Object> t = (Vector<Object>) e.nextElement();
 
             //diametre
             if ((t.size() == 9)) {
@@ -70,8 +70,8 @@ public class Design extends Network {
         }
 
         //passe 2 : pipes
-        for (Enumeration e = v.elements(); e.hasMoreElements();) {
-            Vector t = (Vector) e.nextElement();
+        for (Enumeration<?> e = v.elements(); e.hasMoreElements();) {
+            Vector<Object> t = (Vector<Object>) e.nextElement();
 
             //pipe
             if (t.size() == 8) {
@@ -94,7 +94,7 @@ public class Design extends Network {
     }
 
     /** renvoie le vecteur des orifices*/
-    public Vector getOrifices() {
+    public Vector<Object> getOrifices() {
         return orifice;
     }
 

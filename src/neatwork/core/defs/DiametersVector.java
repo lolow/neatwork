@@ -10,7 +10,9 @@ import java.util.*;
  *
  */
 public class DiametersVector extends Vector {
-    private final String taFile = "t-a.properties"; 
+
+	private static final long serialVersionUID = 3968718726405911610L;
+	private final String taFile = "t-a.properties"; 
     private final String dbaFile = "d-b-a.properties"; 
 
     public DiametersVector(Vector data, Properties prop) {

@@ -5,7 +5,10 @@ import java.util.*;
 
 /** definition du vecteur de taps*/
 public class TapsVector extends Vector {
-    public void addTaps(Taps t) {
+
+	private static final long serialVersionUID = -569548333211185728L;
+
+	public void addTaps(Taps t) {
         addElement(t);
     }
 

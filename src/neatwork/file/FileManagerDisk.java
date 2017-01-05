@@ -10,7 +10,7 @@ import java.util.*;
 
 
 /**
- * Classe qui d\u00E9finit un gestionnaire de fichier disque
+ * Classe qui definit un gestionnaire de fichier disque
  * @author L. DROUET
  * @version 1.0
  */

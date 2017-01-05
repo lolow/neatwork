@@ -5,7 +5,11 @@ import java.util.*;
 
 /** definition d'un vecteur de noeud*/
 public class NodesVector extends Vector {
-    public void addNodes(Nodes n) {
+
+
+	private static final long serialVersionUID = 3291826119714125448L;
+
+	public void addNodes(Nodes n) {
         addElement(n);
     }
 

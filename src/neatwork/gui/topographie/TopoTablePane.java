@@ -17,7 +17,7 @@ import javax.swing.*;
 
 
 /**
- * Classe d'\u00E9dition du topo par table
+ * Classe d'edition du topo par table
  * @author L. DROUET
  * @version 1.0
  */
