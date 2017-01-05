@@ -17,16 +17,12 @@ import java.util.*;
 public class MakeDesign {
     private double[] x;
     private CoreTopographie topo;
-    private DiametersVector dvector;
     private Vector diametresContent;
     private Vector orificeContent;
-    private Hashtable loadFactor;
 
     public MakeDesign(CoreTopographie topo, DiametersVector dvector,
         OrificesVector ovector, Properties prop, Hashtable LoadFactor) {
         this.topo = topo;
-        this.dvector = dvector;
-        this.loadFactor = LoadFactor;
 
         // Properties and default value
         double outflow = Double.parseDouble(prop.getProperty(

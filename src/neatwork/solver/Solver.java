@@ -326,7 +326,6 @@ public class Solver {
 
 			task.appendvars(numvar);
 			task.appendcons(numcon);
-		
 			
 			// Set the bounds on constraints.
 			// blc[i] <= constraint_i <= buc[i] 

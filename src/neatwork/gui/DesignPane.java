@@ -18,32 +18,30 @@ import java.util.*;
 
 import javax.swing.*;
 
-
 /**
  * Panel qui affiche un design
+ * 
  * @author L. DROUET
  * @version 1.0
  */
 public class DesignPane extends JPanel {
-    Design design;
-    JTabbedPane jTabbedPane = new JTabbedPane();
 
-    public DesignPane(Design design, Database database,
-        AbstractFileManager fileManager, Properties properties) {
-        this.design = design;
-        setLayout(new BorderLayout());
-        jTabbedPane.setTabPlacement(JTabbedPane.TOP);
+	private static final long serialVersionUID = 6644951720115447151L;
+	Design design;
+	JTabbedPane jTabbedPane = new JTabbedPane();
 
-        //text pane
-        jTabbedPane.addTab(Messages.getString("DesignPane.Tables"),
-            new DesignTablePane(design, database)); 
-        jTabbedPane.addTab(Messages.getString("DesignPane.Simulation"), 
-            new SimulationPane(design, fileManager, properties));
-        jTabbedPane.addTab(Messages.getString("DesignPane.TreeView"),
-            new TreePane(design)); 
-        jTabbedPane.addTab(Messages.getString("DesignPane.Text"),
-            new TextPane(design)); 
+	public DesignPane(Design design, Database database, AbstractFileManager fileManager, Properties properties) {
+		this.design = design;
+		setLayout(new BorderLayout());
+		jTabbedPane.setTabPlacement(JTabbedPane.TOP);
 
-        add(jTabbedPane, BorderLayout.CENTER);
-    }
+		// text pane
+		jTabbedPane.addTab(Messages.getString("DesignPane.Tables"), new DesignTablePane(design, database));
+		jTabbedPane.addTab(Messages.getString("DesignPane.Simulation"),
+				new SimulationPane(design, fileManager, properties));
+		jTabbedPane.addTab(Messages.getString("DesignPane.TreeView"), new TreePane(design));
+		jTabbedPane.addTab(Messages.getString("DesignPane.Text"), new TextPane(design));
+
+		add(jTabbedPane, BorderLayout.CENTER);
+	}
 }
