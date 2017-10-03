@@ -21,7 +21,7 @@ public class Solver {
 			double[] x, double[] c) {
 
 		// use GLPK
-		lp_glpk(numcon, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, asub, aval, x, c);
+		// lp_glpk(numcon, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, asub, aval, x, c);
 
 		// or MOSEK
 		lp_mosek(numcon, numvar, numanz, bkc, blc, buc, bkx, blx, bux, ptrb, ptre, asub, aval, x, c);
@@ -276,13 +276,13 @@ public class Solver {
         	System.out.println("*** The NLP problem was not solved successfully!");
         
         double obj = pb.getObjectiveValue();
-        System.out.println("\nObjective Value = " + obj + "\n");
+        //System.out.println("\nObjective Value = " + obj + "\n");
 
         // primal values
         double x0[] = pb.getVariableValues();
 		for(int i = 0; i < x0.length; i++){
 			x[i] = x0[i];
-            System.out.println(x[i]);
+            //System.out.println(x[i]);
 		}
         
         double lam[] = pb.getConstraintMultipliers();
@@ -361,15 +361,15 @@ public class Solver {
 					mosek.solitem.xx,
 					0, numvar,
 					x);
-			for (int i = 1; i < numvar; ++i) System.out.println(x[i]);
-			System.out.println();
+			//for (int i = 1; i < numvar; ++i) System.out.println(x[i]);
+			//System.out.println();
 			
 			task.getsolutionslice(
 					mosek.soltype.itr,
 					solitem.y,
 					0, numcon,
 					y);
-			for (int i = 1; i < numcon; ++i) System.out.println(y[i]);
+			//for (int i = 1; i < numcon; ++i) System.out.println(y[i]);
 
 			
 		}

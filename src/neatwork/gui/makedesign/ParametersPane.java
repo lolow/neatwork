@@ -31,7 +31,6 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
 
         //fields
         DoubleInputVerifier dblInput = new DoubleInputVerifier();
-        IntegerInputVerifier intInput = new IntegerInputVerifier();
         textfield = new JTextField[8];
 
         for (int i = 0; i < textfield.length; i++) {
@@ -44,7 +43,6 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
                 BorderFactory.createEtchedBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-        Properties prop = topo.getProperties();
         fieldPane.add(new JLabel(Messages.getString(
                     "ParametersPane.<html><b>-_Make_Design_Parameters</b>"))); 
         fieldPane.add(new JLabel("")); 
@@ -76,23 +74,6 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
 
         JPanel pann = new JPanel(new BorderLayout());
 
-        //ajout d'un bouton pour entrer en Celsius
-        //JButton celsius = new JButton("Celsius temp.");
-        //celsius.addActionListener( new ActionListener() {
-        //  public void actionPerformed(ActionEvent e) {
-        //    String rep = JOptionPane.showInputDialog(null,
-        //           "Enter a temperature in Fahren. Neatwork will convert this value in Fahrenheit",
-        //           "Celsius conversion",
-        //           JOptionPane.PLAIN_MESSAGE);
-        //    if (rep!=null)
-        //    try {
-        //      double val = Double.parseDouble(rep);
-        //      val *= 1.8;
-        //      val += 32;
-        //      textfield[4].setText(Tools.doubleFormat("0.##",val));
-        //    } catch (NumberFormatException ex) {}
-        //  }
-        //});
         pann.add(textfield[4], BorderLayout.CENTER);
 
         //pann.add(celsius, BorderLayout.EAST);
@@ -225,12 +206,6 @@ public class ParametersPane extends JPanel implements Observer, ActionListener {
         }
 
         topo.setProperties(prop);
-    }
-
-    private Properties getProperties(String data) {
-        saveValue();
-
-        return topo.getProperties();
     }
 
     public void update(Observable observable, Object param) {

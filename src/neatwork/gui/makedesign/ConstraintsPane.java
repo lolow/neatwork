@@ -34,7 +34,6 @@ public class ConstraintsPane extends JPanel implements ActionListener {
     private ComboDatabase comboDiameter1;
     private ComboDatabase comboDiameter2;
     private JTextField textFieldLength1 = new JTextField(10);
-    private JLabel label1 = new JLabel();
     private CardLayout cardLayout;
     private JPanel ypanel;
     private Vector constraints;

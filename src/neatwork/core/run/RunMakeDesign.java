@@ -157,6 +157,7 @@ public class RunMakeDesign {
 	public void Resolution(double[] x, NodesVector nvector, PipesVector pvector, DiametersVector dvector,
 			TapsVector tvector, double outflow, double PrixMax, double[] ACoeff, int[] AIRow, int[] AIColumn,
 			int[] AIColumn2, int L, double[] c, boundkey[] bkx, double[] blx, double[] bux, double lcom) {
+		
 		/* constraints definition */
 		mosek.boundkey[] bkc = new mosek.boundkey[m];
 		double[] blc = new double[m];
