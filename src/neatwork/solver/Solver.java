@@ -1,5 +1,8 @@
 package neatwork.solver;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.coinor.Ipopt;
 import org.gnu.glpk.GLPK;
 import org.gnu.glpk.GLPKConstants;
@@ -48,10 +51,25 @@ public class Solver {
         	}            	
     	}
 		
+        Properties p = new Properties();
+		try {
+			p.load(getClass().getResourceAsStream("mosek.properties"));
+		} catch (IOException e) {
+		}
+        String[] lic = p.getProperty("mosek.license", "0").split(",");
+        int[] neatwork_mosek_license = new int[lic.length];
+        for(int i=0;i<lic.length;i++) {
+        	neatwork_mosek_license[i] = Integer.parseInt(lic[i]);
+        }
+        
 		try (
-			mosek.Env  env = new Env();
-			 mosek.Task task = new Task(env,0,0))
+			mosek.Env env = new Env();
+				mosek.Task task = new Task(env,0,0))
 		{
+			if(neatwork_mosek_license.length>1) {
+				env.putlicensecode(neatwork_mosek_license);				
+			}
+			
 			// Directs the log task stream to the user specified
 			// method task_msg_obj.stream
 			task.set_Stream(
@@ -275,7 +293,7 @@ public class Solver {
         else
         	System.out.println("*** The NLP problem was not solved successfully!");
         
-        double obj = pb.getObjectiveValue();
+        //double obj = pb.getObjectiveValue();
         //System.out.println("\nObjective Value = " + obj + "\n");
 
         // primal values
@@ -316,9 +334,24 @@ public class Solver {
         	}
     	}
 		
+        Properties p = new Properties();
+		try {
+			p.load(getClass().getResourceAsStream("mosek.properties"));
+		} catch (IOException e) {
+		}
+        String[] lic = p.getProperty("mosek.license", "0").split(",");
+        int[] neatwork_mosek_license = new int[lic.length];
+        for(int i=0;i<lic.length;i++) {
+        	neatwork_mosek_license[i] = Integer.parseInt(lic[i]);
+        }
+        
 		try (Env  env  = new Env();
 				Task task = new Task(env,0,0))
 		{
+			if(neatwork_mosek_license.length>1) {
+				env.putlicensecode(neatwork_mosek_license);				
+			}
+			
 			task.set_Stream(
 					mosek.streamtype.log,
 					new mosek.Stream() 

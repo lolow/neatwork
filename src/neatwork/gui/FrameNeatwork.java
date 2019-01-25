@@ -75,7 +75,7 @@ public class FrameNeatwork extends JFrame implements Observer, Runnable, ItemLis
 	private Action reportTopoAction;
 	private Action reportDesignAction;
 
-	// Loclization
+	// Localization
 	private String[] langList = { Messages.getString("FrameNeatwork.English"),
 			Messages.getString("FrameNeatwork.Spanish"), Messages.getString("FrameNeatwork.French") }; //$NON-NLS-2$
 	private String[] langcode = { Locale.ENGLISH.getLanguage(), "sp", Locale.FRENCH.getLanguage() }; // $NON-NLS-3$

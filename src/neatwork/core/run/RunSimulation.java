@@ -149,10 +149,10 @@ public class RunSimulation {
     /* Selection un ensemble de robinet ouvert pour une simulation */
     public void SelectTaps(double rate) {
         int i;
-        int j;
+        /*int j;
         int k;
         long index;
-        int NbPip = tvector.size();
+        int NbPip = tvector.size();*/
         Taps taps = null;
 
         /* on ferme tous les robinets */
@@ -160,8 +160,28 @@ public class RunSimulation {
         for (i = 0; i < tvector.size(); i++) {
             ((Taps) tvector.elementAt(i)).select = "close"; 
         }
+        /* Pour chaque robinet, on tire au hasard pour savoir s'il sera ouvert */
 
-        /* On calcule le nombre de robinets a ouvrir */
+        for (i = 0; i < tvector.size(); i++) {
+        	taps = (Taps) tvector.elementAt(i);
+        	if (Math.random()<rate) { 
+        		taps.select = "open";
+        	}
+        }
+        
+         /* On initialise le sous vecteur de Taps */
+        for (i = 0; i < tvector.size(); i++) {
+            taps = (Taps) tvector.elementAt(i);
+
+            if (taps.select.equals("open")) { 
+                tsubvector.addTaps(taps);
+            }
+        }
+    }
+        
+        
+        
+        /* On calcule le nombre de robinets a ouvrir 
         long NB = Math.round(Math.ceil(tvector.size() * rate));
 
         if (NB > tvector.size()) {
@@ -169,6 +189,22 @@ public class RunSimulation {
         }
 
         /* on selectionne les robinets ouverts */
+        /* Ce qui était programmé correspond à choisir un nombre de robinets 
+        égal à l'arrondi supérieur du nombre moyen de robinets ouverts. 
+        Dans la nouvelle programmation, il faudra ce nombre de robinet sera égal
+        au nombre de succès. Dans la boucle for, on parcourra la liste des 
+        robinets. On tirera au hasard pour savoir si le robinet est ouvert.
+        Si c'est le cas on incrémentera la variable index d'une unité, sinon
+        index est conservé. A la fin index sera bien égal au nb total de rob ouverts.
+        Avant la boucle on initialise index = 0.
+        le test est si(Math.random() < rate){
+        index++  ??? pour incrémenter index
+        taps = (Taps) tvector.elementAt(k)
+        taps.select = "open"
+        }
+        
+        
+        
         for (i = 0; i < NB; i++) {
             index = Math.round((Math.random() * NbPip) + 0.5);
             NbPip--;
@@ -187,7 +223,7 @@ public class RunSimulation {
             taps.select = "open"; 
         }
 
-        /* On initialise le sous vecteur de Taps */
+        /* On initialise le sous vecteur de Taps 
         for (i = 0; i < tvector.size(); i++) {
             taps = (Taps) tvector.elementAt(i);
 
@@ -196,6 +232,7 @@ public class RunSimulation {
             }
         }
     }
+    */
 
     /* Cette procedure permet de definir le sous reseau associe
       a l'ensemble des robinets ouverts*/
