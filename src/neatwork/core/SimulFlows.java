@@ -34,8 +34,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import neatwork.core.defs.Taps;
-import neatwork.core.defs.TapsVector;
 
 import org.apache.poi.ss.usermodel.CellType;
 
@@ -166,15 +164,15 @@ public class SimulFlows {
             }
         }
         int simulmax = 1000;
-        SimulFlows.run(null, null, nB,  nT, length, h, invest, cible, lbd, S, nbouvert, alpha, beta, maxiter, tolr, tolx, simulmax);
+        SimulFlows.run(nB,  nT, length, h, invest, cible, lbd, S, nbouvert, alpha, beta, maxiter, tolr, tolx, simulmax);
         } catch (IOException e) {
                 e.printStackTrace();
         }
     }
 
-    public static void run (double[] F, TapsVector nodelist, int nB, int nT, double[] length, double[] h, double invest,
+    public static void run (int nB, int nT, double[] length, double[] h, double invest,
     double cible, double lbd, int[][] S, double[] nbouvert, double[] alpha, double[] beta,
-    int maxiter, double tolr, double tolx, int simulmax, double opentaps) {
+    int maxiter, double tolr, double tolx, int simulmax) {
 
         /* Paramètres pour le calcul des débits via l'optimisation
         - maxiter limite le nombre d'itérations dans le calcul des débits
@@ -406,7 +404,7 @@ public class SimulFlows {
         Dat datsave = new Dat(dat);
         
         // Paramètres concernant les simulations
-        // double opentaps = 0.5;
+        double opentaps = 1;
         System.out.printf("Nb de simulations %d ;   proba  %10.2f%n", simulmax, opentaps);
         
         // Sécurité sur les boucles de simulation
@@ -451,24 +449,24 @@ public class SimulFlows {
             // Sélection des robinets fermés.
             // On répète le tirage pour avoir au moins un robinet ouvert (length(K) < dat.nT)
             List<Integer> K = new ArrayList<>();
-            if (dat.nT > 1) { // on ne ferme aucun robinet dans le cas d'un seul robinet terminal
-                if (opentaps < 1) {
-                    while (K.size() == 0 || K.size() == dat.nT) {
-                        K.clear();
-            
-                        double[] randomVector = new double[dat.nT];
-                        for (int i = 0; i < dat.nT; i++) {
-                            randomVector[i] = Math.random();
-                        }
-            
-                        for (int i = 0; i < dat.nT; i++) {
-                            if (randomVector[i] > opentaps) {
-                                K.add(i);
-                            }
+            if (opentaps < 1) {
+                while (K.size() == 0 || K.size() == dat.nT) {
+                    K.clear();
+        
+                    double[] randomVector = new double[dat.nT];
+                    for (int i = 0; i < dat.nT; i++) {
+                        randomVector[i] = Math.random();
+                    }
+        
+                    for (int i = 0; i < dat.nT; i++) {
+                        if (randomVector[i] > opentaps) {
+                            K.add(i);
                         }
                     }
                 }
             }
+
+
             // // TEST pour éviter la génération aléatoire
             // K.clear();
             // K.add(0);            
@@ -736,35 +734,10 @@ public class SimulFlows {
         System.out.println("Résultats");
         System.out.println("   noeud    fréquence   cVar5%%      moy       cVar95%%    coefvar     noeuds   long/1000");
 
-        if (nodelist == null)
-        {
-            for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
-                System.out.printf("%6d%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
-                        i + 1, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
-                        Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
-            }
-        }
-        else 
-        {
-            for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
-                System.out.printf("%6s%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
-                        ((Taps) nodelist.elementAt(i - dat.nB)).taps, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
-                        Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
-            }
-        }
-
-        // // On remplit les débits dans F
-        // if (F != null) {
-        //     for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
-        //         // F[i - dat.nB] = Tab[i - dat.nB][2];
-        //     }
-        // }
-
-        // On remplit les débits dans F
-        if (F != null) {
-            for (int i = 0; i < dat.nB; i++) {
-                F[1+i] = Tab[i - dat.nB][2];
-            }
+        for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
+            System.out.printf("%6d%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
+                    i + 1, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
+                    Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
         }
 
         System.out.printf("Statistiques sur les itérations    min = %d,   moyenne = %1.2f,   max = %d%n",

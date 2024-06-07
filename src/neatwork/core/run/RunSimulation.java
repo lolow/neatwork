@@ -1,7 +1,5 @@
 package neatwork.core.run;
 
-import neatwork.core.MakeSimulation;
-import neatwork.core.SimulFlows;
 import neatwork.core.defs.Nodes;
 import neatwork.core.defs.NodesVector;
 import neatwork.core.defs.Pipes;
@@ -11,8 +9,6 @@ import neatwork.core.defs.TapsVector;
 import neatwork.solver.AbstractSolver;
 import neatwork.solver.Solver;
 
-import java.util.Vector;
-
 import mosek.*;
 
 /**
@@ -21,8 +17,6 @@ import mosek.*;
  * @version 1.0
  */
 public class RunSimulation {
-
-
     public PipesVector pvector;
     public PipesVector psubvector;
     public NodesVector nvector;
@@ -52,37 +46,18 @@ public class RunSimulation {
     public int[] Type;
     public boolean TypePb = true;
 
-    /*Paramètres de la simu*/
-    int[][] S;
-    double length[];
-    double height[];
-    double alphaSimu[];
-    double betaSimu[];
-    double lbd;
-    double invest;
-    int maxiter;
-    double tolr;
-    double tolx;
-    double cible;
-    double[] nbouvert;
-    int nbSim;
-
-
     public RunSimulation(double[] f, NodesVector nv, PipesVector pv,
         TapsVector tv, double outflow, double rate, double seuil,
-        double seuil2, String operation, int index, double CoefOrif1, double lbd, double invest, int maxiter, 
-        double tolr, double tolx, double cible, double[] nbouvert, double alpha, double coeffOrifice, int nbSim) {
+        double seuil2, String operation, int index, double CoefOrif1) {
         this(f, nv, pv, tv, outflow, rate, seuil, seuil2, operation, index,
-            CoefOrif1, null, lbd, invest,
-            maxiter, tolr, tolx, cible, nbouvert, alpha, coeffOrifice, nbSim);
+            CoefOrif1, null);
     }
 
     /* Constructeur */
     public RunSimulation(double[] f, NodesVector nv, PipesVector pv,
         TapsVector tv, double outflow, double rate, double seuil,
         double seuil2, String operation, int index, double CoefOrif1,
-        AbstractSolver solver, double lbd, double invest, int maxiter, 
-        double tolr, double tolx, double cible, double[] nbouvert, double alpha, double coeffOrifice, int nbSim) {
+        AbstractSolver solver) {
     	
         /* Creation des sous vecteurs de pipes, de nodes et de taps */
         psubvector = new PipesVector();
@@ -119,19 +94,9 @@ public class RunSimulation {
             /* Nombre de contraintes */
             m = nsubvector.size();
 
-            if (tsubvector.size() > 0) {
-                int[][] S = getPathMatrix(nsubvector, psubvector, tsubvector);
-                double length[] = getLength(psubvector);
-                double height[] = getHeight(nsubvector);
-                double alphaSimu[] = getAlpha(alpha, coeffOrifice, tsubvector);
-                double betaSimu[] = getBeta(psubvector);
-    
-                /* procedure de resolution */
-                SimulFlows.run(F, tsubvector, S.length, S[0].length, length, height, invest, cible, lbd, S, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate);
-    
-                // Resolution(outflow);
-                TapsStatistic(seuil2, seuil, index);
-            }
+            /* procedure de resolution */
+            Resolution(outflow);
+            TapsStatistic(seuil2, seuil, index);
         }
 
         /* simulations des robinets un par un */
@@ -153,19 +118,9 @@ public class RunSimulation {
                 n = psubvector.size() + tsubvector.size() + 1;
                 m = nsubvector.size();
 
-                if (tsubvector.size() > 0) {
-                    int[][] S = getPathMatrix(nsubvector, psubvector, tsubvector);
-                    double length[] = getLength(psubvector);
-                    double height[] = getHeight(nsubvector);
-                    double alphaSimu[] = getAlpha(alpha, coeffOrifice, tsubvector);
-                    double betaSimu[] = getBeta(psubvector);
-
-                    // Resolution(outflow);
-                    SimulFlows.run(F, tsubvector, S.length, S[0].length, length, height, invest, cible, lbd, S, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate);
-
-                    TapsStatistic(seuil2, seuil, i);
-                    tsubvector.removeElementAt(0);
-                }
+                Resolution(outflow);
+                TapsStatistic(seuil2, seuil, i);
+                tsubvector.removeElementAt(0);
             }
         }
 
@@ -186,119 +141,9 @@ public class RunSimulation {
             n = psubvector.size() + tsubvector.size() + 1;
             m = nsubvector.size();
 
-            if (tsubvector.size() > 0) {
-
-                int[][] S = getPathMatrix(nsubvector, psubvector, tsubvector);
-                double length[] = getLength(psubvector);
-                double height[] = getHeight(nsubvector);
-                double alphaSimu[] = getAlpha(alpha, coeffOrifice, tsubvector);
-                double betaSimu[] = getBeta(psubvector);
-
-                //Resolution(outflow);
-                SimulFlows.run(F, tsubvector, S.length, S[0].length, length, height, invest, cible, lbd, S, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate);
-
-                TapsStatistic(seuil2, seuil, index);
-            }
+            Resolution(outflow);
+            TapsStatistic(seuil2, seuil, index);
         }
-    }
-
-    public double[] getBeta(PipesVector psubvector) {
-		double[] beta = new double[psubvector.size()];
-		
-		for (int i = 0; i < psubvector.size(); i++) {
-			Pipes pipes = (Pipes) psubvector.elementAt(i);
-			//beta[i] = pipes.beta1 / (pipes.p1 + 1) * Math.pow(0.001, pipes.p1) * (pipes.l1 / Math.pow(pipes.d1, pipes.q1)); // formule originale
-			beta[i] = pipes.beta1 * pipes.length * (pipes.l1 / (pipes.length * Math.pow(pipes.d1, pipes.q1)));
-			if (pipes.d2 != 0.0) {
-				beta[i] += pipes.beta1 * pipes.length * (1 - pipes.l1 / pipes.length) / Math.pow(pipes.d2, pipes.q1);
-			}
-		}
-
-		return beta;
-	}
-
-	public double[] getAlpha(double alpha, double coeffOrifice, TapsVector tsubvector) {
-		double[] alphaSimu = new double[tsubvector.size()];
-		
-		for (int i = 0; i < tsubvector.size(); i++) {
-			Taps taps = (Taps) tsubvector.elementAt(i);
-			//alpha[i] = ((1 / (3 * taps.faucetCoef)) + (Math.pow(coeffOrifice, 4) / (3 * Math.pow(taps.orifice, 4)))) * 1e-6; // formule originale
-			alphaSimu[i] = 1 / alpha + Math.pow(coeffOrifice / taps.orifice, 4);
-		}
-
-		return alphaSimu;
-	}
-
-	public double[] getLength(PipesVector psubvector) {
-		double[] length = new double[psubvector.size()];
-		Pipes pipes;
-
-		for (int i = 0; i < psubvector.size(); i++) {
-			pipes = (Pipes) psubvector.elementAt(i);
-			length[i] = pipes.length;
-		}
-
-		return length;
-	}
-
-	public double[] getHeight(NodesVector nsubVector) {
-		double[] height = new double[nsubVector.size() - 1];
-		Nodes nodes;
-
-		// on commence a l'index 1 pour ne pas prendre en compte le noeud "Source"
-		for (int i = 1; i < nsubVector.size(); i++) {
-			nodes = (Nodes) nsubVector.elementAt(i);
-			height[i-1] = nodes.height;
-		}
-
-		return height;
-	}
-
-	public int[][] getPathMatrix(NodesVector nsubVector, PipesVector psubvector, TapsVector tsubVector) { 
-        int[][] S = new int[nsubVector.size() - tsubVector.size() - 1][tsubVector.size()];
-		Pipes pipes;
-		Taps taps;
-		Nodes nodes;
-		Vector<String> terminalNodes = new Vector<String>();
-		Vector<String> intermNodes = new Vector<String>();
-
-		for (int i = 0; i < tsubVector.size(); i++) {
-			taps = (Taps) tsubVector.elementAt(i);
-			terminalNodes.add(taps.taps);
-		}
-
-		for (int i = 0; i < nsubVector.size(); i++) {
-			nodes = (Nodes) nsubVector.elementAt(i);
-			if (!terminalNodes.contains(nodes.nodes) && nodes.height != 0.0) {
-				intermNodes.add(nodes.nodes);
-			}
-		}
-
-		
-		// on boucle sur chaque tuyau 
-		for (int i = psubvector.size() -1; i >= 0; i--) {
-			pipes = (Pipes) psubvector.elementAt(i);
-			// quand on trouve un noeud terminal on part de celui-ci
-			if (terminalNodes.contains(pipes.nodes_end)) {
-				String tNode = pipes.nodes_end;
-				String prevNode = pipes.nodes_beg;
-				S[intermNodes.indexOf(prevNode)][terminalNodes.indexOf(tNode)] = 1;
-				int j = i-1;
-				// on remonte le chemin du noeud terminal jusqu'a la source pour completer la matrice de chemin
-				while (j > 0) {
-					pipes = (Pipes) psubvector.elementAt(j);
-					if (pipes.nodes_end.equals(prevNode)) {
-						prevNode = pipes.nodes_beg;
-						if (intermNodes.indexOf(prevNode) != -1) {
-							S[intermNodes.indexOf(prevNode)][terminalNodes.indexOf(tNode)] = 1;
-						}
-					}
-					j--;
-				}
-			}
-		}
-
-		return S;
     }
 
     /* Selection un ensemble de robinet ouvert pour une simulation */
@@ -643,7 +488,7 @@ public class RunSimulation {
                 i = (i + number) - 1;
             }
 
-            nodes.pressim[index] = -nodes.height; // anciennement calculé par le solver : - y[i];
+            nodes.pressim[index] = -nodes.height - y[i];
 
             int ind = tsubvector.getIndex(nodes.nodes);
 
