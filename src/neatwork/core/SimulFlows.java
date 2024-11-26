@@ -15,6 +15,8 @@ D. P. Bertsekas, “Projected Newton methods for optimization problems with simp
 SIAM J. Control and Optimization, vol. 20, pp. 221–246, March 1982. */
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,16 +26,24 @@ import javax.xml.crypto.Data;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import neatwork.core.defs.Pipes;
+import neatwork.core.defs.PipesVector;
+import neatwork.core.defs.Taps;
+import neatwork.core.defs.TapsVector;
 
 import org.apache.poi.ss.usermodel.CellType;
 
@@ -59,6 +69,7 @@ public class SimulFlows {
             double cible = 0;
             double lbd = 0;
             int[][] S = new int[0][0];
+            int[][] Sb = new int[0][0];
             double[] nbouvert = new double[0];
             double[] alpha = new double[0];
             double[] beta = new double[0];
@@ -164,15 +175,15 @@ public class SimulFlows {
             }
         }
         int simulmax = 1000;
-        SimulFlows.run(nB,  nT, length, h, invest, cible, lbd, S, nbouvert, alpha, beta, maxiter, tolr, tolx, simulmax);
+        SimulFlows.run(null, null, null, nB,  nT, length, h, invest, cible, lbd, S, Sb, nbouvert, alpha, beta, maxiter, tolr, tolx, simulmax);
         } catch (IOException e) {
                 e.printStackTrace();
         }
     }
 
-    public static void run (int nB, int nT, double[] length, double[] h, double invest,
-    double cible, double lbd, int[][] S, double[] nbouvert, double[] alpha, double[] beta,
-    int maxiter, double tolr, double tolx, int simulmax) {
+    public static void run (double[] dual, double[] F, TapsVector nodelist, PipesVector pipelist, int nB, int nT, double[] length, double[] h, double invest,
+    double cible, double lbd, int[][] S, int[][] Sb, double[] nbouvert, double[] alpha, double[] beta,
+    int maxiter, double tolr, double tolx, int simulmax, double opentaps) {
 
         /* Paramètres pour le calcul des débits via l'optimisation
         - maxiter limite le nombre d'itérations dans le calcul des débits
@@ -184,203 +195,9 @@ public class SimulFlows {
         - tolx définit le seuil à partir duquel un débit est considéré nul.
         Les valeurs proposées ci-dessous sont en relation avec les cas traités
         par APLV. */
-
         Dat dat = new Dat(nB, nT, length, h, invest, cible, lbd, S, nbouvert, alpha, beta, maxiter, tolr, tolx);
-
-        // Dat dat = new Dat(
-        //         3,
-        //         4,
-        //         new double[]{200, 500, 70, 120, 180, 90, 110},
-        //         new double[]{-10, -15, -20, -12, -9, -18, -50},
-        //         455.6179,
-        //         1.2000e-4,
-        //         1.7810,
-        //         new int[][]{
-        //                 {1, 1, 1, 1},
-        //                 {1, 1, 0, 0},
-        //                 {1, 0, 1, 0}
-        //         },
-        //         new double[]{},
-        //         new double[]{2.6837e+8, 1.0695e+8, 8.6923e+8, 3.0646e+9},
-        //         new double[]{1.0972e+7, 2.7429e+7, 1.3032e+7, 2.2341e+7, 1.5844e+7, 1.6756e+7, 2.0479e+7},
-        //         20,
-        //         1e-2,
-        //         1e-6
-        // );
-
-
-        // Dat dat = new Dat(
-        // 74, // dat.nB
-        // 61, // dat.nT
-        // new double[]{ // dat.long
-        //     69, 35, 65, 95, 35, 61, 82, 49, 45, 14, 40, 65, 106, 10, 44, 32, 56, 
-        //     62, 84, 26, 17, 21, 41, 28, 39, 66, 26, 87, 41, 65, 57, 33, 28, 29, 
-        //     32, 89, 22, 137, 84, 66, 83, 59, 136, 84, 48, 108, 66, 13, 39, 23, 
-        //     33, 18, 75, 142, 32, 100, 30, 78, 21, 23, 74, 38, 67, 51, 52, 35, 
-        //     35, 50, 27, 58, 21, 47, 12, 69, 29, 41, 16, 24, 63, 5, 13, 41, 41, 
-        //     20, 19, 24, 8, 31, 31, 34, 17, 37, 42, 52, 32, 194, 114, 17, 17, 54, 
-        //     5, 40, 6, 24, 20, 27, 35, 9, 11, 28, 146, 121, 13, 203, 30, 14, 151, 
-        //     11, 25, 14, 20, 35, 35, 56, 19, 17, 20, 60, 70, 64, 10, 111, 48, 40, 66}, 
-
-        // new double[]{ // dat.h
-        //     -16.8, -26.4, -40, -52.9, -56.6, -67, -76.7, -83.9, -91.9, -84.7, 
-        //     -94.53198389, -110.7, -155.2, -155, -162.1, -157.6, -160.1, -162.4, 
-        //     -165.1, -164.4, -165.5, -171.8, -165.5, -166.3, -171.5, -177.1, -180.8, 
-        //     -187.5, -202.2, -171.6, -170.6, -178.8, -184, -186.5, -173.1, -104.8, 
-        //     -89.8, -125, -119, -114.8, -105.1, -105.1, -110.4, -118.7, -122.3, -136.8, 
-        //     -120.8, -121.7, -127.2, -105.6, -103.8, -105.2, -141.7, -154.8, -155.9, -153.1, 
-        //     -152.8, -161.5, -162.8, -168, -176.1, -163.8, -171.7, -172.6, -175.8, -172.7, 
-        //     -176.6, -182.4, -177.6, -187.4, -192.1, -200.2, -197, -198, -32.41863503, 
-        //     -44.21508682, -60.46302678, -81.68672287, -80.18299053, -159.4, -163.4, 
-        //     -167.3, -178.5, -161.9, -207.1, -207.3, -181.1, -193.5, -193.5, -177.3, 
-        //     -90.27289951, -93.70888464, -118.9, -126.7, -125.2, -145.2, -136.7, -101.8, 
-        //     -103.4, -103.5, -115.4, -117.3, -116.6, -119.2, -121, -121.6, -127.4, -118.5, 
-        //     -120.3, -131.8, -164.6, -151.6, -101.6, -157.7, -137.2, -152.8, -219.6, -171.3, 
-        //     -166.8, -170.5, -167.3, -150.6, -150.6, -155.1, -176.1, -179.7, -170.7, -177.9, 
-        //     -172.3, -174.3, -185.4, -172.8, -206.2, -44.12735787, -162.7}, 
-
-        // 2398.5155, // dat.invest
-        // 0.00012, // dat.cible
-        // 1.781, // dat.lbd
-
-        // new int[][]{ // dat.S
-        //     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        //     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        //     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        //     {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
-        //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}
-        
-        // },
-
-        // new double[]{},
-        // new double[]{ // dat.alpha
-        //     198588537700000.0, 2788948850.30862, 3752967330.36513, 4561355627.24402, 
-        //     3977610083.08795, 7013537837.41436, 6892417990.13253, 7093977813.68743, 
-        //     7843520097.96555, 6450793362.89711, 9181746756.46675, 9188912908.8081, 
-        //     8912274210.21867, 9688510182.13732, 9688510182.13732, 8771882444.56977, 
-        //     5000132900.20402, 5211852032.4861, 6137595992.94651, 6665817186.5181, 
-        //     6588541466.04158, 7759613690.79026, 7276899697.77308, 3901894665.9509, 
-        //     3735920105.03293, 3693116299.02559, 3675444556.44693, 3760329845.05861, 
-        //     3757433342.47075, 3913787046.45517, 3892667353.52202, 3924922189.02213, 
-        //     4299464473.30025, 3481055992.01851, 3603366897.3995, 4283644591.96028, 
-        //     6402765787.21618, 5533601692.17608, 2929174093.87998, 6545341586.83575, 
-        //     4800013674.43753, 5412603534.71692, 9867289442.20328, 6315947979.43307, 
-        //     5984624317.09997, 6045666387.62255, 5688943843.301, 4753150837.15949, 
-        //     4753150837.15949, 5037415343.65983, 6301399501.72162, 6456125724.20348, 
-        //     5445958256.65874, 5855873586.92174, 5076185195.53579, 5223141368.28173, 
-        //     6066580256.32846, 4906951871.65775, 7218329032.24515, 2784201109.42369, 
-        //     5434083260.8615},        
-        
-        // new double[]{// dat.beta
-        //     164195.660014824, 83287.6536307077, 154677.071028457, 
-        //     226066.488426207, 83287.6536307077, 145158.482042091, 195131.074220515, 
-        //     445311.395996728, 720961.373443254, 2606422.50315073, 7446921.43757352, 
-        //     12101247.336057, 19734341.8095698, 1861730.35939338, 8191613.58133087, 
-        //     5957537.15005881, 10425690.0126029, 11542728.228239, 15638535.0189044, 
-        //     4840498.93442279, 3164941.61096875, 3909633.7547261, 7633094.47351286, 
-        //     5212845.00630146, 7260748.40163418, 12287420.3719963, 4840498.93442279, 
-        //     16197054.1267224, 7633094.47351286, 12101247.336057, 10611863.0485423, 
-        //     6143710.18599815, 5212845.00630146, 5399018.0422408, 5957537.15005882, 
-        //     1425901.38303221, 4095806.79066544, 2194926.84803835, 15638535.0189044, 
-        //     1057410.01438344, 1329773.19990645, 945260.467403378, 2178905.48418406, 
-        //     1345794.56376074, 769025.465006137, 1730307.29626381, 12287420.3719963, 
-        //     2420249.46721139, 7260748.40163418, 4281979.82660477, 6143710.18599815, 
-        //     3351114.64690808, 1201602.28907209, 2275033.66730982, 512683.643337425, 
-        //     1602136.38542945, 5585191.07818014, 1249666.38063497, 336448.640940185, 
-        //     368491.368648774, 1185580.9252178, 7074575.36569484, 3675508.57263056, 
-        //     2797775.18215162, 2852633.51905656, 6516056.25787683, 6442702.12385988, 
-        //     9308651.7969669, 5026671.97036213, 10798036.0844816, 3909633.7547261, 
-        //     8750132.68914888, 2234076.43127206, 12845939.4798143, 5399018.0422408, 
-        //     7633094.47351286, 2978768.57502941, 4468152.86254411, 11728901.2641783, 
-        //     930865.17969669, 2420249.46721139, 7633094.47351286, 7633094.47351286, 
-        //     3723460.71878676, 3537287.68284742, 4468152.86254411, 1489384.2875147, 
-        //     5771364.11411948, 5771364.11411948, 6329883.22193749, 3164941.61096875, 
-        //     6888402.32975551, 7819267.50945219, 9680997.86884557, 5957537.15005882, 
-        //     36117568.9722316, 21223726.0970845, 3164941.61096875, 3164941.61096875, 
-        //     10053343.9407243, 930865.17969669, 7446921.43757352, 1117038.21563603, 
-        //     4468152.86254411, 3723460.71878676, 5026671.97036212, 6516056.25787683, 
-        //     1675557.32345404, 2047903.39533272, 5212845.00630146, 27181263.2471433, 
-        //     22526937.3486599, 2420249.46721139, 37793126.2956856, 5585191.07818014, 
-        //     2606422.50315073, 28112128.42684, 2047903.39533272, 4654325.89848345, 
-        //     2606422.50315073, 3723460.71878676, 6516056.25787683, 6516056.25787683, 
-        //     10425690.0126029, 3537287.68284742, 3164941.61096875, 3723460.71878676, 
-        //     11170382.1563603, 13032112.5157537, 11915074.3001176, 1861730.35939338, 
-        //     20665206.9892665, 8936305.72508822, 7446921.43757352, 12287420.3719963},
-
-        // 20,
-        // 1e-2,
-        // 1e-6
-
-        // );
+    
+                
 
         // Variables pour stocker les temps cumulés
         long totalHessienTime = 0;
@@ -404,7 +221,7 @@ public class SimulFlows {
         Dat datsave = new Dat(dat);
         
         // Paramètres concernant les simulations
-        double opentaps = 1;
+        // double opentaps = 0.5;
         System.out.printf("Nb de simulations %d ;   proba  %10.2f%n", simulmax, opentaps);
         
         // Sécurité sur les boucles de simulation
@@ -426,7 +243,7 @@ public class SimulFlows {
 
         int[] iter = new int[simulmax];
         double[][] X = new double[dat.nT][simulmax];
-        int[][] T = Utils.createLowerTriangularMatrix(dat.nB);
+        // int[][] T = Utils.createLowerTriangularMatrix(dat.nB);
         double[][] P = new double[dat.nB][simulmax];
         long startTime = System.currentTimeMillis();
 
@@ -436,7 +253,6 @@ public class SimulFlows {
 
         // Calcul et affichage du temps de prétraitement
         long preTraitementDuration = preTraitementEndTime - preTraitementStartTime;
-
 
         // Boucle de simulation des scénarios
         while (k < simulmax) {
@@ -449,41 +265,26 @@ public class SimulFlows {
             // Sélection des robinets fermés.
             // On répète le tirage pour avoir au moins un robinet ouvert (length(K) < dat.nT)
             List<Integer> K = new ArrayList<>();
-            if (opentaps < 1) {
-                while (K.size() == 0 || K.size() == dat.nT) {
-                    K.clear();
-        
-                    double[] randomVector = new double[dat.nT];
-                    for (int i = 0; i < dat.nT; i++) {
-                        randomVector[i] = Math.random();
-                    }
-        
-                    for (int i = 0; i < dat.nT; i++) {
-                        if (randomVector[i] > opentaps) {
-                            K.add(i);
+            if (dat.nT > 1) { // on ne ferme aucun robinet dans le cas d'un seul robinet terminal
+                if (opentaps < 1) {
+                    while (K.size() == 0 || K.size() == dat.nT) {
+                        K.clear();
+            
+                        double[] randomVector = new double[dat.nT];
+                        for (int i = 0; i < dat.nT; i++) {
+                            randomVector[i] = Math.random();
+                        }
+            
+                        for (int i = 0; i < dat.nT; i++) {
+                            if (randomVector[i] > opentaps) {
+                                K.add(i);
+                            }
                         }
                     }
                 }
             }
 
-
-            // // TEST pour éviter la génération aléatoire
-            // K.clear();
-            // K.add(0);            
-            // K.add(1);
-            // K.add(2);
-            // // FIN TEST
-            
-            /* Mise à niveau des paramètres du réseau pour la simulation en cours
-            tout ce qui a trait aux robinets fermés n'est pas pertinent dans le calcul
-            des débits */
-            dat.nT -= K.size();
-
-            dat.h = Utils.removeElements(dat.h, K, dat.nB);
-            dat.S = Utils.removeColumns(dat.S, K);
-            dat.alpha = Utils.removeElements(dat.alpha, K);
-            dat.beta = Utils.removeElements(dat.beta, K, dat.nB);
-
+        
             dat.nbouvert = new double[dat.nT];
             Arrays.fill(dat.nbouvert, 1.0);
 
@@ -498,32 +299,45 @@ public class SimulFlows {
 
             int i = 0;
             // Calcul du gradient et du Hessien au point de départ
+
             double[] y = new double[dat.S.length];
-            for (int j = 0; j < dat.S.length; j++) {
-                for (int l = 0; l < dat.S[j].length; l++) {
-                    y[j] += dat.S[j][l] * x[l];
+
+            
+            for (int j = 0; j < pipelist.size() - nodelist.size(); j++) {
+                Pipes pipes = (Pipes) pipelist.elementAt(j);
+            
+                int n_end;
+            
+                n_end = Integer.parseInt(pipes.nodes_end);
+                
+            
+                for (int l = 0; l < nodelist.size(); l++) {
+                    // y[n_end - 2] += dat.S[n_end - 2][l] * x[l];
+                    y[n_end - 2] += dat.S[j][l] * x[l];
                 }
             }
+            
 
             // Timer pour Hessien
             long hessien0StartTime = System.currentTimeMillis();
-            double[] gradf = Gradient.gradient(x, y, dat);
+            double[] gradf = Gradient.gradient(x, y, dat, dual, Sb, pipelist);
             long hessien0EndTime = System.currentTimeMillis();
             totalHessienTime += hessien0EndTime - hessien0StartTime;
 
             long gradient0StartTime = System.currentTimeMillis();
-            double[][] H = Hessien.hessien(x, y, dat);
+            double[][] H = Hessien.hessien(x, y, dat,pipelist);
             long gradient0EndTime = System.currentTimeMillis();
             totalGradientTime += gradient0EndTime - gradient0StartTime;
 
-            
+
             while (i < dat.maxiter && convergence > dat.tolr) {
+            // while (i < 0 && convergence > dat.tolr) {
                 // iterations de la méthode de Newton projetée-réduite
                 i = i + 1;
 
                 // Timer pour Hessien
                 long hessienStartTime = System.currentTimeMillis();
-                H = Hessien.hessien(x, y, dat);
+                H = Hessien.hessien(x, y, dat,pipelist);
                 long hessienEndTime = System.currentTimeMillis();
                 totalHessienTime += hessienEndTime - hessienStartTime;
 
@@ -535,26 +349,41 @@ public class SimulFlows {
 
                 // Timer pour Amax
                 long amaxStartTime = System.currentTimeMillis();
-                Amax.ResultAmax resultAmax = Amax.amax(x, y, resultNdir.dx_red, gradf, resultNdir.Hred, dat);
+                Amax.ResultAmax resultAmax = Amax.amax(x, y, resultNdir.dx_red, gradf, resultNdir.Hred, dat,pipelist);
                 x = resultAmax.x;
                 long amaxEndTime = System.currentTimeMillis();
                 totalAmaxTime += amaxEndTime - amaxStartTime;
-            
-                // Test de convergence et préparation de l'itération suivante
+        
+
+
                 // Calculer le gradient au nouvel itéré
                 y = new double[dat.S.length];
+                
+                
+                
                 for (int j = 0; j < dat.S.length; j++) {
+                    Pipes pipes = (Pipes) pipelist.elementAt(j);
+                
+                    int n_end;
+                
+                    n_end = Integer.parseInt(pipes.nodes_end);
+                    
+                
                     for (int l = 0; l < dat.S[j].length; l++) {
-                        y[j] += dat.S[j][l] * x[l];
+                        y[n_end - 2] += dat.S[j][l] * x[l];
                     }
                 }
+
+
+
                 
                 // Timer pour le calcul du gradient
                 long gradientStartTime = System.currentTimeMillis();
-                gradf = Gradient.gradient(x, y, dat);
-            
+                gradf = Gradient.gradient(x, y, dat, dual, Sb, pipelist);
+    
                 long gradientEndTime = System.currentTimeMillis();
                 totalGradientTime += gradientEndTime - gradientStartTime;
+
             
                 List<Integer> tempIzero = new ArrayList<>();
                 for (int j = 0; j < x.length; j++) {
@@ -572,7 +401,8 @@ public class SimulFlows {
                 }
                 double maxAbsResidu = Arrays.stream(residu).map(Math::abs).max().orElse(0.0);
                 convergence = maxAbsResidu;
-            
+
+
             }
 
             
@@ -616,21 +446,59 @@ public class SimulFlows {
 
                 iter[k - 1] = i;
 
+
                 // Calcul des pressions aux nœuds intermédiaires
                 double[] pb = new double[nB];
                 for (int j = 0; j < nB; j++) {
                     pb[j] = dat.beta[j] * Math.pow(y[j], dat.lbd);
                 }
 
-                double[][] product = Utils.multiplyElementwise(pb, dat.S);
+                int n = Sb.length;  // Nombre de lignes de la matrice S
+                int m = Sb[0].length;  // Nombre de colonnes de la matrice S
 
-                double[][] result = Utils.multiplyMatrices(T, product);
-        
-                double[] ch = Utils.findMaxValuesOfEachRow(result);
+                // Créer une liste pour stocker les paires (node_end, index)
+                List<int[]> nodeList = new ArrayList<>();
 
-                for (int j = 0; j < nB; j++) {
-                    P[j][k - 1] = ch[j];
+                for (int f = 0; f < pipelist.size(); f++) {
+                    if (nodeList.size() >= n) {
+                        break;  // Ne pas ajouter plus d'entrées que la taille de dat.S
+                    }
+
+                    Pipes pipes = (Pipes) pipelist.elementAt(f);
+                    int n_end;
+
+                    n_end = Integer.parseInt(pipes.nodes_end);
+                   
+
+                    // Ajouter le node_end et l'index dans la liste
+                    nodeList.add(new int[]{n_end, f});
                 }
+
+                // Trier la liste par node_end en ordre croissant
+                Collections.sort(nodeList, Comparator.comparingInt(a -> a[0]));
+
+                // Réorganiser les lignes de la matrice S en fonction de nodeList trié
+                int[][] reorderedS = new int[n][m];
+                for (int f = 0; f < nodeList.size(); f++) {
+                    int correctIndex = nodeList.get(f)[1];  // Obtenir l'index correct
+                    for (int j = 0; j < m; j++) {
+                        reorderedS[f][j] = Sb[correctIndex][j];  // Copier chaque élément de la ligne
+                    }
+                }
+
+
+                // Calcul des pressions aux nœuds intermédiaires en utilisant la matrice transposée
+                double[] ch = Utils.multiplyVectorAndMatrixTransposed(reorderedS, pb); // Méthode correcte basée sur la matrice des chemins.
+
+                // Mise à jour des pressions pour les nœuds intermédiaires et terminaux
+                for (int j = 0; j < nB; j++) {
+                    P[j][k - 1] = ch[j] + dat.h[j]; // Ajout de la hauteur aux pressions calculées.
+                }
+
+                for (int p = 1; p < dat.S.length; p++) {
+                    dual[p] = P[p][k - 1];
+                }
+
 
                 // Fin de la mesure du temps des pressions
                 long pressionEndTime = System.currentTimeMillis();
@@ -644,6 +512,7 @@ public class SimulFlows {
             
 
         }
+
 
         long TempsCalcul = System.currentTimeMillis() - startTime;
 
@@ -716,6 +585,11 @@ public class SimulFlows {
             }
         }
 
+
+
+
+        
+
         int[] nbnodes = new int[dat.S[0].length];
         for (int i = 0; i < dat.S.length; i++) {
             for (int j = 0; j < dat.S[0].length; j++) {
@@ -734,17 +608,76 @@ public class SimulFlows {
         System.out.println("Résultats");
         System.out.println("   noeud    fréquence   cVar5%%      moy       cVar95%%    coefvar     noeuds   long/1000");
 
-        for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
-            System.out.printf("%6d%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
-                    i + 1, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
-                    Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
+        if (nodelist == null)
+        {
+            for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
+                System.out.printf("%6d%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
+                        i + 1, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
+                        Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
+            }
+        }
+        else 
+        {
+            for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
+                System.out.printf("%6s%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
+                        ((Taps) nodelist.elementAt(i - dat.nB)).taps, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
+                        Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
+            }
+        }
+
+
+        // On remplit les debits dans F
+        if (F != null) {
+            for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
+                F[1 + i] = Tab[i - dat.nB][2];
+            }
         }
 
         System.out.printf("Statistiques sur les itérations    min = %d,   moyenne = %1.2f,   max = %d%n",
                 Utils.findMin(iter), Utils.findMean(iter), Utils.findMax(iter));
 
+        try {
+            FileWriter writer = new FileWriter("results.txt");
+            writer.write("Résultats\n");
+            writer.write("   noeud    fréquence   cVar5%%      moy       cVar95%%    coefvar     noeuds   long/1000\n");
+        
+            if (nodelist == null) {
+                for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
+                    String result = String.format("%6d%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
+                            i + 1, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
+                            Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
+                    writer.write(result);
+                }
+            } else {
+                for (int i = dat.nB; i < dat.nB + dat.nT; i++) {
+                    String result = String.format("%6s%12.4f%12.4f%12.4f%12.4f%12.4f%9d%11.4f%n",
+                            ((Taps) nodelist.elementAt(i - dat.nB)).taps, Tab[i - dat.nB][0], Tab[i - dat.nB][1], Tab[i - dat.nB][2],
+                            Tab[i - dat.nB][3], Tab[i - dat.nB][4], nbnodes[i - dat.nB], longtot[i - dat.nB] / 1000);
+                    writer.write(result);
+                }
+            }
+            writer.close(); // N'oubliez pas de fermer le writer
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        String stats = String.format("Statistiques sur les itérations    min = %d,   moyenne = %1.2f,   max = %d%n",
+                Utils.findMin(iter), Utils.findMean(iter), Utils.findMax(iter));
+        
+        try {
+            FileWriter writer = new FileWriter("results.txt", true); // true pour ajouter au fichier existant
+            writer.write(stats);
+            writer.close(); // N'oubliez pas de fermer le writer
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+                
+
+        
     }
 
+
+    
     public static void main(String[] args) {
         SimulFlows.run();
     }

@@ -1,12 +1,26 @@
 package neatwork.core;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Comparator;
+
+
+import neatwork.core.defs.Pipes;
+import neatwork.core.defs.PipesVector;
+
 public class Hessien {
 
     /* Calcule les dérivées secondes de l'objectif par rapport à x
     Input : x = débit aux robinets ; y = débit dans les intermédiaires
     dat = structure contenant les dat.paramètres.
     Output : H = matrice des dérivées secondes */
-    public static double[][] hessien(double[] x, double[] y, Dat dat) {
+    public static double[][] hessien(double[] x, double[] y, Dat dat, PipesVector pipelist) {
 
         int nB = dat.nB;
         int nT = dat.nT;
@@ -18,6 +32,7 @@ public class Hessien {
         for (int i = 0; i < nB; i++) {
             d2F_y[i] = dat.lbd * dat.beta[i] * Math.pow(y[i], dat.lbd - 1);
         }
+
 
         // Contribution des arcs intermédiaires en fonction de x
         // La matrice d2F_x est positive semi-définie
@@ -56,6 +71,7 @@ public class Hessien {
                 H[i][j] = d2F_x[i][j] + (i == j ? dDiag[i] : 0);
             }
         }
+
 
         return H;
     }

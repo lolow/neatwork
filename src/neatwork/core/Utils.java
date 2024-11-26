@@ -407,4 +407,30 @@ public class Utils {
     
         return maxValues;
     }
+
+
+
+    // Méthode pour multiplier un vecteur avec une matrice transposée
+    public static double[] multiplyVectorAndMatrixTransposed(int[][] matrix, double[] vector) {
+        // Vérification des dimensions pour la compatibilité
+        if (matrix.length != vector.length) {
+            throw new IllegalArgumentException("Le nombre de lignes de la matrice doit correspondre à la taille du vecteur.");
+        }
+
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        double[] result = new double[cols];
+        
+        // Multiplication du vecteur par la matrice transposée
+        for (int j = 0; j < cols; j++) {
+            double sum = 0.0;
+            for (int i = 0; i < rows; i++) {
+                sum += matrix[i][j] * vector[i]; // Multiplie chaque élément du vecteur avec l'élément correspondant de la matrice transposée
+            }
+            result[j] = sum;
+        }
+
+        return result;
+    }
+
 }

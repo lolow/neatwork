@@ -124,7 +124,8 @@ public class CoreDesign {
 			Diameters diam1 = dvector.getDiameters(dp1);
 			pipes.p1 = diam1.p;
 			pipes.q1 = diam1.q;
-			pipes.beta1 = diam1.beta;
+			// pipes.beta1 = diam1.beta;
+			pipes.beta1 = 0.00089396;
 
 			if (lp2 != 0) {
 				Diameters diam2 = dvector.getDiameters(dp2);
@@ -172,6 +173,7 @@ public class CoreDesign {
 				taps.orif_ideal = ori;
 				taps.orif_com = ori2;
 				taps.orifice = ori;
+
 			}
 		}
 

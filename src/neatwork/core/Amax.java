@@ -2,6 +2,9 @@ package neatwork.core;
 
 import java.util.Arrays;
 
+import neatwork.core.defs.Pipes;
+import neatwork.core.defs.PipesVector;
+
 public class Amax {
     
     public static class ResultAmax {
@@ -16,7 +19,7 @@ public class Amax {
         }
     }
 
-    public static ResultAmax amax(double[] x, double[] y, double[] dx, double[] gradf, double[][] Hred, Dat dat) {
+    public static ResultAmax amax(double[] x, double[] y, double[] dx, double[] gradf, double[][] Hred, Dat dat, PipesVector pipelist) {
         int itermax = 30;
         double k = 0.8; // réduction du pas
         double gain = 0.5; // gain demandé par rapport à l'approximation quadratique
@@ -25,12 +28,22 @@ public class Amax {
         int convergence = 0;
         double a = 1;
 
+
         y = new double[dat.S.length];
+                
+        
         for (int j = 0; j < dat.S.length; j++) {
+            Pipes pipes = (Pipes) pipelist.elementAt(j);
+        
+            int n_end;
+
+            n_end = Integer.parseInt(pipes.nodes_end);
+        
             for (int l = 0; l < dat.S[j].length; l++) {
-                y[j] += dat.S[j][l] * x[l];
+                y[n_end - 2] += dat.S[j][l] * x[l];
             }
         }
+
 
         double[] yx = new double[y.length + x.length];
         System.arraycopy(y, 0, yx, 0, y.length);
@@ -65,12 +78,28 @@ public class Amax {
                 xa[j] = Math.max(0, x[j] + a * dx[j]);
             }
 
+
             double[] ya = new double[dat.S.length];
+            
+            
             for (int j = 0; j < dat.S.length; j++) {
+                Pipes pipes = (Pipes) pipelist.elementAt(j);
+            
+                int n_end;
+            
+                n_end = Integer.parseInt(pipes.nodes_end);
+    
+            
                 for (int l = 0; l < dat.S[j].length; l++) {
-                    ya[j] += dat.S[j][l] * xa[l];
+                    ya[n_end - 2] += dat.S[j][l] * xa[l];
                 }
             }
+
+
+
+
+
+
 
             double DeltaQxa = 0.0;
 
