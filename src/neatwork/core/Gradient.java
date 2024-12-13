@@ -23,39 +23,67 @@ public class Gradient {
             dF_y[i] = dat.beta[i] * Math.pow(y[i], dat.lbd);
         }
 
+        // //mesurer le temps exécuté
+        // long startTime = System.currentTimeMillis();
+        // // Même friction exprimée en fonction des débits terminaux x (y=S*x)
+        // double[] dF_x = new double[nT];
+        // for (int i = 0; i < nT; i++) {
+            
+            
+        //     for (int j = 0; j < nB; j++) {
+        //         int n_end = -1; // Initialiser à une valeur invalide
+        //         int n_index = -1; // Initialiser à une valeur invalide
+            
+        //         // Rechercher le nœud dans pipelist correspondant à j + 2
+        //         for (int o = 0; o < pipelist.size(); o++) {
+        //             Pipes pipes = (Pipes) pipelist.elementAt(o);
+                    
 
+        //             n_end = Integer.parseInt(pipes.nodes_end);
+                   
+        //             // Vérifier si n_end correspond à j + 2
+        //             if (n_end == j + 2) {
+        //                 n_index = o;
+        //                 // On a trouvé le bon nœud, sortir de la boucle
+        //                 break;
+        //             }
+        //         }
+            
+        //         // Si on a trouvé un nœud correspondant, effectuer les opérations
+        //         if (n_end == j + 2) {
+        //             dF_x[i] += dat.S[n_index][i] * dF_y[j];
+        //         }
+        //     }
+            
+        // }
+        // //fin du temps exécuté
+        // long endTime = System.nanoTime();
+        // System.out.println("Temps exécuté dF_x : " + (endTime - startTime) + " ns");
+
+
+
+
+
+        //mesurer le temps exécuté
+        // long startTime = System.currentTimeMillis();
         // Même friction exprimée en fonction des débits terminaux x (y=S*x)
         double[] dF_x = new double[nT];
         for (int i = 0; i < nT; i++) {
-            
-            
             for (int j = 0; j < nB; j++) {
-                int n_end = -1; // Initialiser à une valeur invalide
-                int n_index = -1; // Initialiser à une valeur invalide
-            
-                // Rechercher le nœud dans pipelist correspondant à j + 2
-                for (int o = 0; o < pipelist.size(); o++) {
-                    Pipes pipes = (Pipes) pipelist.elementAt(o);
-                    
-
-                    n_end = Integer.parseInt(pipes.nodes_end);
-                   
-                    // Vérifier si n_end correspond à j + 2
-                    if (n_end == j + 2) {
-                        n_index = o;
-                        // On a trouvé le bon nœud, sortir de la boucle
-                        break;
-                    }
-                }
-            
-                // Si on a trouvé un nœud correspondant, effectuer les opérations
-                if (n_end == j + 2) {
-                    dF_x[i] += dat.S[n_index][i] * dF_y[j];
-                }
+                dF_x[i] += dat.S[j][i] * dF_y[j];
             }
             
         }
+        //fin du temps exécuté
+        // long endTime = System.currentTimeMillis();
+        // System.out.println("Temps exécuté dF_x : " + (endTime - startTime) + " ns");
 
+
+        
+
+
+        // mesurer temps exécution 
+        // long start = System.currentTimeMillis();
 
 
         // Pertes de charges cumulées en chaque nœud intermédiaire
@@ -63,31 +91,54 @@ public class Gradient {
 
         for (int i = 0; i < nB; i++) {
             for (int j = 0; j < nB; j++) {
-                int n_end = -1; // Initialiser à une valeur invalide
 
-                // Rechercher le nœud dans pipelist correspondant à j + 2
-                for (int o = 0; o < pipelist.size(); o++) {
-                    Pipes pipes = (Pipes) pipelist.elementAt(o);
+                F_y[i] += Sb[j][i] * dF_y[j];
 
-
-                    n_end = Integer.parseInt(pipes.nodes_end);
-
-                    // Vérifier si n_end correspond à j + 2
-                    if (n_end == j + 2) {
-                        // On a trouvé le bon nœud, sortir de la boucle
-                        break;
-                    }
-                }
-
-                // Si on a trouvé un nœud correspondant, effectuer les opérations
-                if (n_end == j + 2) {
-                    F_y[i] += Sb[j][i] * dF_y[j];
-                } else {
-                    // Gérer le cas où aucun nœud n'a été trouvé correspondant à j + 2
-                    throw new IllegalArgumentException("Aucun nœud correspondant trouvé pour j + 2 = " + (j + 2));
-                }
             }
         }
+
+        //fin exécution temps
+        // long end = System.currentTimeMillis();
+        // System.out.println("Temps exécuté F_y : " + (end - start) + " ms");
+
+
+
+
+
+        // // Pertes de charges cumulées en chaque nœud intermédiaire
+        // double[] F_y = new double[nB];
+
+        // for (int i = 0; i < nB; i++) {
+        //     for (int j = 0; j < nB; j++) {
+        //         int n_end = -1; // Initialiser à une valeur invalide
+
+        //         // Rechercher le nœud dans pipelist correspondant à j + 2
+        //         for (int o = 0; o < pipelist.size(); o++) {
+        //             Pipes pipes = (Pipes) pipelist.elementAt(o);
+
+
+        //             n_end = Integer.parseInt(pipes.nodes_end);
+
+        //             // Vérifier si n_end correspond à j + 2
+        //             if (n_end == j + 2) {
+        //                 // On a trouvé le bon nœud, sortir de la boucle
+        //                 break;
+        //             }
+        //         }
+
+        //         // Si on a trouvé un nœud correspondant, effectuer les opérations
+        //         if (n_end == j + 2) {
+        //             F_y[i] += Sb[j][i] * dF_y[j];
+        //         } else {
+        //             // Gérer le cas où aucun nœud n'a été trouvé correspondant à j + 2
+        //             throw new IllegalArgumentException("Aucun nœud correspondant trouvé pour j + 2 = " + (j + 2));
+        //         }
+        //     }
+        // }
+
+        // //fin exécution temps
+        // long end = System.currentTimeMillis();
+        // System.out.println("Temps exécuté F_y : " + (end - start) + " ms");
 
 
 

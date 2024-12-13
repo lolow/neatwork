@@ -123,7 +123,7 @@ public class RunSimulation {
             }
         }
     
-
+        // Trie et renomme les noms des nœuds, puis retourne une correspondance entre anciens et nouveaux noms
         HashMap<String, String> toInitNodes = SortNodeNames(nvector, tvector, pvector);
 
         //alpha = alpha1; /* parametres de resolution */
@@ -162,13 +162,15 @@ public class RunSimulation {
                 double betaSimu[] = getBeta(nsubvector, psubvector, tsubvector);
 
                 /* procedure de resolution */
-                SimulFlows.run(y, F, tsubvector,psubvector, S.length, S[0].length, length, height, invest, outflow, lbd, S, Sb, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate);
-                  
+                SimulFlows.run(y, F, tsubvector,psubvector, S.length, S[0].length, length, height, invest, outflow, lbd, S, Sb, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate, index);
+                
+                
+                
                 // Resolution(outflow);
                 TapsStatistic(seuil2, seuil, index, y);
             }
 
-            // Les indices des noeuds sont rétablis dans l'ordre d'origine
+            // Les indices des nœuds sont rétablis suivant l'ordre d'origine
             RevertNodeNames(nvector, pvector, tvector, toInitNodes);
 
         }
@@ -205,7 +207,7 @@ public class RunSimulation {
                     double betaSimu[] = getBeta(nsubvector, psubvector, tsubvector);
 
                     // Resolution(outflow);
-                    SimulFlows.run(y, F, tsubvector,psubvector, S.length, S[0].length, length, height, invest, outflow, lbd, S, Sb, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate);
+                    SimulFlows.run(y, F, tsubvector,psubvector, S.length, S[0].length, length, height, invest, outflow, lbd, S, Sb, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate, index);
                     
                     
                     TapsStatistic(seuil2, seuil, i, y);
@@ -213,7 +215,7 @@ public class RunSimulation {
                 }
                 
             }
-            // Les indices des noeuds sont rétablis dans l'ordre d'origine
+            // Les indices des nœuds sont rétablis suivant l'ordre d'origine
             RevertNodeNames(nvector, pvector, tvector, toInitNodes);
         }
 
@@ -243,12 +245,12 @@ public class RunSimulation {
                 double alphaSimu[] = getAlpha(alpha, coeffOrifice, tsubvector);
                 double betaSimu[] = getBeta(nsubvector, psubvector, tsubvector);
                 //Resolution(outflow);
-                SimulFlows.run(y, F, tsubvector,psubvector, S.length, S[0].length, length, height, invest, outflow, lbd, S, Sb, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate);
+                SimulFlows.run(y, F, tsubvector,psubvector, S.length, S[0].length, length, height, invest, outflow, lbd, S, Sb, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim, rate, index);
                 
                 TapsStatistic(seuil2, seuil, index, y);
             }
 
-            // Les indices des noeuds sont rétablis dans l'ordre d'origine
+            // Les indices des nœuds sont rétablis suivant l'ordre d'origine
             RevertNodeNames(nvector, pvector, tvector, toInitNodes);
 
         }
@@ -363,59 +365,78 @@ public class RunSimulation {
 
 
 
+    // Méthode pour générer une matrice de chemin entre les nœuds intermédiaires et les nœuds terminaux
     public int[][] getPathMatrix(NodesVector nsubVector, PipesVector psubvector, TapsVector tsubVector) { 
+
+        // Initialisation de la matrice des chemins (S)
+        // Nombre de lignes : nœuds intermédiaires (excluant les nœuds terminaux)
+        // Nombre de colonnes : nœuds terminaux
         int[][] S = new int[nsubVector.size() - tsubVector.size() - 1][tsubVector.size()];
-        Pipes pipes;
-        Taps taps;
-        Nodes nodes;
+        
+        Pipes pipes;  // Variable pour manipuler les tuyaux
+        Taps taps;    // Variable pour manipuler les taps (valves)
+        Nodes nodes;  // Variable pour manipuler les nœuds
+
+        // Listes pour stocker les nœuds terminaux et intermédiaires
         Vector<String> terminalNodes = new Vector<String>();
         Vector<String> intermNodes = new Vector<String>();
-    
+        
+        // Extraction des nœuds terminaux depuis la liste des taps
         for (int i = 0; i < tsubVector.size(); i++) {
             taps = (Taps) tsubVector.elementAt(i);
             terminalNodes.add(taps.taps);
         }
-    
+
+        // Extraction des nœuds intermédiaires (nœuds non terminaux et avec une hauteur non nulle)
         for (int i = 0; i < nsubVector.size(); i++) {
             nodes = (Nodes) nsubVector.elementAt(i);
             if (!terminalNodes.contains(nodes.nodes) && nodes.height != 0.0) {
                 intermNodes.add(nodes.nodes);
             }
         }
-    
-
-        for (int i = psubvector.size() -1; i >= 0; i--) {
+        
+        // Parcours des tuyaux en commençant par la fin (ordre inverse)
+        for (int i = psubvector.size() - 1; i >= 0; i--) {
             pipes = (Pipes) psubvector.elementAt(i);
+
+            // Vérifie si le nœud de fin du tuyau est un nœud terminal
             if (terminalNodes.contains(pipes.nodes_end)) {
-                String tNode = pipes.nodes_end;
-                String prevNode = pipes.nodes_beg;
-    
+                String tNode = pipes.nodes_end;  // Nœud terminal
+                String prevNode = pipes.nodes_beg;  // Nœud précédent (début du tuyau)
+
+                // Parcours en remontant la chaîne de tuyaux
                 while (prevNode != null && !prevNode.isEmpty()) {
+
+                    // Si le nœud précédent est un nœud intermédiaire, met à jour la matrice
                     if (intermNodes.indexOf(prevNode) != -1) {
                         S[intermNodes.indexOf(prevNode)][terminalNodes.indexOf(tNode)] = 1;
                     }
-    
+
+                    // Recherche du prochain tuyau connecté au nœud précédent
                     boolean foundNextPipe = false;
                     for (int j = i - 1; j >= 0; j--) {
                         Pipes nextPipe = (Pipes) psubvector.elementAt(j);
+                        
+                        // Si un tuyau est trouvé avec le nœud de fin correspondant au nœud précédent
                         if (nextPipe.nodes_end.equals(prevNode)) {
-                            prevNode = nextPipe.nodes_beg;
+                            prevNode = nextPipe.nodes_beg;  // Mise à jour du nœud précédent
                             foundNextPipe = true;
-                            break;
+                            break;  // Sort de la boucle dès qu'un tuyau correspondant est trouvé
                         }
                     }
-    
+
+                    // Si aucun tuyau suivant n'est trouvé, arrête la recherche
                     if (!foundNextPipe) {
                         break;
                     }
                 }
             }
         }
-    
 
+        // Retourne la matrice des chemins
         return S;
     }
-    
+
 
     public int[][] getPathMatrixIntermNode(NodesVector nsubVector, PipesVector psubvector, TapsVector tsubVector) { 
         int[][] Sb = new int[nsubVector.size() - tsubVector.size() - 1][nsubVector.size() - tsubVector.size() - 1];

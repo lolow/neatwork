@@ -124,6 +124,10 @@ public class MakeSimulation {
 						typeSimulation, i, coeffOrifice,null, lbd, invest,
 						maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
 			}
+
+
+
+			
 		}
 
 		// simulation robinet par robinet
@@ -133,9 +137,13 @@ public class MakeSimulation {
 			dsg.pvector.initializeSimulation(dsg.tvector.size());
 			dsg.nvector.initializeSimulation(dsg.tvector.size());
 
+			// new RunSimulation(F, dsg.nvector, dsg.pvector, dsg.tvector, outflow, rate1, seuil, seuil2, typeSimulation,
+			// 		dsg.tvector.size(), coeffOrifice, solver, lbd, invest,
+			// 		maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
+
 			new RunSimulation(F, dsg.nvector, dsg.pvector, dsg.tvector, outflow, rate1, seuil, seuil2, typeSimulation,
-					dsg.tvector.size(), coeffOrifice, solver, lbd, invest,
-					maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
+				0, coeffOrifice, solver, lbd, invest,
+				maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
 		}
 
 		// simulation handmade
