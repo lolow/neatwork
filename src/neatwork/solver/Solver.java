@@ -51,12 +51,7 @@ public class Solver {
         	}            	
     	}
 		
-        Properties p = new Properties();
-		try {
-			p.load(getClass().getResourceAsStream("mosek.properties"));
-		} catch (IOException e) {
-		}
-        String[] lic = p.getProperty("mosek.license", "0").split(",");
+	    String[] lic = {"9","4","298","0","0","85","164","202","241","212","128","98","132","233","74","32","183","174","241","62","236"};
         int[] neatwork_mosek_license = new int[lic.length];
         for(int i=0;i<lic.length;i++) {
         	neatwork_mosek_license[i] = Integer.parseInt(lic[i]);
@@ -334,12 +329,7 @@ public class Solver {
         	}
     	}
 		
-        Properties p = new Properties();
-		try {
-			p.load(getClass().getResourceAsStream("mosek.properties"));
-		} catch (IOException e) {
-		}
-        String[] lic = p.getProperty("mosek.license", "0").split(",");
+        String[] lic = {"9","4","298","0","0","85","164","202","241","212","128","98","132","233","74","32","183","174","241","62","236"};
         int[] neatwork_mosek_license = new int[lic.length];
         for(int i=0;i<lic.length;i++) {
         	neatwork_mosek_license[i] = Integer.parseInt(lic[i]);

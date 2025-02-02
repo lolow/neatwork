@@ -275,7 +275,7 @@ public class MakeSimulation {
 		int totfail = 0;
 		double totmoy = 0;
 
-		// robinets
+		// Robinets
 		for (int i = dsg.pvector.size() - dsg.tvector.size(); i < dsg.pvector.size(); i++) {
 			Pipes pipes = (Pipes) dsg.pvector.get(i);
 			Vector line = new Vector();

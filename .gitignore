@@ -11,3 +11,6 @@ build/*
 *.so
 .settings
 src/neatwork/solver/mosek.properties
+*.class
+.projects
+.classpath

@@ -320,10 +320,10 @@ public class RunSimulation {
         }
         
         //LINEAR component of constraints: matrix A
-		double[] val = new double[numanz]; // matrix coefficient
-		int[] sub = new int[numanz]; // row index
-		int[] ptrb = new int[numvar]; // first coeff in column i
-		int[] ptre = new int[numvar]; // last coeff in column i
+		double[] val = new double[numanz]; // Matrix coefficient
+		int[] sub = new int[numanz]; // Row index
+		int[] ptrb = new int[numvar]; // First coeff in column i
+		int[] ptre = new int[numvar]; // Last coeff in column i
 
 		int cpt1 = 1;
 
@@ -391,7 +391,7 @@ public class RunSimulation {
         for (int j = 0; j < psubvector.size(); j++) {
             Pipes pipes = (Pipes) psubvector.elementAt(j);
             
-            opro[j] = mosek.scopr.pow; // funtionnal form
+            opro[j] = mosek.scopr.pow; // functional form
             oprjo[j] = j + 1;
             oprfo[j] = pipes.beta1 / (pipes.p1 + 1) * Math.pow(0.001, pipes.p1) * (pipes.l1 / Math.pow(pipes.d1, pipes.q1));
             oprgo[j] = pipes.p1 + 1;
