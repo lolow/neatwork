@@ -12,3 +12,4 @@ build/*
 .settings
 src/neatwork/solver/mosek.properties
 .vscode
+*.class
