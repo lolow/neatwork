@@ -1,10 +1,5 @@
 package neatwork.core;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import neatwork.core.defs.Pipes;
 import neatwork.core.defs.PipesVector;
 
 public class Gradient {

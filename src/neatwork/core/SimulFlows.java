@@ -1,74 +1,52 @@
 package neatwork.core;
 
-/* Ce programme calcule les débits stationnaires dans un réseau arborescent dont certains des
-robinets peuvent être fermés. Le programme simule des configurations de robinets ouverts par
-tirage Monte-Carlo ; les ouverture des robinets sont identiquement distiribuées et indépendantes
-suivant un probabilité donnée p.
-Les débits sont calculés par une méthode de direction de Newton réduite, proche de la méthode
-de Bertsekas. Les robinets ouverts définissent un ensemble actif dont l'entrée et la sortie des
-éléments se fait en ligne. Le pas est projeté sur l'orthant positif.
-Une recherche linéaire à partir du pas de Newton complet est effectuée
-pour garantir une décroissance suffisante de la fonction objectif suivant
-un crière simple adapté de la méthode de Armijo.
+/* Ce programme calcule les dÃ©bits stationnaires dans un rÃ©seau arborescent dont certains des
+robinets peuvent Ãªtre fermÃ©s. Le programme simule des configurations de robinets ouverts par
+tirage Monte-Carlo ; les ouverture des robinets sont identiquement distiribuÃ©es et indÃ©pendantes
+suivant un probabilitÃ© donnÃ©e p.
+Les dÃ©bits sont calculÃ©s par une mÃ©thode de direction de Newton rÃ©duite, proche de la mÃ©thode
+de Bertsekas. Les robinets ouverts dÃ©finissent un ensemble actif dont l'entrÃ©e et la sortie des
+Ã©lÃ©ments se fait en ligne. Le pas est projetÃ© sur l'orthant positif.
+Une recherche linÃ©aire Ã  partir du pas de Newton complet est effectuÃ©e
+pour garantir une dÃ©croissance suffisante de la fonction objectif suivant
+un criÃ¨re simple adaptÃ© de la mÃ©thode de Armijo.
 Auteur. Jean-Philippe Vial 15 octobre 2022.
-D. P. Bertsekas, “Projected Newton methods for optimization problems with simple constraints,”
-SIAM J. Control and Optimization, vol. 20, pp. 221–246, March 1982. */
+D. P. Bertsekas, â€œProjected Newton methods for optimization problems with simple constraints,â€�
+SIAM J. Control and Optimization, vol. 20, pp. 221â€“246, March 1982. */
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
-import javax.xml.crypto.Data;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import neatwork.core.defs.Pipes;
 import neatwork.core.defs.PipesVector;
-import neatwork.core.defs.Taps;
-import neatwork.core.defs.TapsVector;
 
-import org.apache.poi.ss.usermodel.CellType;
+import neatwork.core.defs.TapsVector;
 
 public class SimulFlows {
 
-    private static final String length = null;
-
+    //private static final String length = null;
 
     public static void run (double[] dual, double[] F, TapsVector nodelist, PipesVector pipelist, int nB, int nT, double[] length, double[] h, double invest,
     double cible, double lbd, int[][] S, int[][] Sb, double[] nbouvert, double[] alpha, double[] beta,
     int maxiter, double tolr, double tolx, int simulmax, double opentaps, int indexSimu) {
 
-        /* Paramètres pour le calcul des débits via l'optimisation
-        - maxiter limite le nombre d'itérations dans le calcul des débits
-        - tolr définit la convergence en terme de gradient actif.  Cette borne
-        doit être en relation avec l'incertitude sur la partie fixe du gradient qu'est
-        la dénivellation. Cette dernière est au mieux de l'ordre du décimètre
-        de colonne d'eau (le mètre est l'unité de mesure de la pression)
-        Un débit inférieur à tolx sera considéré nul.
-        - tolx définit le seuil à partir duquel un débit est considéré nul.
-        Les valeurs proposées ci-dessous sont en relation avec les cas traités
+        /* ParamÃ¨tres pour le calcul des dÃ©bits via l'optimisation
+        - maxiter limite le nombre d'itÃ©rations dans le calcul des dÃ©bits
+        - tolr dÃ©finit la convergence en terme de gradient actif.  Cette borne
+        doit Ãªtre en relation avec l'incertitude sur la partie fixe du gradient qu'est
+        la dÃ©nivellation. Cette derniÃ¨re est au mieux de l'ordre du dÃ©cimÃ¨tre
+        de colonne d'eau (le mÃ¨tre est l'unitÃ© de mesure de la pression)
+        Un dÃ©bit infÃ©rieur Ã  tolx sera considÃ©rÃ© nul.
+        - tolx dÃ©finit le seuil Ã  partir duquel un dÃ©bit est considÃ©rÃ© nul.
+        Les valeurs proposÃ©es ci-dessous sont en relation avec les cas traitÃ©s
         par APLV. */
         Dat dat = new Dat(nB, nT, length, h, invest, cible, lbd, S, nbouvert, alpha, beta, maxiter, tolr, tolx);
     
-        // Variables pour stocker les temps cumulés
+        // Variables pour stocker les temps cumulÃ©s
         // long totalHessienTime = 0;
         // long totalNdirTime = 0;
         // long totalAmaxTime = 0;
@@ -76,53 +54,53 @@ public class SimulFlows {
         // long pressionDuration = 0;
 
 
-        // // Début de la mesure du temps de prétraitement
+        // // DÃ©but de la mesure du temps de prÃ©traitement
         // long preTraitementStartTime = System.currentTimeMillis();
 
 
 
-        /* Récolte des données et initialisation de base
+        /* RÃ©colte des donnÃ©es et initialisation de base
         Le nom du fichier est le nom du projet + Dsg, suivi de
         _poids, _proba ouverture, _budget ; poids = kappa */
 
-        System.out.printf("Réseau %s;   coût : %4.2f;  Diamètres : %s%n", "design_name", dat.invest, "base_name");
+        System.out.printf("RÃ©seau %s;   coÃ»t : %4.2f;  DiamÃ¨tres : %s%n", "design_name", dat.invest, "base_name");
         
         // datsave archive la structure dat qui elle peut changer dans les simulations.
         Dat datsave = new Dat(dat);
         
-        // Paramètres concernant les simulations
+        // ParamÃ¨tres concernant les simulations
         // double opentaps = 0.5;
         System.out.printf("Nb de simulations %d ;   proba  %10.2f%n", simulmax, opentaps);
         
-        // Sécurité sur les boucles de simulation
+        // SÃ©curitÃ© sur les boucles de simulation
         if (opentaps < 0.001) {
-            throw new IllegalArgumentException("opentaps doit être supérieur à 0.0001");
+            throw new IllegalArgumentException("opentaps doit Ãªtre supÃ©rieur Ã  0.0001");
         }
 
-        int k = indexSimu + 1; // Compteur du nb de simulations
-        int alerte = 0; // Compteur des défaillances de convergence
+        //int k = indexSimu + 1; // Compteur du nb de simulations
+        int alerte = 0; // Compteur des dÃ©faillances de convergence
 
         /* Initialisation du post-traitement
-        iter  garde trace du nombre d'itérations par simulation
-        X : stocke les débits par simulation
-        Fail : stocke le nombre d'échecs par simulation (rob ne coulant pas)
-        T  matrice triangulaire inférieure de 1 pour calculer les pressions.
-        P : Table des sommes des charges aux nœuds intermédiaires
-        Tab : Table du nombre d'échecs par simulation
-        iter vecteur du nombre d'itérations par simulation */
+        iter  garde trace du nombre d'itÃ©rations par simulation
+        X : stocke les dÃ©bits par simulation
+        Fail : stocke le nombre d'Ã©checs par simulation (rob ne coulant pas)
+        T  matrice triangulaire infÃ©rieure de 1 pour calculer les pressions.
+        P : Table des sommes des charges aux nÅ“uds intermÃ©diaires
+        Tab : Table du nombre d'Ã©checs par simulation
+        iter vecteur du nombre d'itÃ©rations par simulation */
 
         double[] P = new double[dat.nB];
         
         long startTime = System.currentTimeMillis();
 
-        /* La structure dat des dat.paramètres est sauvegardée, car elle évolue à chaque simulation
-        et doit être réactualisée pour la simulation suivante. Saugegarde de la sturcture */
+        /* La structure dat des dat.paramÃ¨tres est sauvegardÃ©e, car elle Ã©volue Ã  chaque simulation
+        et doit Ãªtre rÃ©actualisÃ©e pour la simulation suivante. Saugegarde de la sturcture */
         dat = new Dat(datsave);
         
         dat.nbouvert = new double[dat.nT];
         Arrays.fill(dat.nbouvert, 1.0);
 
-        // iterations de la méthode de newton reduite
+        // iterations de la mÃ©thode de newton reduite
         // initialisation
         double[] x = new double[dat.nT];
         Arrays.fill(x, dat.cible);
@@ -134,7 +112,7 @@ public class SimulFlows {
         int i = 0;
 
 
-        // Calcul du gradient et du Hessien au point de départ
+        // Calcul du gradient et du Hessien au point de dÃ©part
         double[] y = new double[dat.S.length];
 
         
@@ -158,7 +136,7 @@ public class SimulFlows {
 
 
         while (i < dat.maxiter && convergence > dat.tolr) {
-            // iterations de la méthode de Newton projetée-réduite
+            // iterations de la mÃ©thode de Newton projetÃ©e-rÃ©duite
             i = i + 1;
 
             H = Hessien.hessien(x, y, dat,pipelist);
@@ -169,7 +147,7 @@ public class SimulFlows {
             x = resultAmax.x;
 
 
-            // Calculer le gradient au nouvel itéré
+            // Calculer le gradient au nouvel itÃ©rÃ©
             y = new double[dat.S.length];
             
             
@@ -199,9 +177,9 @@ public class SimulFlows {
                 }
             }
         
-            Izero = tempIzero; // Mise à jour de Izero avec les éléments filtrés
+            Izero = tempIzero; // Mise Ã  jour de Izero avec les Ã©lÃ©ments filtrÃ©s
         
-            // Calcul du résidu et de la convergence
+            // Calcul du rÃ©sidu et de la convergence
             double[] residu = Arrays.copyOf(gradf, gradf.length);
             for (Integer index : Izero) {
                 residu[index] = Math.min(residu[index], 0);
@@ -214,7 +192,7 @@ public class SimulFlows {
 
 
 
-        // Calcul des pressions aux nœuds intermédiaires
+        // Calcul des pressions aux nÅ“uds intermÃ©diaires
         double[] pb = new double[nB];
         for (int j = 0; j < nB; j++) {
             pb[j] = dat.beta[j] * Math.pow(y[j], dat.lbd);
@@ -223,12 +201,12 @@ public class SimulFlows {
         int n = Sb.length;  // Nombre de lignes de la matrice S
         int m = Sb[0].length;  // Nombre de colonnes de la matrice S
 
-        // Créer une liste pour stocker les paires (node_end, index)
+        // CrÃ©er une liste pour stocker les paires (node_end, index)
         List<int[]> nodeList = new ArrayList<>();
 
         for (int f = 0; f < pipelist.size(); f++) {
             if (nodeList.size() >= n) {
-                break;  // Ne pas ajouter plus d'entrées que la taille de dat.S
+                break;  // Ne pas ajouter plus d'entrÃ©es que la taille de dat.S
             }
 
             Pipes pipes = (Pipes) pipelist.elementAt(f);
@@ -244,22 +222,22 @@ public class SimulFlows {
         // Trier la liste par node_end en ordre croissant
         Collections.sort(nodeList, Comparator.comparingInt(a -> a[0]));
 
-        // Réorganiser les lignes de la matrice S en fonction de nodeList trié
+        // RÃ©organiser les lignes de la matrice S en fonction de nodeList triÃ©
         int[][] reorderedS = new int[n][m];
         for (int f = 0; f < nodeList.size(); f++) {
             int correctIndex = nodeList.get(f)[1];  // Obtenir l'index correct
             for (int j = 0; j < m; j++) {
-                reorderedS[f][j] = Sb[correctIndex][j];  // Copier chaque élément de la ligne
+                reorderedS[f][j] = Sb[correctIndex][j];  // Copier chaque Ã©lÃ©ment de la ligne
             }
         }
 
 
-        // Calcul des pressions aux nœuds intermédiaires en utilisant la matrice transposée
-        double[] ch = Utils.multiplyVectorAndMatrixTransposed(reorderedS, pb); // Méthode correcte basée sur la matrice des chemins.
+        // Calcul des pressions aux nÅ“uds intermÃ©diaires en utilisant la matrice transposÃ©e
+        double[] ch = Utils.multiplyVectorAndMatrixTransposed(reorderedS, pb); // MÃ©thode correcte basÃ©e sur la matrice des chemins.
 
-        // Mise à jour des pressions pour les nœuds intermédiaires et terminaux
+        // Mise Ã  jour des pressions pour les nÅ“uds intermÃ©diaires et terminaux
         for (int j = 0; j < nB; j++) {
-            P[j] = ch[j] + dat.h[j]; // Ajout de la hauteur aux pressions calculées.
+            P[j] = ch[j] + dat.h[j]; // Ajout de la hauteur aux pressions calculÃ©es.
         }
 
         for (int p = 1; p < dat.S.length; p++) {
@@ -277,8 +255,8 @@ public class SimulFlows {
         //Post-traitement
 
         for (int j = 0; j < dat.nT; j++) {
-            // Vérifiez si la valeur de X[j] est valide, sinon mettez à 0
-            F[1 + j + dat.nB] = x[j] >= 0 ? x[j] * 1000 : 0.0; // Conversion si nécessaire
+            // VÃ©rifiez si la valeur de X[j] est valide, sinon mettez Ã  0
+            F[1 + j + dat.nB] = x[j] >= 0 ? x[j] * 1000 : 0.0; // Conversion si nÃ©cessaire
         }
 
         
