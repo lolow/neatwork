@@ -43,7 +43,7 @@ public class MakeSimulation {
 		String typeOrifice = prop.getProperty("simu.typeorifice.value", "ideal");
 		String typeSimulation = prop.getProperty("simu.typesimu.value", "random");
 		int nbSim = Integer.parseInt(prop.getProperty("simu.nbsim.value", "10"));
-		double outflow = Double.parseDouble(prop.getProperty("topo.targetflow.value", "0.2")) / 1000;
+		double outflow = Double.parseDouble(prop.getProperty("topo.targetflow.value", "0.12")) / 1000;
 		double alpha = Double.parseDouble(prop.getProperty("topo.faucetcoef.value", "0.00000002"));
 		double rate1 = 1;
 
@@ -56,9 +56,19 @@ public class MakeSimulation {
 		double seuil2 = Double.parseDouble(prop.getProperty("simu.maxcriticalflow.value", "0.3"));
 		double coeffOrifice = Double.parseDouble(prop.getProperty("topo.orifcoef.value", "0.59"));
 
+
+		double lbd = ((Pipes) dsg.pvector.elementAt(0)).p1;
+		double invest = Double.parseDouble(prop.getProperty("topo.limitbudget.value", "500"));
+		int maxiter = 20;
+		double tolr = 1e-4; //1e-2;
+		double tolx = 1e-7; //1e-6;
+		// double cible = Double.parseDouble(prop.getProperty("simu.targetflow.value", "0.12")) / 1000;
+		double[] nbouvert = new double[0];
+		double opentaps = 0.9;
+
 		// ajout de de noeuds intermediaires pour chaque branche possedant deux
 		// tuyaux differents
-		ajoutNodes();
+		//ajoutNodes();
 
 		// si le reseau contient des boucles, on ajoute des branches inverses
 		if (!isTree()) {
@@ -66,16 +76,17 @@ public class MakeSimulation {
 		}
 
 		// type d'orifice
-		if (typeOrifice.equals("ideal")) {
+
+		if (typeOrifice.equals("commercial")) {
 
 			for (int i = 0; i < dsg.tvector.size(); i++) {
 				Taps taps = (Taps) dsg.tvector.get(i);
-				taps.orifice = taps.orif_ideal;
+				taps.orifice = taps.orif_com;
 			}
 		} else {
 			for (int i = 0; i < dsg.tvector.size(); i++) {
 				Taps taps = (Taps) dsg.tvector.get(i);
-				taps.orifice = taps.orif_com;
+				taps.orifice = taps.orif_ideal;
 			}
 		}
 
@@ -102,13 +113,21 @@ public class MakeSimulation {
 
 			int i;
 
+			//SimulFlows.run();
+			// SimulFlows.run(S.length, S[0].length, length, height, invest, cible, lbd, S, nbouvert, alphaSimu, betaSimu, maxiter, tolr, tolx, nbSim);
+
 			// resolution
 			for (i = 0; i < nbSim; i++) {
 				solver.setProgress(Math.round((float) i / nbSim * 100));
 
 				new RunSimulation(F, dsg.nvector, dsg.pvector, dsg.tvector, outflow, rate1, seuil, seuil2,
-						typeSimulation, i, coeffOrifice);
+						typeSimulation, i, coeffOrifice,null, lbd, invest,
+						maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
 			}
+
+
+
+			
 		}
 
 		// simulation robinet par robinet
@@ -118,8 +137,13 @@ public class MakeSimulation {
 			dsg.pvector.initializeSimulation(dsg.tvector.size());
 			dsg.nvector.initializeSimulation(dsg.tvector.size());
 
+			// new RunSimulation(F, dsg.nvector, dsg.pvector, dsg.tvector, outflow, rate1, seuil, seuil2, typeSimulation,
+			// 		dsg.tvector.size(), coeffOrifice, solver, lbd, invest,
+			// 		maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
+
 			new RunSimulation(F, dsg.nvector, dsg.pvector, dsg.tvector, outflow, rate1, seuil, seuil2, typeSimulation,
-					dsg.tvector.size(), coeffOrifice, solver);
+				0, coeffOrifice, solver, lbd, invest,
+				maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
 		}
 
 		// simulation handmade
@@ -143,7 +167,8 @@ public class MakeSimulation {
 			solver.setProgress(50);
 
 			new RunSimulation(F, dsg.nvector, dsg.pvector, dsg.tvector, outflow, rate1, seuil, seuil2, typeSimulation,
-					0, coeffOrifice);
+					0, coeffOrifice,null, lbd, invest,
+					maxiter, tolr, tolx, nbouvert, alpha, coeffOrifice, nbSim);
 		}
 
 		// Calcul les vitesses dans chaque tuyau
