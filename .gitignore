@@ -11,3 +11,4 @@ build/*
 *.so
 .settings
 src/neatwork/solver/mosek.properties
+.vscode

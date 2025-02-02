@@ -84,98 +84,105 @@ public class SimuTableModel extends FancyTableModel {
         table.autoFit();
     }
 
+
+    private Vector<Vector<Object>> replaceValuesWithDashes(Vector<Vector<Object>> originalData) {
+        Vector<Vector<Object>> modifiedData = new Vector<>();
+        for (Vector<Object> row : originalData) {
+            Vector<Object> newRow = new Vector<>();
+            for (Object value : row) {
+                newRow.add("-");
+            }
+            modifiedData.add(newRow);
+        }
+        return modifiedData;
+    }
+
+    
     public void updateData() {
         data = new Vector();
-
+    
         switch (currentType) {
-        case TYPE_DESIGNDIFF:
-            header = myHeader1;
-            widthHeader = myWhidth1;
-
-            Vector v = new Vector();
-            v.add(Messages.getString("SimuTableModel.Not_yet_implemented__!")); 
-            data.add(v);
-
-            break;
-
-        case TYPE_FLOWTAPS:
-            header = myHeader2;
-            widthHeader = myWhidth2;
-            header[6] = "< " + 
-                simu.getProperties().getProperty("simu.mincriticalflow.value", 
-                    ""); 
-            header[7] = "> " + 
-                simu.getProperties().getProperty("simu.maxcriticalflow.value", 
-                    ""); 
-            data = simu.getFlowTaps();
-
-            break;
-
-        case TYPE_QUARTILETAPS:
-            header = myHeader3;
-            widthHeader = myWhidth3;
-            data = simu.getQuartileTaps();
-
-            break;
-
-        case TYPE_SPEEDPIPE:
-            header = myHeader4;
-            widthHeader = myWhidth4;
-            data = simu.getSpeedPipe();
-
-            break;
-
-        case TYPE_NODEPRESSURE:
-            header = myHeader5;
-            widthHeader = myWhidth5;
-            data = simu.getNodesPressure();
-
-            break;
-
-        default:
-            header = myHeader;
-            widthHeader = myWhidthHeader;
-
-            break;
+            case TYPE_DESIGNDIFF:
+                header = myHeader1;
+                widthHeader = myWhidth1;
+    
+                Vector v = new Vector();
+                v.add(Messages.getString("SimuTableModel.Not_yet_implemented__!"));
+                data.add(v);
+                break;
+    
+            case TYPE_FLOWTAPS:
+                header = myHeader2;
+                widthHeader = myWhidth2;
+                header[6] = "< " + simu.getProperties().getProperty("simu.mincriticalflow.value", "");
+                header[7] = "> " + simu.getProperties().getProperty("simu.maxcriticalflow.value", "");
+                data = simu.getFlowTaps();
+                break;
+    
+            case TYPE_QUARTILETAPS:
+                header = myHeader3;
+                widthHeader = myWhidth3;
+                data = simu.getQuartileTaps();
+                break;
+    
+            case TYPE_SPEEDPIPE:
+                header = myHeader4;
+                widthHeader = myWhidth4;
+                // data = simu.getSpeedPipe();
+                data = replaceValuesWithDashes(simu.getSpeedPipe());
+                break;
+    
+            case TYPE_NODEPRESSURE:
+                header = myHeader5;
+                widthHeader = myWhidth5;
+                data = simu.getNodesPressure();
+                // data = replaceValuesWithDashes(simu.getNodesPressure());
+                break;
+    
+            default:
+                header = myHeader;
+                widthHeader = myWhidthHeader;
+                break;
         }
-
+    
         fireTableStructureChanged();
-
+    
         switch (currentType) {
-        case TYPE_DESIGNDIFF:
-            break;
-
-        case TYPE_FLOWTAPS:
-
-            ProgressCellRenderer renderer = new ProgressCellRenderer();
-            renderer.setStringPainted(true);
-            renderer.setBackground(table.getBackground());
-            renderer.setForeground(table.getForeground());
-            renderer.setFont(table.getFont());
-
-            // set limit value and fill color
-            Hashtable limitColors = new Hashtable();
-            limitColors.put(new Integer(0), Color.green);
-            limitColors.put(new Integer(60), Color.yellow);
-            limitColors.put(new Integer(80), Color.red);
-            renderer.setLimits(limitColors);
-            table.getColumnModel().getColumn(5).setCellRenderer(renderer);
-            table.getColumnModel().getColumn(6).setCellRenderer(renderer);
-            table.getColumnModel().getColumn(7).setCellRenderer(renderer);
-
-            break;
-
-        case TYPE_QUARTILETAPS:
-            break;
-
-        case TYPE_SPEEDPIPE:
-            break;
-
-        case TYPE_NODEPRESSURE:
-            break;
-
-        default:}
+            case TYPE_DESIGNDIFF:
+                break;
+    
+            case TYPE_FLOWTAPS:
+                ProgressCellRenderer renderer = new ProgressCellRenderer();
+                renderer.setStringPainted(true);
+                renderer.setBackground(table.getBackground());
+                renderer.setForeground(table.getForeground());
+                renderer.setFont(table.getFont());
+    
+                // set limit value and fill color
+                Hashtable limitColors = new Hashtable();
+                limitColors.put(new Integer(0), Color.green);
+                limitColors.put(new Integer(60), Color.yellow);
+                limitColors.put(new Integer(80), Color.red);
+                renderer.setLimits(limitColors);
+                table.getColumnModel().getColumn(5).setCellRenderer(renderer);
+                table.getColumnModel().getColumn(6).setCellRenderer(renderer);
+                table.getColumnModel().getColumn(7).setCellRenderer(renderer);
+                break;
+    
+            case TYPE_QUARTILETAPS:
+                break;
+    
+            case TYPE_SPEEDPIPE:
+                break;
+    
+            case TYPE_NODEPRESSURE:
+                break;
+    
+            default:
+                break;
+        }
     }
+    
 
     public Class getColumnClass(int col) {
         if (data.size() > 0) {
